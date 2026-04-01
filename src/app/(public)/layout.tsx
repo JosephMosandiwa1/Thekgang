@@ -40,16 +40,16 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         useDarkNav ? 'bg-transparent' : 'bg-white/95 backdrop-blur-xl border-b border-gray-200'
       }`}>
         <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className={`font-display text-lg tracking-wide transition-colors duration-500 ${
+          <Link href="/" className={`font-display text-lg tracking-wide transition-colors duration-500 logo-transform ${
             useDarkNav ? 'text-white' : 'text-black'
-          } gradient-hover`}>
+          }`}>
             Thekgang
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map(link => (
               <Link key={link.href} href={link.href}
-                className={`nav-gradient text-[11px] tracking-[0.15em] uppercase transition-colors ${
+                className={`nav-transform text-[11px] tracking-[0.15em] uppercase ${
                   pathname.startsWith(link.href)
                     ? useDarkNav ? 'text-white' : 'text-black'
                     : useDarkNav ? 'text-white/50' : 'text-gray-400'

@@ -96,7 +96,7 @@ export default function HomePage() {
       <section className="py-24 px-6 bg-gray-100">
         <div className="max-w-5xl mx-auto">
           <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-3">Who is this for</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 colour-flash-coral transition-colors cursor-default">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 type-grow cursor-default">
             Whether you write, illustrate, publish, print, or distribute — you belong here.
           </h2>
 
@@ -104,7 +104,7 @@ export default function HomePage() {
             {audiences.map(a => (
               <Link key={a.title} href={a.href}
                 className={`group block bg-white p-8 ${a.hoverClass} transition-all`}>
-                <h3 className="font-display text-xl font-bold text-black group-hover:text-black transition-colors mb-3">{a.title}</h3>
+                <h3 className="font-display text-xl font-bold text-black type-card-title mb-3">{a.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed mb-6">{a.desc}</p>
                 <span className="text-[10px] uppercase tracking-[0.15em] text-gray-400 group-hover:text-black transition-colors">{a.cta} &rarr;</span>
               </Link>
@@ -117,7 +117,7 @@ export default function HomePage() {
       <section className="py-24 px-6">
         <div className="max-w-5xl mx-auto">
           <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-3">Our Programmes</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-4 colour-flash-amber transition-colors cursor-default">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-4 type-grow-amber cursor-default">
             Building capacity across the value chain.
           </h2>
           <p className="text-sm text-gray-500 max-w-2xl mb-12">
@@ -128,7 +128,7 @@ export default function HomePage() {
             {programmes.map(p => (
               <div key={p.name} className="group flex items-center justify-between py-5 border-b border-gray-200 last:border-0 hover:bg-gray-100/50 -mx-4 px-4 transition-colors cursor-default">
                 <div>
-                  <p className="text-base font-medium text-black">{p.name}</p>
+                  <p className="text-base font-medium text-black type-breathe">{p.name}</p>
                   <p className="text-xs text-gray-400 mt-0.5">{p.location}</p>
                 </div>
                 <span className={`badge-bw text-[10px] uppercase tracking-wider px-3 py-1 ${
@@ -156,14 +156,14 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             {[
-              { num: '01', title: 'Build Author Capacity', desc: 'Equip South African authors with the skills to write, brand, and market their work — from first draft to published book.', flash: 'colour-flash-coral' },
-              { num: '02', title: 'Transform Consumption', desc: 'Change how local stories are consumed. Indigenous language books belong on every bookshelf, not just in archives.', flash: 'colour-flash-amber' },
-              { num: '03', title: 'Support All Talent', desc: 'Whether it\'s your first manuscript or your tenth — emerging and established creators both deserve infrastructure.', flash: 'colour-flash-emerald' },
-              { num: '04', title: 'Grow Markets', desc: 'Innovative distribution that gets books where readers are — rural schools, community libraries, online platforms.', flash: 'colour-flash-violet' },
+              { num: '01', title: 'Build Author Capacity', desc: 'Equip South African authors with the skills to write, brand, and market their work — from first draft to published book.', transform: 'type-lift' },
+              { num: '02', title: 'Transform Consumption', desc: 'Change how local stories are consumed. Indigenous language books belong on every bookshelf, not just in archives.', transform: 'type-stretch' },
+              { num: '03', title: 'Support All Talent', desc: 'Whether it\'s your first manuscript or your tenth — emerging and established creators both deserve infrastructure.', transform: 'type-bounce' },
+              { num: '04', title: 'Grow Markets', desc: 'Innovative distribution that gets books where readers are — rural schools, community libraries, online platforms.', transform: 'type-widen' },
             ].map(p => (
               <div key={p.num} className="group border-t border-white/10 pt-6 cursor-default">
                 <p className="text-white/30 text-[10px] tracking-[0.2em] uppercase font-semibold mb-2 group-hover:text-white/60 transition-colors">{p.num}</p>
-                <h3 className={`font-display text-xl font-bold text-white mb-3 ${p.flash} transition-colors`}>{p.title}</h3>
+                <h3 className={`font-display text-xl font-bold text-white mb-3 ${p.transform} transition-all`}>{p.title}</h3>
                 <p className="text-sm text-white/40 leading-relaxed">{p.desc}</p>
               </div>
             ))}
@@ -174,7 +174,7 @@ export default function HomePage() {
       {/* ═══ FOUNDER — White bg ═══ */}
       <section className="py-24 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="w-20 h-20 rounded-full border-2 border-gray-200 flex items-center justify-center text-2xl font-display font-bold text-black mx-auto mb-8 transition-all hover:border-black hover:scale-105">TA</div>
+          <div className="w-20 h-20 rounded-full border-2 border-gray-200 flex items-center justify-center text-2xl font-display font-bold text-black mx-auto mb-8 transition-all hover:border-black hover:scale-110 hover:rotate-3 hover:shadow-lg">TA</div>
           <p className="font-display text-xl md:text-2xl text-black leading-relaxed italic">
             &ldquo;I founded Thekgang because I&apos;ve seen the gaps from the inside — as an author published by Jacana Media,
             I know what it takes to get a book from manuscript to reader. Most South African stories never make that journey.
@@ -189,7 +189,7 @@ export default function HomePage() {
       {/* ═══ CTA — Gray bg ═══ */}
       <section className="py-24 px-6 bg-gray-100">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-4 colour-flash-violet transition-colors cursor-default">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-4 type-grow-violet cursor-default">
             Be part of the story.
           </h2>
           <p className="text-sm text-gray-500 mb-10">
