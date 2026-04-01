@@ -21,27 +21,27 @@ export default function PodcastPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-display font-bold text-ink">Thekgang Talking</h1>
-          <p className="text-sm text-muted mt-1">Podcast episodes — interviews from across the book value chain</p>
+          <h1 className="text-2xl font-display font-bold text-black">Thekgang Talking</h1>
+          <p className="text-sm text-gray-500 mt-1">Podcast episodes — interviews from across the book value chain</p>
         </div>
-        <button className="bg-accent text-white text-[10px] font-medium tracking-wider px-5 py-2.5 uppercase rounded hover:bg-accent-light transition-colors">+ New Episode</button>
+        <button className="bg-black text-white text-[10px] font-medium tracking-wider px-5 py-2.5 uppercase rounded hover:bg-black-light transition-colors">+ New Episode</button>
       </div>
 
       <div className="space-y-4">
         {episodes.length === 0 ? (
-          <div className="border border-sand/60 rounded px-6 py-12 text-center text-muted/50 text-sm">{loading ? 'Loading...' : 'No episodes yet — record and publish your first episode'}</div>
+          <div className="border border-gray-200/60 rounded px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No episodes yet — record and publish your first episode'}</div>
         ) : episodes.map(ep => (
-          <div key={ep.id} className="border border-sand/60 rounded p-5 hover:border-accent/20 hover:shadow-sm transition-all">
+          <div key={ep.id} className="border border-gray-200/60 rounded p-5 hover:border-black/20 hover:shadow-sm transition-all">
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] text-accent font-mono">S{ep.season}E{ep.episode_number}</span>
-                  {ep.duration_minutes && <span className="text-[10px] text-muted">{ep.duration_minutes} min</span>}
+                  <span className="text-[10px] text-black font-mono">S{ep.season}E{ep.episode_number}</span>
+                  {ep.duration_minutes && <span className="text-[10px] text-gray-500">{ep.duration_minutes} min</span>}
                 </div>
-                <h3 className="text-base font-semibold text-ink">{ep.title}</h3>
-                {ep.guest_name && <p className="text-xs text-muted mt-1">Guest: {ep.guest_name}{ep.guest_title ? ` — ${ep.guest_title}` : ''}</p>}
+                <h3 className="text-base font-semibold text-black">{ep.title}</h3>
+                {ep.guest_name && <p className="text-xs text-gray-500 mt-1">Guest: {ep.guest_name}{ep.guest_title ? ` — ${ep.guest_title}` : ''}</p>}
               </div>
-              <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded ${ep.published ? 'border-green-500/30 text-green-700' : 'border-sand/60 text-muted'}`}>{ep.published ? 'Published' : 'Draft'}</span>
+              <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded ${ep.published ? 'border-green-500/30 text-green-700' : 'border-gray-200/60 text-gray-500'}`}>{ep.published ? 'Published' : 'Draft'}</span>
             </div>
           </div>
         ))}

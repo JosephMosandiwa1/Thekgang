@@ -9,13 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: '#0E0C0A',
-        paper: '#FAF8F5',
-        'warm-gray': '#F0EDE8',
-        accent: '#8B4513',
-        'accent-light': '#A0522D',
-        muted: '#777777',
-        sand: '#E0D8CC',
+        black: '#000000',
+        white: '#FFFFFF',
+        gray: {
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
+          400: '#A3A3A3',
+          500: '#888888',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+        },
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],

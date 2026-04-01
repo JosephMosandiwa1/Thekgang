@@ -44,12 +44,12 @@ export default function JoinPage() {
     return (
       <div className="pt-32 pb-20 px-6 text-center min-h-screen">
         <div className="max-w-md mx-auto">
-          <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeWidth={1.5} d="M5 13l4 4L19 7" /></svg>
+          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeWidth={1.5} d="M5 13l4 4L19 7" /></svg>
           </div>
-          <h1 className="font-display text-3xl font-bold text-ink mb-4">You&apos;ve been counted.</h1>
-          <p className="text-sm text-muted mb-2">Welcome to the Thekgang registry, {form.name.split(' ')[0]}.</p>
-          <p className="text-xs text-muted/60">We&apos;ll be in touch within 48 hours to connect you to your province and relevant opportunities.</p>
+          <h1 className="font-display text-3xl font-bold text-black mb-4">You&apos;ve been counted.</h1>
+          <p className="text-sm text-gray-500 mb-2">Welcome to the Thekgang registry, {form.name.split(' ')[0]}.</p>
+          <p className="text-xs text-gray-500/60">We&apos;ll be in touch within 48 hours to connect you to your province and relevant opportunities.</p>
         </div>
       </div>
     );
@@ -58,10 +58,10 @@ export default function JoinPage() {
   return (
     <div className="pt-28 pb-20 px-6">
       <div className="max-w-3xl mx-auto">
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-4">
           Be part of the story.
         </h1>
-        <p className="text-sm text-muted max-w-xl leading-relaxed mb-4">
+        <p className="text-sm text-gray-500 max-w-xl leading-relaxed mb-4">
           Whether you write, illustrate, translate, publish, print, or distribute — you belong here.
           Every registration strengthens the case for a more inclusive, connected book publishing sector.
         </p>
@@ -69,43 +69,43 @@ export default function JoinPage() {
         {/* What happens when you join */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-10">
           {steps.map(s => (
-            <div key={s.num} className="border-t-2 border-accent pt-3">
-              <p className="text-[10px] text-accent tracking-[0.15em] uppercase font-semibold">{s.num}</p>
-              <p className="text-sm font-medium text-ink mt-1">{s.title}</p>
-              <p className="text-xs text-muted mt-1">{s.desc}</p>
+            <div key={s.num} className="border-t-2 border-black pt-3">
+              <p className="text-[10px] text-black tracking-[0.15em] uppercase font-semibold">{s.num}</p>
+              <p className="text-sm font-medium text-black mt-1">{s.title}</p>
+              <p className="text-xs text-gray-500 mt-1">{s.desc}</p>
             </div>
           ))}
         </div>
 
         {/* Mode toggle */}
         <div className="flex gap-2 mb-8">
-          <button onClick={() => setMode('full')} className={`text-xs px-4 py-2 rounded transition-colors ${mode === 'full' ? 'bg-accent text-white' : 'border border-sand text-muted'}`}>Full Profile</button>
-          <button onClick={() => setMode('quick')} className={`text-xs px-4 py-2 rounded transition-colors ${mode === 'quick' ? 'bg-accent text-white' : 'border border-sand text-muted'}`}>Quick Register (30 sec)</button>
+          <button onClick={() => setMode('full')} className={`text-xs px-4 py-2 rounded transition-colors ${mode === 'full' ? 'bg-black text-white' : 'border border-gray-200 text-gray-500'}`}>Full Profile</button>
+          <button onClick={() => setMode('quick')} className={`text-xs px-4 py-2 rounded transition-colors ${mode === 'quick' ? 'bg-black text-white' : 'border border-gray-200 text-gray-500'}`}>Quick Register (30 sec)</button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
           <div>
-            <label className="block text-[10px] uppercase tracking-[0.15em] text-muted mb-2">Full Name *</label>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Full Name *</label>
             <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required
-              className="w-full border border-sand px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors bg-white rounded" />
+              className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white rounded" />
           </div>
           <div>
-            <label className="block text-[10px] uppercase tracking-[0.15em] text-muted mb-2">Email *</label>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Email *</label>
             <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required
-              className="w-full border border-sand px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors bg-white rounded" />
+              className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white rounded" />
           </div>
           <div>
-            <label className="block text-[10px] uppercase tracking-[0.15em] text-muted mb-2">I am a... *</label>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">I am a... *</label>
             <select value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))} required
-              className="w-full border border-sand px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors bg-white rounded capitalize">
+              className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white rounded capitalize">
               <option value="">Select your role in the value chain</option>
               {TYPES.map(t => <option key={t} value={t} className="capitalize">{t.replace('_', ' ')}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-[10px] uppercase tracking-[0.15em] text-muted mb-2">Province</label>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Province</label>
             <select value={form.province} onChange={e => setForm(f => ({ ...f, province: e.target.value }))}
-              className="w-full border border-sand px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors bg-white rounded">
+              className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white rounded">
               <option value="">Select province</option>
               {PROVINCES.map(p => <option key={p}>{p}</option>)}
             </select>
@@ -114,45 +114,45 @@ export default function JoinPage() {
           {mode === 'full' && (
             <>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.15em] text-muted mb-2">Phone</label>
+                <label className="block text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Phone</label>
                 <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
-                  className="w-full border border-sand px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors bg-white rounded" />
+                  className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white rounded" />
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.15em] text-muted mb-2">Organisation (if applicable)</label>
+                <label className="block text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Organisation (if applicable)</label>
                 <input value={form.organisation} onChange={e => setForm(f => ({ ...f, organisation: e.target.value }))}
-                  className="w-full border border-sand px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors bg-white rounded" />
+                  className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white rounded" />
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.15em] text-muted mb-2">Languages you work in</label>
+                <label className="block text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Languages you work in</label>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map(l => (
                     <button key={l} type="button" onClick={() => toggleLang(l)}
-                      className={`text-xs px-3 py-1.5 rounded border transition-colors ${form.languages.includes(l) ? 'bg-accent text-white border-accent' : 'border-sand text-muted hover:border-accent/30'}`}>
+                      className={`text-xs px-3 py-1.5 rounded border transition-colors ${form.languages.includes(l) ? 'bg-black text-white border-black' : 'border-gray-200 text-gray-500 hover:border-gray-300'}`}>
                       {l}
                     </button>
                   ))}
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.15em] text-muted mb-2">Specialisation / Genre</label>
+                <label className="block text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Specialisation / Genre</label>
                 <input value={form.specialisation} onChange={e => setForm(f => ({ ...f, specialisation: e.target.value }))} placeholder="e.g. Poetry, Children's books, Academic, Fiction"
-                  className="w-full border border-sand px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors bg-white rounded" />
+                  className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white rounded" />
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.15em] text-muted mb-2">Tell us about yourself</label>
+                <label className="block text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Tell us about yourself</label>
                 <textarea value={form.bio} onChange={e => setForm(f => ({ ...f, bio: e.target.value }))} rows={3} placeholder="A short introduction — your work, your passion, what you need"
-                  className="w-full border border-sand px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors bg-white rounded resize-none" />
+                  className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white rounded resize-none" />
               </div>
             </>
           )}
 
           <button type="submit" disabled={submitting}
-            className="w-full bg-accent text-white text-xs font-medium tracking-[0.15em] uppercase py-4 hover:bg-accent-light transition-colors rounded disabled:opacity-50 mt-4">
+            className="w-full bg-black text-white text-xs font-medium tracking-[0.15em] uppercase py-4 hover:bg-black-light transition-colors rounded disabled:opacity-50 mt-4">
             {submitting ? 'Submitting...' : 'Join the Registry'}
           </button>
 
-          <p className="text-[10px] text-muted/40 text-center mt-4">
+          <p className="text-[10px] text-gray-500/40 text-center mt-4">
             Your information is used solely for constituency mapping and connecting you to relevant opportunities.
             We respect your privacy and comply with POPIA.
           </p>

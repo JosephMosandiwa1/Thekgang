@@ -23,46 +23,46 @@ export default function AboutPage() {
   return (
     <div className="pt-28 pb-20 px-6">
       <div className="max-w-4xl mx-auto">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-accent font-semibold mb-3">Our Story</p>
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-8">The team behind the movement.</h1>
+        <p className="text-[10px] uppercase tracking-[0.3em] text-black font-semibold mb-3">Our Story</p>
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-8">The team behind the movement.</h1>
 
         {/* Founder */}
-        <div className="border-l-[3px] border-accent pl-8 mb-16">
-          <p className="font-display text-lg md:text-xl text-ink leading-relaxed italic">
+        <div className="border-l-[3px] border-black pl-8 mb-16">
+          <p className="font-display text-lg md:text-xl text-black leading-relaxed italic">
             &ldquo;I&apos;ve been in the publishing system as an author. I know what works and what doesn&apos;t.
             Thekgang exists because too many South African stories — especially in indigenous languages —
             never make it from manuscript to reader. We&apos;re building the infrastructure to change that.&rdquo;
           </p>
           <div className="mt-4">
-            <p className="text-sm text-accent font-medium">Terry-Ann Adams</p>
-            <p className="text-xs text-muted">Founder &amp; Chairperson</p>
-            <p className="text-[10px] text-muted/50 mt-1">Author: <em>Those Who Live In Cages</em>, <em>White Chalk</em> (Jacana Media) &middot; M&amp;G 200 Young South Africans 2023</p>
+            <p className="text-sm text-black font-medium">Terry-Ann Adams</p>
+            <p className="text-xs text-gray-500">Founder &amp; Chairperson</p>
+            <p className="text-[10px] text-gray-500/50 mt-1">Author: <em>Those Who Live In Cages</em>, <em>White Chalk</em> (Jacana Media) &middot; M&amp;G 200 Young South Africans 2023</p>
           </div>
         </div>
 
         {/* What is Thekgang */}
         <section className="mb-16">
-          <h2 className="font-display text-2xl font-bold text-ink mb-4">What is Thekgang?</h2>
-          <p className="text-sm text-muted leading-relaxed mb-4">
-            Thekgang NPC is the <strong className="text-ink">Book Publishing, Manufacturing &amp; Distribution Cluster</strong> — one of 17 Cultural &amp; Creative Industries (CCI) clusters established by the Department of Sport, Arts and Culture (DSAC) to strengthen South Africa&apos;s creative economy.
+          <h2 className="font-display text-2xl font-bold text-black mb-4">What is Thekgang?</h2>
+          <p className="text-sm text-gray-500 leading-relaxed mb-4">
+            Thekgang NPC is the <strong className="text-black">Book Publishing, Manufacturing &amp; Distribution Cluster</strong> — one of 17 Cultural &amp; Creative Industries (CCI) clusters established by the Department of Sport, Arts and Culture (DSAC) to strengthen South Africa&apos;s creative economy.
           </p>
-          <p className="text-sm text-muted leading-relaxed mb-4">
+          <p className="text-sm text-gray-500 leading-relaxed mb-4">
             We are the connective infrastructure for the book publishing value chain — supporting authors, illustrators, translators, publishers, printers, distributors, booksellers, libraries, and schools across 9 provinces.
           </p>
-          <p className="text-sm text-muted leading-relaxed">
+          <p className="text-sm text-gray-500 leading-relaxed">
             Our mandate: expand access to book manufacturing and distribution, facilitate capacity-building programmes, promote local literature, and create sustainable work opportunities across the value chain.
           </p>
         </section>
 
         {/* 4 Pillars */}
         <section className="mb-16">
-          <h2 className="font-display text-2xl font-bold text-ink mb-8">Our strategic pillars.</h2>
+          <h2 className="font-display text-2xl font-bold text-black mb-8">Our strategic pillars.</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {pillars.map((p, i) => (
-              <div key={p.title} className="border-t-2 border-accent pt-4">
-                <p className="text-[10px] text-accent tracking-[0.2em] uppercase font-semibold mb-1">0{i + 1}</p>
-                <h3 className="text-base font-bold text-ink mb-2">{p.title}</h3>
-                <p className="text-sm text-muted">{p.desc}</p>
+              <div key={p.title} className="border-t-2 border-black pt-4">
+                <p className="text-[10px] text-black tracking-[0.2em] uppercase font-semibold mb-1">0{i + 1}</p>
+                <h3 className="text-base font-bold text-black mb-2">{p.title}</h3>
+                <p className="text-sm text-gray-500">{p.desc}</p>
               </div>
             ))}
           </div>
@@ -70,27 +70,27 @@ export default function AboutPage() {
 
         {/* Board */}
         <section className="mb-16">
-          <h2 className="font-display text-2xl font-bold text-ink mb-8">Board of Directors.</h2>
+          <h2 className="font-display text-2xl font-bold text-black mb-8">Board of Directors.</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {board.map(m => (
               <div key={m.id} className="text-center">
-                <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center text-xl font-display font-bold text-accent mx-auto mb-4">
+                <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-xl font-display font-bold text-black mx-auto mb-4">
                   {m.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                 </div>
-                <p className="text-sm font-semibold text-ink">{m.name}</p>
-                <p className="text-xs text-accent">{m.role}</p>
-                {m.bio && <p className="text-xs text-muted mt-2 leading-relaxed">{m.bio}</p>}
+                <p className="text-sm font-semibold text-black">{m.name}</p>
+                <p className="text-xs text-black">{m.role}</p>
+                {m.bio && <p className="text-xs text-gray-500 mt-2 leading-relaxed">{m.bio}</p>}
               </div>
             ))}
             {board.length === 0 && (
               <>
                 {[{ name: 'Terry-Ann Adams', role: 'Chairperson & Founder' }, { name: 'Lorraine Sithole', role: 'Treasurer' }, { name: 'Melvin Kaabwe', role: 'Secretary & Spokesperson' }].map(m => (
                   <div key={m.name} className="text-center">
-                    <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center text-xl font-display font-bold text-accent mx-auto mb-4">
+                    <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-xl font-display font-bold text-black mx-auto mb-4">
                       {m.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                     </div>
-                    <p className="text-sm font-semibold text-ink">{m.name}</p>
-                    <p className="text-xs text-accent">{m.role}</p>
+                    <p className="text-sm font-semibold text-black">{m.name}</p>
+                    <p className="text-xs text-black">{m.role}</p>
                   </div>
                 ))}
               </>
@@ -99,14 +99,14 @@ export default function AboutPage() {
         </section>
 
         {/* DSAC */}
-        <section className="bg-warm-gray/50 p-8 rounded">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-muted mb-2">DSAC Mandate</p>
-          <p className="text-sm text-ink leading-relaxed">
+        <section className="bg-gray-100/50 p-8 rounded">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2">DSAC Mandate</p>
+          <p className="text-sm text-black leading-relaxed">
             Thekgang operates under a Memorandum of Agreement with the Department of Sport, Arts and Culture.
             As one of 17 CCI clusters, we are mandated to map, connect, and strengthen the book publishing sector —
             with a focus on inclusivity, transformation, and indigenous language publishing.
           </p>
-          <p className="text-[10px] text-muted/50 mt-4">Thekgang NPC &middot; Non-Profit Company &middot; DSAC CCI Cluster</p>
+          <p className="text-[10px] text-gray-500/50 mt-4">Thekgang NPC &middot; Non-Profit Company &middot; DSAC CCI Cluster</p>
         </section>
       </div>
     </div>

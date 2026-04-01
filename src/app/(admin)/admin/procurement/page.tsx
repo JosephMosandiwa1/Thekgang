@@ -31,50 +31,50 @@ export default function ProcurementPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-display font-bold text-ink">Procurement</h1>
-          <p className="text-sm text-muted mt-1">Vendors, purchase orders, three-quote compliance</p>
+          <h1 className="text-2xl font-display font-bold text-black">Procurement</h1>
+          <p className="text-sm text-gray-500 mt-1">Vendors, purchase orders, three-quote compliance</p>
         </div>
-        <button className="bg-accent text-white text-[10px] font-medium tracking-wider px-5 py-2.5 uppercase rounded hover:bg-accent-light transition-colors">+ Add Vendor</button>
+        <button className="bg-black text-white text-[10px] font-medium tracking-wider px-5 py-2.5 uppercase rounded hover:bg-black-light transition-colors">+ Add Vendor</button>
       </div>
 
       <div className="flex gap-1 mb-6">
         {(['vendors', 'orders'] as const).map(t => (
-          <button key={t} onClick={() => setTab(t)} className={`text-xs px-4 py-2 capitalize rounded transition-colors ${tab === t ? 'bg-accent/10 text-accent border border-accent/30' : 'text-muted border border-sand/60'}`}>{t === 'orders' ? 'Purchase Orders' : t}</button>
+          <button key={t} onClick={() => setTab(t)} className={`text-xs px-4 py-2 capitalize rounded transition-colors ${tab === t ? 'bg-gray-100 text-black border border-gray-300' : 'text-gray-500 border border-gray-200/60'}`}>{t === 'orders' ? 'Purchase Orders' : t}</button>
         ))}
       </div>
 
       {tab === 'vendors' && (
-        <div className="border border-sand/60 rounded">
-          <div className="grid grid-cols-12 gap-2 px-6 py-3 bg-white text-[10px] uppercase tracking-[0.12em] text-muted rounded-t">
+        <div className="border border-gray-200/60 rounded">
+          <div className="grid grid-cols-12 gap-2 px-6 py-3 bg-white text-[10px] uppercase tracking-[0.12em] text-gray-500 rounded-t">
             <span className="col-span-3">Name</span><span className="col-span-2">Contact</span><span className="col-span-2">Service</span><span className="col-span-1">Rating</span><span className="col-span-2">Status</span>
           </div>
           {vendors.length === 0 ? (
-            <div className="px-6 py-12 text-center text-muted/50 text-sm">{loading ? 'Loading...' : 'No vendors registered'}</div>
+            <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No vendors registered'}</div>
           ) : vendors.map(v => (
-            <div key={v.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-sand/30 items-center text-sm hover:bg-warm-gray/20 transition-colors">
-              <span className="col-span-3 text-ink font-medium">{v.name}</span>
-              <span className="col-span-2 text-muted text-xs">{v.contact_person || '—'}</span>
-              <span className="col-span-2 text-muted text-xs capitalize">{v.service_type || '—'}</span>
-              <span className="col-span-1 text-accent text-xs">{stars(v.rating || 0)}</span>
-              <span className="col-span-2"><span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded ${v.active ? 'border-green-500/30 text-green-700' : 'border-sand/60 text-muted'}`}>{v.active ? 'Active' : 'Inactive'}</span></span>
+            <div key={v.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors">
+              <span className="col-span-3 text-black font-medium">{v.name}</span>
+              <span className="col-span-2 text-gray-500 text-xs">{v.contact_person || '—'}</span>
+              <span className="col-span-2 text-gray-500 text-xs capitalize">{v.service_type || '—'}</span>
+              <span className="col-span-1 text-black text-xs">{stars(v.rating || 0)}</span>
+              <span className="col-span-2"><span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded ${v.active ? 'border-green-500/30 text-green-700' : 'border-gray-200/60 text-gray-500'}`}>{v.active ? 'Active' : 'Inactive'}</span></span>
             </div>
           ))}
         </div>
       )}
 
       {tab === 'orders' && (
-        <div className="border border-sand/60 rounded">
-          <div className="grid grid-cols-12 gap-2 px-6 py-3 bg-white text-[10px] uppercase tracking-[0.12em] text-muted rounded-t">
+        <div className="border border-gray-200/60 rounded">
+          <div className="grid grid-cols-12 gap-2 px-6 py-3 bg-white text-[10px] uppercase tracking-[0.12em] text-gray-500 rounded-t">
             <span className="col-span-2">PO#</span><span className="col-span-3">Vendor</span><span className="col-span-3">Description</span><span className="col-span-2 text-right">Total</span><span className="col-span-2">Status</span>
           </div>
           {pos.length === 0 ? (
-            <div className="px-6 py-12 text-center text-muted/50 text-sm">{loading ? 'Loading...' : 'No purchase orders'}</div>
+            <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No purchase orders'}</div>
           ) : pos.map(p => (
-            <div key={p.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-sand/30 items-center text-sm hover:bg-warm-gray/20 transition-colors">
-              <span className="col-span-2 font-mono text-xs text-accent">{p.number}</span>
-              <span className="col-span-3 text-ink">{(p as any).vendors?.name || '—'}</span>
-              <span className="col-span-3 text-muted text-xs">{p.description}</span>
-              <span className="col-span-2 text-right text-ink font-medium text-xs">{fmt(p.total)}</span>
+            <div key={p.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors">
+              <span className="col-span-2 font-mono text-xs text-black">{p.number}</span>
+              <span className="col-span-3 text-black">{(p as any).vendors?.name || '—'}</span>
+              <span className="col-span-3 text-gray-500 text-xs">{p.description}</span>
+              <span className="col-span-2 text-right text-black font-medium text-xs">{fmt(p.total)}</span>
               <span className="col-span-2"><span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded ${p.status === 'received' ? 'border-green-500/30 text-green-700' : 'border-amber-500/30 text-amber-700'}`}>{p.status}</span></span>
             </div>
           ))}

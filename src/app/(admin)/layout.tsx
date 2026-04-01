@@ -66,20 +66,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen bg-paper text-ink flex">
-      <aside className="w-60 bg-white border-r border-sand/60 flex flex-col flex-shrink-0 overflow-y-auto">
+    <div className="min-h-screen bg-white text-black flex">
+      <aside className="w-60 bg-white border-r border-gray-200/60 flex flex-col flex-shrink-0 overflow-y-auto">
         {/* Logo */}
-        <div className="px-6 py-5 border-b border-sand/60">
-          <Link href="/admin" className="font-display text-lg tracking-wide text-ink hover:text-accent transition-colors">
+        <div className="px-6 py-5 border-b border-gray-200/60">
+          <Link href="/admin" className="font-display text-lg tracking-wide text-black hover:text-black transition-colors">
             Thekgang
           </Link>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-muted/50 mt-1">Corporate OS</p>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500/50 mt-1">Corporate OS</p>
         </div>
 
         <nav className="flex-1 px-3 py-3">
           {navGroups.map((group, gi) => (
             <div key={group.title} className={gi > 0 ? 'mt-5' : ''}>
-              <p className="text-[9px] uppercase tracking-[0.2em] text-muted/40 px-3 mb-1.5 font-semibold">{group.title}</p>
+              <p className="text-[9px] uppercase tracking-[0.2em] text-gray-500/40 px-3 mb-1.5 font-semibold">{group.title}</p>
               {group.items.map(link => {
                 const isActive = link.href === '/admin'
                   ? pathname === '/admin'
@@ -88,10 +88,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <Link key={link.href} href={link.href}
                     className={`flex items-center gap-3 px-3 py-2 text-[12px] tracking-wide rounded transition-colors ${
                       isActive
-                        ? 'bg-accent/8 text-accent border-l-2 border-accent -ml-px font-medium'
-                        : 'text-ink/50 hover:text-ink hover:bg-warm-gray/50'
+                        ? 'bg-black text-black border-l-2 border-black -ml-px font-medium'
+                        : 'text-black/50 hover:text-black hover:bg-gray-100/50'
                     }`}>
-                    <span className={isActive ? 'text-accent' : 'text-ink/25'}>{link.icon}</span>
+                    <span className={isActive ? 'text-black' : 'text-black/25'}>{link.icon}</span>
                     {link.label}
                   </Link>
                 );
@@ -100,13 +100,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
-        <div className="h-px bg-accent/15" />
-        <div className="px-6 py-4 border-t border-sand/60">
+        <div className="h-px bg-black/15" />
+        <div className="px-6 py-4 border-t border-gray-200/60">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-[10px] font-semibold text-accent">MK</div>
+            <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-semibold text-black">MK</div>
             <div>
-              <p className="text-xs text-ink">Melvin Kaabwe</p>
-              <p className="text-[10px] text-muted/40">Secretary</p>
+              <p className="text-xs text-black">Melvin Kaabwe</p>
+              <p className="text-[10px] text-gray-500/40">Secretary</p>
             </div>
           </div>
         </div>

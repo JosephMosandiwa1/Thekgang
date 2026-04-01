@@ -30,40 +30,40 @@ export default function CompliancePage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-display font-bold text-ink">Compliance</h1>
-        <p className="text-sm text-muted mt-1">CIPC filings, DSAC reports, audits, governance obligations</p>
+        <h1 className="text-2xl font-display font-bold text-black">Compliance</h1>
+        <p className="text-sm text-gray-500 mt-1">CIPC filings, DSAC reports, audits, governance obligations</p>
       </div>
 
       <div className="grid grid-cols-3 gap-4 mb-8">
-        <div className="border border-sand/60 rounded p-4">
-          <p className="text-[10px] uppercase tracking-[0.15em] text-muted">Total Items</p>
-          <p className="text-2xl font-bold mt-1 text-ink">{loading ? '...' : items.length}</p>
+        <div className="border border-gray-200/60 rounded p-4">
+          <p className="text-[10px] uppercase tracking-[0.15em] text-gray-500">Total Items</p>
+          <p className="text-2xl font-bold mt-1 text-black">{loading ? '...' : items.length}</p>
         </div>
         <div className="border border-amber-500/30 bg-amber-500/5 rounded p-4">
-          <p className="text-[10px] uppercase tracking-[0.15em] text-muted">Upcoming</p>
+          <p className="text-[10px] uppercase tracking-[0.15em] text-gray-500">Upcoming</p>
           <p className="text-2xl font-bold mt-1 text-amber-700">{loading ? '...' : upcoming}</p>
         </div>
         <div className={`border rounded p-4 ${overdue > 0 ? 'border-red-500/30 bg-red-500/5' : 'border-green-500/30 bg-green-500/5'}`}>
-          <p className="text-[10px] uppercase tracking-[0.15em] text-muted">Overdue</p>
+          <p className="text-[10px] uppercase tracking-[0.15em] text-gray-500">Overdue</p>
           <p className={`text-2xl font-bold mt-1 ${overdue > 0 ? 'text-red-600' : 'text-green-700'}`}>{loading ? '...' : overdue}</p>
         </div>
       </div>
 
-      <div className="border border-sand/60 rounded">
-        <div className="grid grid-cols-12 gap-2 px-6 py-3 bg-white text-[10px] uppercase tracking-[0.12em] text-muted rounded-t">
+      <div className="border border-gray-200/60 rounded">
+        <div className="grid grid-cols-12 gap-2 px-6 py-3 bg-white text-[10px] uppercase tracking-[0.12em] text-gray-500 rounded-t">
           <span className="col-span-4">Obligation</span><span className="col-span-2">Category</span><span className="col-span-2">Due Date</span><span className="col-span-2">Responsible</span><span className="col-span-2">Status</span>
         </div>
         {items.length === 0 ? (
-          <div className="px-6 py-12 text-center text-muted/50 text-sm">{loading ? 'Loading...' : 'No compliance items — run the migration to seed data'}</div>
+          <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No compliance items — run the migration to seed data'}</div>
         ) : items.map(i => {
           const isOverdue = i.status !== 'completed' && new Date(i.due_date) < new Date();
           const status = isOverdue ? 'overdue' : i.status;
           return (
-            <div key={i.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-sand/30 items-center text-sm hover:bg-warm-gray/20 transition-colors">
-              <span className="col-span-4 text-ink font-medium">{i.title}{i.recurring && <span className="ml-1 text-[9px] text-muted/40">recurring</span>}</span>
-              <span className="col-span-2 text-muted text-xs uppercase">{i.category}</span>
-              <span className={`col-span-2 text-xs ${isOverdue ? 'text-red-600 font-semibold' : 'text-muted'}`}>{i.due_date}</span>
-              <span className="col-span-2 text-muted text-xs">{i.responsible}</span>
+            <div key={i.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors">
+              <span className="col-span-4 text-black font-medium">{i.title}{i.recurring && <span className="ml-1 text-[9px] text-gray-500/40">recurring</span>}</span>
+              <span className="col-span-2 text-gray-500 text-xs uppercase">{i.category}</span>
+              <span className={`col-span-2 text-xs ${isOverdue ? 'text-red-600 font-semibold' : 'text-gray-500'}`}>{i.due_date}</span>
+              <span className="col-span-2 text-gray-500 text-xs">{i.responsible}</span>
               <span className="col-span-2"><span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded ${statusColors[status] || statusColors.upcoming}`}>{status.replace('_', ' ')}</span></span>
             </div>
           );
