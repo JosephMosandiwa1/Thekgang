@@ -94,59 +94,81 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
       <main>{children}</main>
 
-      {/* ── FOOTER — inverted: white on black ── */}
-      <footer className="bg-black text-white/40">
-        {/* Newsletter */}
-        <div className="border-b border-white/8">
-          <div className="max-w-6xl mx-auto px-6 py-14">
-            <div className="max-w-lg mx-auto text-center">
-              <p className="font-display text-lg text-white tracking-wide mb-2">Stay in the Story</p>
-              <p className="text-xs text-white/25 mb-6">News, events, opportunities, and voices from the book publishing value chain.</p>
-              <form onSubmit={e => e.preventDefault()} className="flex gap-2">
-                <input type="email" placeholder="Your email"
-                  className="flex-1 bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-white/40 transition-colors" />
-                <button type="submit" className="btn-ink-white px-6 py-3 text-[11px] tracking-[0.15em] uppercase flex-shrink-0">
-                  Subscribe
-                </button>
-              </form>
+      {/* ── FOOTER — a typographic statement ── */}
+      <footer className="bg-black text-white overflow-hidden">
+        {/* The big statement */}
+        <div className="max-w-6xl mx-auto px-6 pt-24 pb-16">
+          <p className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight type-breathe cursor-default">
+            Every story<br />
+            <span className="text-white/20 colour-flash-coral transition-colors">deserves</span><br />
+            to be told.
+          </p>
+        </div>
+
+        {/* Newsletter — minimal, elegant */}
+        <div className="max-w-6xl mx-auto px-6 pb-16">
+          <div className="border-t border-white/8 pt-12 max-w-md">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-white/20 mb-4">Stay in the story</p>
+            <form onSubmit={e => e.preventDefault()} className="flex gap-2">
+              <input type="email" placeholder="your@email.com"
+                className="flex-1 bg-transparent border-b border-white/15 px-0 py-3 text-sm text-white placeholder:text-white/15 outline-none focus:border-white/50 transition-colors" />
+              <button type="submit" className="text-[10px] uppercase tracking-[0.2em] text-white/30 hover:text-white transition-colors type-breathe px-2">
+                Subscribe &rarr;
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Navigation — horizontal, typographic */}
+        <div className="max-w-6xl mx-auto px-6 pb-12">
+          <div className="border-t border-white/8 pt-10">
+            <div className="flex flex-wrap gap-x-8 gap-y-3">
+              {[
+                { href: '/about', label: 'Our Story' },
+                { href: '/programmes', label: 'Programmes' },
+                { href: '/events', label: 'Events' },
+                { href: '/news', label: 'News' },
+                { href: '/podcast', label: 'Thekgang Talking' },
+                { href: '/join', label: 'Join the Registry' },
+                { href: '/contact', label: 'Contact' },
+              ].map(link => (
+                <Link key={link.href} href={link.href}
+                  className="footer-link text-sm type-breathe">
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-6 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+        {/* Bottom bar — the colophon */}
+        <div className="max-w-6xl mx-auto px-6 pb-8">
+          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            {/* Logo + mandate */}
             <div>
-              <p className="font-display text-white text-lg tracking-wide mb-2">Thekgang</p>
-              <p className="text-xs text-white/25 leading-relaxed">Book Publishing, Manufacturing &amp; Distribution Cluster</p>
-              <p className="text-[10px] text-white/10 mt-4">A DSAC Cultural &amp; Creative Industries Cluster</p>
+              <p className="font-display text-xl tracking-wide text-white logo-transform cursor-default">Thekgang</p>
+              <p className="text-[10px] text-white/15 mt-1 tracking-wide">Book Publishing, Manufacturing &amp; Distribution Cluster</p>
             </div>
-            <div className="text-xs">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-white/15 mb-3">Navigate</p>
-              <div className="space-y-2">
-                {['/about', '/programmes', '/events', '/news', '/podcast', '/join'].map(href => (
-                  <Link key={href} href={href} className="block footer-link">{href.replace('/', '').replace('-', ' ').replace(/^\w/, c => c.toUpperCase()) || 'Home'}</Link>
-                ))}
-              </div>
-            </div>
-            <div className="text-xs">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-white/15 mb-3">Connect</p>
-              <div className="space-y-2">
-                <Link href="/contact" className="block footer-link">Contact Us</Link>
-                <a href="#" className="block footer-link">Instagram</a>
-                <a href="#" className="block footer-link">LinkedIn</a>
-              </div>
-            </div>
-            <div className="text-xs">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-white/15 mb-3">Board</p>
-              <div className="space-y-2 text-white/25">
-                <p>Terry-Ann Adams, Chair</p>
-                <p>Lorraine Sithole, Treasurer</p>
-                <p>Melvin Kaabwe, Secretary</p>
-              </div>
+
+            {/* Board */}
+            <div className="flex gap-6">
+              {[
+                { name: 'Terry-Ann Adams', role: 'Chair' },
+                { name: 'Lorraine Sithole', role: 'Treasurer' },
+                { name: 'Melvin Kaabwe', role: 'Secretary' },
+              ].map(m => (
+                <div key={m.name} className="text-right">
+                  <p className="text-[10px] text-white/25">{m.name}</p>
+                  <p className="text-[9px] text-white/10">{m.role}</p>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="border-t border-white/8 mt-12 pt-8">
-            <p className="text-[10px] text-white/10">&copy; {new Date().getFullYear()} Thekgang NPC. All rights reserved.</p>
+
+          {/* Copyright + DSAC */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mt-8">
+            <p className="text-[9px] text-white/8">&copy; {new Date().getFullYear()} Thekgang NPC</p>
+            <p className="text-[9px] text-white/8">A DSAC Cultural &amp; Creative Industries Cluster</p>
           </div>
         </div>
       </footer>
