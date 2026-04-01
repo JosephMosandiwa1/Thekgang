@@ -47,7 +47,7 @@ export default function EventsPage() {
           <span className="col-span-4">Event</span><span className="col-span-2">Date</span><span className="col-span-3">Venue</span><span className="col-span-1">Cap.</span><span className="col-span-2">Status</span>
         </div>
         {events.length === 0 ? (
-          <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No events yet'}</div>
+          <div className="px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No events yet'}</div>
         ) : events.map(e => (
           <div key={e.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors">
             <span className="col-span-4 text-black font-medium">{e.title}</span>

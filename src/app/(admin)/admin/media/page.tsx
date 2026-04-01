@@ -31,8 +31,8 @@ export default function MediaLibraryPage() {
 
       {items.length === 0 ? (
         <div className="border border-dashed border-gray-200/60 rounded p-16 text-center">
-          <p className="text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No media uploaded yet'}</p>
-          <p className="text-gray-500/30 text-xs mt-2">Upload images, PDFs, and audio for your website and content</p>
+          <p className="text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No media uploaded yet'}</p>
+          <p className="text-gray-500/50 text-xs mt-2">Upload images, PDFs, and audio for your website and content</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
@@ -45,7 +45,7 @@ export default function MediaLibraryPage() {
               )}
               <div className="p-2">
                 <p className="text-[10px] text-black truncate">{i.name}</p>
-                <p className="text-[9px] text-gray-500/50">{i.file_size ? fmtSize(i.file_size) : ''}</p>
+                <p className="text-[9px] text-gray-500/70">{i.file_size ? fmtSize(i.file_size) : ''}</p>
               </div>
             </div>
           ))}

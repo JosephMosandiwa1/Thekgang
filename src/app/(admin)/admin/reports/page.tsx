@@ -59,7 +59,7 @@ export default function ReportsPage() {
           <span className="col-span-3">Programme</span><span className="col-span-2">Type</span><span className="col-span-2">Period</span><span className="col-span-3">Submitted</span><span className="col-span-2">Status</span>
         </div>
         {reports.length === 0 ? (
-          <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No reports submitted yet'}</div>
+          <div className="px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No reports submitted yet'}</div>
         ) : reports.map(r => (
           <div key={r.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm">
             <span className="col-span-3 text-black">{(r as any).programmes?.name || '—'}</span>

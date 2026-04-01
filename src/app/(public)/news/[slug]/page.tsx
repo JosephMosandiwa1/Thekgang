@@ -27,7 +27,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         <Link href="/news" className="text-xs text-gray-500 hover:text-black transition-colors">&larr; All News</Link>
         <div className="flex items-center gap-3 mt-6 mb-3">
           {post.category && <span className="text-[10px] uppercase tracking-wider text-black">{post.category.replace('_', ' ')}</span>}
-          <span className="text-[10px] text-gray-500/40">{post.published_at ? new Date(post.published_at).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}</span>
+          <span className="text-[10px] text-gray-500/60">{post.published_at ? new Date(post.published_at).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}</span>
         </div>
         <h1 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-8">{post.title}</h1>
 

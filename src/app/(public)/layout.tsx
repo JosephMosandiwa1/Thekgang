@@ -52,7 +52,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 className={`nav-transform text-[11px] tracking-[0.15em] uppercase ${
                   pathname.startsWith(link.href)
                     ? useDarkNav ? 'text-white' : 'text-black'
-                    : useDarkNav ? 'text-white/50' : 'text-gray-400'
+                    : useDarkNav ? 'text-white/50' : 'text-gray-500'
                 }`}>
                 {link.label}
               </Link>
@@ -67,7 +67,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </div>
 
           <button onClick={() => setMobileOpen(!mobileOpen)}
-            className={`lg:hidden transition-colors ${useDarkNav ? 'text-white/70' : 'text-gray-400'}`}>
+            className={`lg:hidden transition-colors ${useDarkNav ? 'text-white/70' : 'text-gray-500'}`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
               {mobileOpen
                 ? <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
@@ -100,19 +100,19 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="max-w-6xl mx-auto px-6 pt-24 pb-16">
           <p className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight type-breathe cursor-default">
             Every story<br />
-            <span className="text-white/20 colour-flash-coral transition-colors">deserves</span><br />
+            <span className="text-white/40 colour-flash-coral transition-colors">deserves</span><br />
             to be told.
           </p>
         </div>
 
         {/* Newsletter — minimal, elegant */}
         <div className="max-w-6xl mx-auto px-6 pb-16">
-          <div className="border-t border-white/8 pt-12 max-w-md">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-white/20 mb-4">Stay in the story</p>
+          <div className="border-t border-white/15 pt-12 max-w-md">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Stay in the story</p>
             <form onSubmit={e => e.preventDefault()} className="flex gap-2">
               <input type="email" placeholder="your@email.com"
-                className="flex-1 bg-transparent border-b border-white/15 px-0 py-3 text-sm text-white placeholder:text-white/15 outline-none focus:border-white/50 transition-colors" />
-              <button type="submit" className="text-[10px] uppercase tracking-[0.2em] text-white/30 hover:text-white transition-colors type-breathe px-2">
+                className="flex-1 bg-transparent border-b border-white/15 px-0 py-3 text-sm text-white placeholder:text-white/50 outline-none focus:border-white/120 transition-colors" />
+              <button type="submit" className="text-[10px] uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors type-breathe px-2">
                 Subscribe &rarr;
               </button>
             </form>
@@ -121,7 +121,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
         {/* Navigation — horizontal, typographic */}
         <div className="max-w-6xl mx-auto px-6 pb-12">
-          <div className="border-t border-white/8 pt-10">
+          <div className="border-t border-white/15 pt-10">
             <div className="flex flex-wrap gap-x-8 gap-y-3">
               {[
                 { href: '/about', label: 'Our Story' },
@@ -143,11 +143,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
         {/* Bottom bar — the colophon */}
         <div className="max-w-6xl mx-auto px-6 pb-8">
-          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="border-t border-white/12 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             {/* Logo + mandate */}
             <div>
               <p className="font-display text-xl tracking-wide text-white logo-transform cursor-default">Thekgang</p>
-              <p className="text-[10px] text-white/15 mt-1 tracking-wide">Book Publishing, Manufacturing &amp; Distribution Cluster</p>
+              <p className="text-[10px] text-white/50 mt-1 tracking-wide">Book Publishing, Manufacturing &amp; Distribution Cluster</p>
             </div>
 
             {/* Board */}
@@ -158,8 +158,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 { name: 'Melvin Kaabwe', role: 'Secretary' },
               ].map(m => (
                 <div key={m.name} className="text-right">
-                  <p className="text-[10px] text-white/25">{m.name}</p>
-                  <p className="text-[9px] text-white/10">{m.role}</p>
+                  <p className="text-[10px] text-white/45">{m.name}</p>
+                  <p className="text-[9px] text-white/50">{m.role}</p>
                 </div>
               ))}
             </div>
@@ -167,8 +167,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
           {/* Copyright + DSAC */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mt-8">
-            <p className="text-[9px] text-white/8">&copy; {new Date().getFullYear()} Thekgang NPC</p>
-            <p className="text-[9px] text-white/8">A DSAC Cultural &amp; Creative Industries Cluster</p>
+            <p className="text-[9px] text-white/25">&copy; {new Date().getFullYear()} Thekgang NPC</p>
+            <p className="text-[9px] text-white/25">A DSAC Cultural &amp; Creative Industries Cluster</p>
           </div>
         </div>
       </footer>

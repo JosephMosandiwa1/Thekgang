@@ -32,7 +32,7 @@ export default function PostsPage() {
           <span className="col-span-4">Title</span><span className="col-span-2">Category</span><span className="col-span-2">Status</span><span className="col-span-2">Published</span><span className="col-span-2">Created</span>
         </div>
         {posts.length === 0 ? (
-          <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No posts yet — write your first article'}</div>
+          <div className="px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No posts yet — write your first article'}</div>
         ) : posts.map(p => (
           <div key={p.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors cursor-pointer">
             <span className="col-span-4 text-black font-medium">{p.title}</span>

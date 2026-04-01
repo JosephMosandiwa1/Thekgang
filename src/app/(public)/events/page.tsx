@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 
-interface Event { id: number; title: string; event_date: string; event_time: string; venue: string; venue_address: string; capacity: number; status: string; description: string; cover_image_url: string }
+interface Event { id: number; title: string; event_date: string; event_time: string; venue: string; venue_address: string; capacity: number; status: string; description: string }
 
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -22,62 +22,52 @@ export default function EventsPage() {
   const past = events.filter(e => new Date(e.event_date) < new Date());
 
   return (
-    <div className="pt-28 pb-20 px-6">
-      <div className="max-w-4xl mx-auto">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-black font-semibold mb-3">Events</p>
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-4">What&apos;s happening.</h1>
-        <p className="text-sm text-gray-500 max-w-xl mb-12">Imbizos, workshops, book launches, and activations — across 9 provinces. Come as you are.</p>
-
-        {loading ? <p className="text-sm text-gray-500/50 text-center py-12">Loading...</p> : (
-          <>
-            {upcoming.length > 0 && (
-              <div className="mb-16">
-                <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-500 mb-6">Upcoming</h2>
-                <div className="space-y-6">
+    <div>
+      <section className="pt-28 pb-12 px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4">Events</p>
+          <h1 className="font-display font-bold text-black tracking-tight leading-[1.05] type-grow cursor-default" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>What&apos;s happening.</h1>
+          <p className="text-sm text-gray-500 max-w-xl mt-6 leading-relaxed">Imbizos, workshops, book launches — across 9 provinces. <Link href="/programmes" className="link-draw text-black inline-block">See our programmes &rarr;</Link></p>
+        </div>
+      </section>
+      <section className="pb-20 px-6">
+        <div className="max-w-5xl mx-auto">
+          {loading ? <p className="text-sm text-gray-500 text-center py-12">Loading...</p> : (
+            <>
+              {upcoming.length > 0 ? (
+                <div className="mb-16">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-6">Upcoming</p>
                   {upcoming.map(e => (
-                    <Link key={e.id} href={`/events/${e.id}`} className="block group border border-gray-200/50 p-8 hover:border-gray-300 hover:shadow-lg transition-all bg-white rounded">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <p className="text-xs text-black font-medium mb-1">{new Date(e.event_date).toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}{e.event_time ? ` at ${e.event_time.slice(0, 5)}` : ''}</p>
-                          <h3 className="font-display text-xl font-bold text-black group-hover:text-black transition-colors">{e.title}</h3>
-                          {e.venue && <p className="text-sm text-gray-500 mt-2">{e.venue}{e.venue_address ? `, ${e.venue_address}` : ''}</p>}
-                          {e.description && <p className="text-sm text-gray-500/70 mt-3 leading-relaxed line-clamp-2">{e.description}</p>}
-                        </div>
-                        {e.capacity && <span className="text-[10px] text-gray-500/50 flex-shrink-0">{e.capacity} seats</span>}
-                      </div>
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-black mt-4">Register &rarr;</p>
+                    <Link key={e.id} href={`/events/${e.id}`} className="group block card-hover p-8 bg-white rounded mb-6 transition-all">
+                      <p className="text-xs text-gray-500 mb-2">{new Date(e.event_date).toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                      <h2 className="font-display text-2xl font-bold text-black type-card-title mb-2">{e.title}</h2>
+                      {e.venue && <p className="text-sm text-gray-500">{e.venue}</p>}
+                      {e.description && <p className="text-sm text-gray-500 mt-3 leading-relaxed line-clamp-2">{e.description}</p>}
+                      <span className="text-[10px] uppercase tracking-[0.15em] text-gray-500 group-hover:text-black transition-colors mt-4 inline-block type-breathe">Register &rarr;</span>
                     </Link>
                   ))}
                 </div>
-              </div>
-            )}
-
-            {upcoming.length === 0 && (
-              <div className="border border-gray-200/50 rounded p-12 text-center mb-16 bg-white">
-                <p className="text-gray-500">No upcoming events right now.</p>
-                <p className="text-xs text-gray-500/50 mt-2">Subscribe to our newsletter to be first to know.</p>
-              </div>
-            )}
-
-            {past.length > 0 && (
-              <div>
-                <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-500 mb-6">Past Events</h2>
-                <div className="space-y-3">
+              ) : (
+                <div className="border border-gray-200 rounded p-12 text-center mb-16 bg-white">
+                  <p className="text-gray-500 mb-2">No upcoming events right now.</p>
+                  <Link href="/join" className="link-draw text-xs text-gray-500 hover:text-black transition-colors">Join the registry to be notified &rarr;</Link>
+                </div>
+              )}
+              {past.length > 0 && (
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-6">Past Events</p>
                   {past.map(e => (
-                    <div key={e.id} className="flex items-center justify-between py-3 border-b border-gray-200/30 last:border-0">
-                      <div>
-                        <p className="text-sm text-black">{e.title}</p>
-                        <p className="text-xs text-gray-500">{e.event_date} &middot; {e.venue || 'TBC'}</p>
-                      </div>
-                      <span className="text-[10px] text-gray-500/40">Completed</span>
+                    <div key={e.id} className="flex items-center justify-between py-4 border-b border-gray-200 last:border-0">
+                      <div><p className="text-sm text-black type-breathe">{e.title}</p><p className="text-xs text-gray-500">{e.event_date}</p></div>
+                      <span className="text-[10px] text-gray-500">Completed</span>
                     </div>
                   ))}
                 </div>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+              )}
+            </>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

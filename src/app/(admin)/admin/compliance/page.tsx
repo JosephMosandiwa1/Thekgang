@@ -54,13 +54,13 @@ export default function CompliancePage() {
           <span className="col-span-4">Obligation</span><span className="col-span-2">Category</span><span className="col-span-2">Due Date</span><span className="col-span-2">Responsible</span><span className="col-span-2">Status</span>
         </div>
         {items.length === 0 ? (
-          <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No compliance items — run the migration to seed data'}</div>
+          <div className="px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No compliance items — run the migration to seed data'}</div>
         ) : items.map(i => {
           const isOverdue = i.status !== 'completed' && new Date(i.due_date) < new Date();
           const status = isOverdue ? 'overdue' : i.status;
           return (
             <div key={i.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors">
-              <span className="col-span-4 text-black font-medium">{i.title}{i.recurring && <span className="ml-1 text-[9px] text-gray-500/40">recurring</span>}</span>
+              <span className="col-span-4 text-black font-medium">{i.title}{i.recurring && <span className="ml-1 text-[9px] text-gray-500/60">recurring</span>}</span>
               <span className="col-span-2 text-gray-500 text-xs uppercase">{i.category}</span>
               <span className={`col-span-2 text-xs ${isOverdue ? 'text-red-600 font-semibold' : 'text-gray-500'}`}>{i.due_date}</span>
               <span className="col-span-2 text-gray-500 text-xs">{i.responsible}</span>

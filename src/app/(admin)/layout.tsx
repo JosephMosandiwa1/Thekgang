@@ -73,13 +73,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin" className="font-display text-lg tracking-wide text-black hover:text-black transition-colors">
             Thekgang
           </Link>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500/50 mt-1">Corporate OS</p>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500/70 mt-1">Corporate OS</p>
         </div>
 
         <nav className="flex-1 px-3 py-3">
           {navGroups.map((group, gi) => (
             <div key={group.title} className={gi > 0 ? 'mt-5' : ''}>
-              <p className="text-[9px] uppercase tracking-[0.2em] text-gray-500/40 px-3 mb-1.5 font-semibold">{group.title}</p>
+              <p className="text-[9px] uppercase tracking-[0.2em] text-gray-500/60 px-3 mb-1.5 font-semibold">{group.title}</p>
               {group.items.map(link => {
                 const isActive = link.href === '/admin'
                   ? pathname === '/admin'
@@ -106,7 +106,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-semibold text-black">MK</div>
             <div>
               <p className="text-xs text-black">Melvin Kaabwe</p>
-              <p className="text-[10px] text-gray-500/40">Secretary</p>
+              <p className="text-[10px] text-gray-500/60">Secretary</p>
             </div>
           </div>
         </div>

@@ -32,7 +32,7 @@ export default function PagesAdminPage() {
           <span className="col-span-4">Title</span><span className="col-span-3">Slug</span><span className="col-span-2">Status</span><span className="col-span-3">Last Updated</span>
         </div>
         {pages.length === 0 ? (
-          <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No pages yet — create your first page'}</div>
+          <div className="px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No pages yet — create your first page'}</div>
         ) : pages.map(p => (
           <div key={p.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors cursor-pointer">
             <span className="col-span-4 text-black font-medium">{p.title}</span>

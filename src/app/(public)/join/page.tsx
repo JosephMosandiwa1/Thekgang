@@ -152,7 +152,7 @@ export default function JoinPage() {
             {submitting ? 'Submitting...' : 'Join the Registry'}
           </button>
 
-          <p className="text-[10px] text-gray-500/40 text-center mt-4">
+          <p className="text-[10px] text-gray-500/60 text-center mt-4">
             Your information is used solely for constituency mapping and connecting you to relevant opportunities.
             We respect your privacy and comply with POPIA.
           </p>

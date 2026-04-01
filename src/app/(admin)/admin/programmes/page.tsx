@@ -40,7 +40,7 @@ export default function ProgrammesPage() {
 
       <div className="space-y-4">
         {programmes.length === 0 ? (
-          <div className="border border-gray-200/60 rounded px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No programmes — run the migration to seed data'}</div>
+          <div className="border border-gray-200/60 rounded px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No programmes — run the migration to seed data'}</div>
         ) : programmes.map(p => (
           <div key={p.id} className="border border-gray-200/60 rounded p-6 hover:border-black/20 hover:shadow-sm transition-all">
             <div className="flex items-start justify-between">

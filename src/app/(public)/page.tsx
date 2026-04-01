@@ -31,7 +31,7 @@ export default function HomePage() {
           style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(255,255,255,0.5) 48px, rgba(255,255,255,0.5) 49px)' }} />
 
         <div className="relative z-10 max-w-6xl mx-auto">
-          <p className="text-white/20 text-xs tracking-[0.4em] uppercase animate-fade-in mb-8">
+          <p className="text-white/40 text-xs tracking-[0.4em] uppercase animate-fade-in mb-8">
             Book Publishing, Manufacturing &amp; Distribution
           </p>
 
@@ -39,11 +39,11 @@ export default function HomePage() {
           <h1 className="font-display font-bold text-white leading-[0.95] tracking-tight animate-fade-in-delay"
             style={{ fontSize: 'clamp(36px, 8vw, 120px)' }}>
             The infrastructure<br />
-            <span className="text-white/15 colour-flash-coral transition-colors">your story</span><br />
+            <span className="text-white/50 colour-flash-coral transition-colors">your story</span><br />
             has been waiting for.
           </h1>
 
-          <p className="text-sm text-white/30 max-w-md mx-auto leading-relaxed mt-10 animate-fade-in-delay">
+          <p className="text-sm text-white/50 max-w-md mx-auto leading-relaxed mt-10 animate-fade-in-delay">
             Connecting authors, publishers, printers, and distributors
             across 9 provinces. One language at a time.
           </p>
@@ -52,14 +52,14 @@ export default function HomePage() {
             <Link href="/join" className="btn-ink-white text-xs tracking-[0.15em] uppercase px-10 py-4">
               Join the Registry
             </Link>
-            <Link href="/programmes" className="text-white/25 text-xs tracking-[0.15em] uppercase px-6 py-4 border border-white/8 transition-all hover:border-white/25 hover:text-white/50 type-breathe">
+            <Link href="/programmes" className="text-white/45 text-xs tracking-[0.15em] uppercase px-6 py-4 border border-white/15 transition-all hover:border-white/25 hover:text-white/50 type-breathe">
               Explore Programmes
             </Link>
           </div>
         </div>
 
         <div className="absolute bottom-8 text-center animate-fade-in-delay-2">
-          <Link href="/about" className="text-[9px] text-white/10 uppercase tracking-[0.2em] hover:text-white/25 transition-colors">
+          <Link href="/about" className="text-[9px] text-white/50 uppercase tracking-[0.2em] hover:text-white/45 transition-colors">
             A DSAC Cultural &amp; Creative Industries Cluster &rarr;
           </Link>
         </div>
@@ -70,39 +70,39 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto space-y-20">
           {/* Thing 1 */}
           <div className="max-w-3xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-300 mb-4">01</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4">01</p>
             <p className="font-display font-bold leading-[1.1] tracking-tight type-grow cursor-default"
               style={{ fontSize: 'clamp(24px, 4vw, 48px)' }}>
               South Africa&apos;s book industry generates R4 billion annually.
               Most of it never reaches indigenous language authors.
             </p>
-            <Link href="/about" className="link-draw text-xs text-gray-400 mt-6 inline-block hover:text-black transition-colors">
+            <Link href="/about" className="link-draw text-xs text-gray-500 mt-6 inline-block hover:text-black transition-colors">
               See the full industry picture &rarr;
             </Link>
           </div>
 
           {/* Thing 2 */}
           <div className="max-w-3xl ml-auto text-right">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-300 mb-4">02</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4">02</p>
             <p className="font-display font-bold leading-[1.1] tracking-tight type-grow-amber cursor-default"
               style={{ fontSize: 'clamp(24px, 4vw, 48px)' }}>
               57 books published through the DSAC Publishing Hub —
               including 4 in Khoi and San languages.
             </p>
-            <Link href="/programmes" className="link-draw text-xs text-gray-400 mt-6 inline-block hover:text-black transition-colors">
+            <Link href="/programmes" className="link-draw text-xs text-gray-500 mt-6 inline-block hover:text-black transition-colors">
               Read about the Publishing Hub &rarr;
             </Link>
           </div>
 
           {/* Thing 3 */}
           <div className="max-w-3xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-300 mb-4">03</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4">03</p>
             <p className="font-display font-bold leading-[1.1] tracking-tight type-grow-emerald cursor-default"
               style={{ fontSize: 'clamp(24px, 4vw, 48px)' }}>
               Thekgang exists to connect the dots —
               from manuscript to reader, one language at a time.
             </p>
-            <Link href="/about" className="link-draw text-xs text-gray-400 mt-6 inline-block hover:text-black transition-colors">
+            <Link href="/about" className="link-draw text-xs text-gray-500 mt-6 inline-block hover:text-black transition-colors">
               Meet the team behind this &rarr;
             </Link>
           </div>
@@ -113,17 +113,17 @@ export default function HomePage() {
       <section className="py-12 px-6 border-y border-gray-200">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
           <div className="text-center">
-            <p className="text-[9px] uppercase tracking-[0.3em] text-gray-300">Mandated by</p>
+            <p className="text-[9px] uppercase tracking-[0.3em] text-gray-500">Mandated by</p>
             <p className="text-sm font-medium text-black mt-1 type-breathe cursor-default">Department of Sport, Arts &amp; Culture</p>
           </div>
           <div className="hidden sm:block w-px h-8 bg-gray-200" />
           <div className="text-center">
-            <p className="text-[9px] uppercase tracking-[0.3em] text-gray-300">Programme Partner</p>
+            <p className="text-[9px] uppercase tracking-[0.3em] text-gray-500">Programme Partner</p>
             <p className="text-sm font-medium text-black mt-1 type-breathe cursor-default">Jacana Literary Foundation</p>
           </div>
           <div className="hidden sm:block w-px h-8 bg-gray-200" />
           <div className="text-center">
-            <p className="text-[9px] uppercase tracking-[0.3em] text-gray-300">Cluster Programme</p>
+            <p className="text-[9px] uppercase tracking-[0.3em] text-gray-500">Cluster Programme</p>
             <p className="text-sm font-medium text-black mt-1 type-breathe cursor-default">1 of 17 National CCI Clusters</p>
           </div>
         </div>
@@ -132,7 +132,7 @@ export default function HomePage() {
       {/* ═══ WHO IS THIS FOR ═══ */}
       <section className="py-24 px-6 bg-gray-100">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-3">Who is this for</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-3">Who is this for</p>
           <h2 className="font-display font-bold text-black tracking-tight mb-14 type-grow cursor-default"
             style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
             Whether you write, illustrate, publish,<br />print, or distribute — you belong here.
@@ -147,7 +147,7 @@ export default function HomePage() {
                   <Link href={a.href} className="btn-ink text-[10px] tracking-[0.15em] uppercase px-5 py-2.5 text-center w-fit">
                     {a.cta}
                   </Link>
-                  <Link href={a.deeper} className="link-draw text-[10px] text-gray-400 hover:text-black transition-colors w-fit">
+                  <Link href={a.deeper} className="link-draw text-[10px] text-gray-500 hover:text-black transition-colors w-fit">
                     {a.deeperLabel}
                   </Link>
                 </div>
@@ -160,7 +160,7 @@ export default function HomePage() {
       {/* ═══ PROGRAMMES — with context links ═══ */}
       <section className="py-24 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-3">Our Programmes</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-3">Our Programmes</p>
           <h2 className="font-display font-bold text-black tracking-tight mb-4 type-grow-amber cursor-default"
             style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}>
             Building capacity across the value chain.
@@ -176,15 +176,15 @@ export default function HomePage() {
                 className="group flex items-start justify-between py-6 border-b border-gray-200 last:border-0 hover:bg-gray-50/50 -mx-4 px-4 transition-colors">
                 <div className="flex-1">
                   <p className="text-lg font-medium text-black type-breathe">{p.name}</p>
-                  <p className="text-xs text-gray-400 mt-1">{p.desc}</p>
+                  <p className="text-xs text-gray-500 mt-1">{p.desc}</p>
                   <div className="flex items-center gap-3 mt-2">
-                    <span className="text-[10px] text-gray-300">{p.location}</span>
+                    <span className="text-[10px] text-gray-500">{p.location}</span>
                     <span className={`badge-bw text-[10px] uppercase tracking-wider px-2 py-0.5 ${
                       p.status === 'Active' ? 'badge-bw-emerald' : 'badge-bw-amber'
                     }`}>{p.status}</span>
                   </div>
                 </div>
-                <span className="text-xs text-gray-300 group-hover:text-black transition-colors mt-2 flex-shrink-0 type-breathe">
+                <span className="text-xs text-gray-500 group-hover:text-black transition-colors mt-2 flex-shrink-0 type-breathe">
                   Details &rarr;
                 </span>
               </Link>
@@ -196,7 +196,7 @@ export default function HomePage() {
       {/* ═══ 4 PILLARS — Black bg, each with exit link ═══ */}
       <section className="py-24 px-6 bg-black text-white">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-white/20 mb-3">Our Strategy</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">Our Strategy</p>
           <h2 className="font-display font-bold text-white tracking-tight mb-16"
             style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
             Four pillars. One mission.
@@ -210,10 +210,10 @@ export default function HomePage() {
               { num: '04', title: 'Grow Markets', desc: 'Innovative distribution that gets books where readers are — rural schools, community libraries, online platforms.', transform: 'type-widen', link: '/programmes', linkLabel: 'See distribution programmes →' },
             ].map(p => (
               <div key={p.num} className="group border-t border-white/10 pt-8">
-                <p className="text-white/20 text-[10px] tracking-[0.2em] uppercase font-semibold mb-3 group-hover:text-white/40 transition-colors">{p.num}</p>
+                <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase font-semibold mb-3 group-hover:text-white/40 transition-colors">{p.num}</p>
                 <h3 className={`font-display text-2xl font-bold text-white mb-4 ${p.transform} transition-all`}>{p.title}</h3>
-                <p className="text-sm text-white/35 leading-relaxed mb-4">{p.desc}</p>
-                <Link href={p.link} className="text-[10px] text-white/20 hover:text-white/60 transition-colors type-breathe">
+                <p className="text-sm text-white/50 leading-relaxed mb-4">{p.desc}</p>
+                <Link href={p.link} className="text-[10px] text-white/40 hover:text-white/60 transition-colors type-breathe">
                   {p.linkLabel}
                 </Link>
               </div>
@@ -232,8 +232,8 @@ export default function HomePage() {
             We&apos;re building the infrastructure so they can.&rdquo;
           </p>
           <p className="text-sm text-black font-medium mt-8">Terry-Ann Adams</p>
-          <p className="text-xs text-gray-400">Founder &amp; Chairperson</p>
-          <Link href="/about" className="link-draw text-[10px] text-gray-300 mt-4 inline-block hover:text-black transition-colors">
+          <p className="text-xs text-gray-500">Founder &amp; Chairperson</p>
+          <Link href="/about" className="link-draw text-[10px] text-gray-500 mt-4 inline-block hover:text-black transition-colors">
             Read Terry-Ann&apos;s full story &rarr;
           </Link>
         </div>
@@ -255,10 +255,10 @@ export default function HomePage() {
               Join the Registry
             </Link>
             <div className="flex gap-6">
-              <Link href="/programmes" className="link-draw text-[10px] text-gray-400 hover:text-black transition-colors">
+              <Link href="/programmes" className="link-draw text-[10px] text-gray-500 hover:text-black transition-colors">
                 Explore programmes first &rarr;
               </Link>
-              <Link href="/about" className="link-draw text-[10px] text-gray-400 hover:text-black transition-colors">
+              <Link href="/about" className="link-draw text-[10px] text-gray-500 hover:text-black transition-colors">
                 Or read our story &rarr;
               </Link>
             </div>

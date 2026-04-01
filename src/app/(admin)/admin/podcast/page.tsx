@@ -29,7 +29,7 @@ export default function PodcastPage() {
 
       <div className="space-y-4">
         {episodes.length === 0 ? (
-          <div className="border border-gray-200/60 rounded px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No episodes yet — record and publish your first episode'}</div>
+          <div className="border border-gray-200/60 rounded px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No episodes yet — record and publish your first episode'}</div>
         ) : episodes.map(ep => (
           <div key={ep.id} className="border border-gray-200/60 rounded p-5 hover:border-black/20 hover:shadow-sm transition-all">
             <div className="flex items-start justify-between">

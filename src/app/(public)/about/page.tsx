@@ -1,16 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 
 interface BoardMember { id: string; name: string; role: string; bio: string; photo_url: string }
-
-const pillars = [
-  { title: 'Build Author Capacity', desc: 'Equip South African authors with skills to write, brand, and market their work.' },
-  { title: 'Transform Consumption', desc: 'Change how local stories are consumed — indigenous languages on every bookshelf.' },
-  { title: 'Support All Talent', desc: 'Emerging and established — both deserve infrastructure and opportunity.' },
-  { title: 'Grow Markets', desc: 'Innovative distribution that gets books where readers are.' },
-];
 
 export default function AboutPage() {
   const [board, setBoard] = useState<BoardMember[]>([]);
@@ -20,95 +14,102 @@ export default function AboutPage() {
     supabase.from('board_members').select('*').eq('active', true).order('name').then(({ data }) => setBoard((data || []) as BoardMember[]));
   }, []);
 
-  return (
-    <div className="pt-28 pb-20 px-6">
-      <div className="max-w-4xl mx-auto">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-black font-semibold mb-3">Our Story</p>
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-8">The team behind the movement.</h1>
+  const boardFallback = [
+    { name: 'Terry-Ann Adams', role: 'Chairperson & Founder', bio: 'Award-winning author (Those Who Live In Cages, White Chalk — Jacana Media). M&G 200 Young South Africans 2023. Howard + Central Saint Martins alum.' },
+    { name: 'Lorraine Sithole', role: 'Treasurer & Co-founder', bio: '' },
+    { name: 'Melvin Kaabwe', role: 'Secretary, Spokesperson & Co-founder', bio: '' },
+  ];
+  const displayBoard = board.length > 0 ? board : boardFallback.map((m, i) => ({ ...m, id: String(i), photo_url: '' }));
 
-        {/* Founder */}
-        <div className="border-l-[3px] border-black pl-8 mb-16">
-          <p className="font-display text-lg md:text-xl text-black leading-relaxed italic">
-            &ldquo;I&apos;ve been in the publishing system as an author. I know what works and what doesn&apos;t.
-            Thekgang exists because too many South African stories — especially in indigenous languages —
-            never make it from manuscript to reader. We&apos;re building the infrastructure to change that.&rdquo;
+  return (
+    <div>
+      <section className="pt-28 pb-20 px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4">Our Story</p>
+          <h1 className="font-display font-bold text-black tracking-tight leading-[1.05] type-grow cursor-default" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>
+            We didn&apos;t start with a website.<br />We started with a problem.
+          </h1>
+        </div>
+      </section>
+
+      <section className="pb-20 px-6">
+        <div className="max-w-4xl mx-auto border-l-[3px] border-black pl-8">
+          <p className="font-display text-xl md:text-2xl text-black leading-relaxed italic">
+            &ldquo;I&apos;ve been in the publishing system as an author. I know what works and what doesn&apos;t. Thekgang exists because too many South African stories — especially in indigenous languages — never make it from manuscript to reader.&rdquo;
           </p>
-          <div className="mt-4">
-            <p className="text-sm text-black font-medium">Terry-Ann Adams</p>
-            <p className="text-xs text-gray-500">Founder &amp; Chairperson</p>
-            <p className="text-[10px] text-gray-500/50 mt-1">Author: <em>Those Who Live In Cages</em>, <em>White Chalk</em> (Jacana Media) &middot; M&amp;G 200 Young South Africans 2023</p>
+          <div className="mt-6 flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center text-sm font-display font-bold text-black transition-all hover:border-black hover:scale-110">TA</div>
+            <div>
+              <p className="text-sm text-black font-medium">Terry-Ann Adams</p>
+              <p className="text-xs text-gray-500">Founder &amp; Chairperson &middot; Author: <em>Those Who Live In Cages</em>, <em>White Chalk</em></p>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* What is Thekgang */}
-        <section className="mb-16">
-          <h2 className="font-display text-2xl font-bold text-black mb-4">What is Thekgang?</h2>
-          <p className="text-sm text-gray-500 leading-relaxed mb-4">
-            Thekgang NPC is the <strong className="text-black">Book Publishing, Manufacturing &amp; Distribution Cluster</strong> — one of 17 Cultural &amp; Creative Industries (CCI) clusters established by the Department of Sport, Arts and Culture (DSAC) to strengthen South Africa&apos;s creative economy.
-          </p>
-          <p className="text-sm text-gray-500 leading-relaxed mb-4">
-            We are the connective infrastructure for the book publishing value chain — supporting authors, illustrators, translators, publishers, printers, distributors, booksellers, libraries, and schools across 9 provinces.
-          </p>
-          <p className="text-sm text-gray-500 leading-relaxed">
-            Our mandate: expand access to book manufacturing and distribution, facilitate capacity-building programmes, promote local literature, and create sustainable work opportunities across the value chain.
-          </p>
-        </section>
+      <section className="py-20 px-6 bg-gray-100">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4">What is Thekgang</p>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-black tracking-tight mb-8 type-grow-amber cursor-default">The connective infrastructure for South Africa&apos;s book publishing value chain.</h2>
+          <div className="space-y-4 text-sm text-gray-600 leading-relaxed max-w-2xl">
+            <p>Thekgang NPC is the <strong className="text-black">Book Publishing, Manufacturing &amp; Distribution Cluster</strong> — one of 17 CCI clusters established by DSAC.</p>
+            <p>We support authors, illustrators, translators, publishers, printers, distributors, booksellers, libraries, and schools across 9 provinces.</p>
+          </div>
+          <Link href="/programmes" className="link-draw text-xs text-gray-500 mt-6 inline-block hover:text-black transition-colors">See our programmes &rarr;</Link>
+        </div>
+      </section>
 
-        {/* 4 Pillars */}
-        <section className="mb-16">
-          <h2 className="font-display text-2xl font-bold text-black mb-8">Our strategic pillars.</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {pillars.map((p, i) => (
-              <div key={p.title} className="border-t-2 border-black pt-4">
-                <p className="text-[10px] text-black tracking-[0.2em] uppercase font-semibold mb-1">0{i + 1}</p>
-                <h3 className="text-base font-bold text-black mb-2">{p.title}</h3>
-                <p className="text-sm text-gray-500">{p.desc}</p>
+      <section className="py-20 px-6 bg-black text-white">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Strategic Pillars</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+            {[
+              { num: '01', title: 'Build Author Capacity', desc: 'Equip authors to write, brand, and market their work.' },
+              { num: '02', title: 'Transform Consumption', desc: 'Indigenous language books on every bookshelf.' },
+              { num: '03', title: 'Support All Talent', desc: 'Emerging and established creators both deserve infrastructure.' },
+              { num: '04', title: 'Grow Markets', desc: 'Get books where readers are — schools, libraries, online.' },
+            ].map(p => (
+              <div key={p.num} className="border-t border-white/15 pt-6">
+                <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase mb-2">{p.num}</p>
+                <h3 className="font-display text-xl font-bold text-white mb-3 type-lift transition-all">{p.title}</h3>
+                <p className="text-sm text-white/50 leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </div>
-        </section>
+          <Link href="/programmes" className="link-draw text-xs text-white/40 mt-10 inline-block hover:text-white/70 transition-colors">See how we deliver on these &rarr;</Link>
+        </div>
+      </section>
 
-        {/* Board */}
-        <section className="mb-16">
-          <h2 className="font-display text-2xl font-bold text-black mb-8">Board of Directors.</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {board.map(m => (
-              <div key={m.id} className="text-center">
-                <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-xl font-display font-bold text-black mx-auto mb-4">
+      <section className="py-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4">Board of Directors</p>
+          <h2 className="font-display text-2xl font-bold text-black tracking-tight mb-12 type-grow-violet cursor-default">The people behind the mission.</h2>
+          <div className="space-y-10">
+            {displayBoard.map(m => (
+              <div key={m.id || m.name} className="group flex items-start gap-6 py-6 border-b border-gray-200 last:border-0">
+                <div className="w-16 h-16 rounded-full border-2 border-gray-200 flex items-center justify-center text-lg font-display font-bold text-black flex-shrink-0 transition-all group-hover:border-black group-hover:scale-105">
                   {m.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                 </div>
-                <p className="text-sm font-semibold text-black">{m.name}</p>
-                <p className="text-xs text-black">{m.role}</p>
-                {m.bio && <p className="text-xs text-gray-500 mt-2 leading-relaxed">{m.bio}</p>}
+                <div>
+                  <p className="text-lg font-bold text-black type-card-title">{m.name}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{m.role}</p>
+                  {m.bio && <p className="text-sm text-gray-600 mt-3 leading-relaxed">{m.bio}</p>}
+                </div>
               </div>
             ))}
-            {board.length === 0 && (
-              <>
-                {[{ name: 'Terry-Ann Adams', role: 'Chairperson & Founder' }, { name: 'Lorraine Sithole', role: 'Treasurer' }, { name: 'Melvin Kaabwe', role: 'Secretary & Spokesperson' }].map(m => (
-                  <div key={m.name} className="text-center">
-                    <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-xl font-display font-bold text-black mx-auto mb-4">
-                      {m.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                    </div>
-                    <p className="text-sm font-semibold text-black">{m.name}</p>
-                    <p className="text-xs text-black">{m.role}</p>
-                  </div>
-                ))}
-              </>
-            )}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* DSAC */}
-        <section className="bg-gray-100/50 p-8 rounded">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2">DSAC Mandate</p>
-          <p className="text-sm text-black leading-relaxed">
-            Thekgang operates under a Memorandum of Agreement with the Department of Sport, Arts and Culture.
-            As one of 17 CCI clusters, we are mandated to map, connect, and strengthen the book publishing sector —
-            with a focus on inclusivity, transformation, and indigenous language publishing.
-          </p>
-          <p className="text-[10px] text-gray-500/50 mt-4">Thekgang NPC &middot; Non-Profit Company &middot; DSAC CCI Cluster</p>
-        </section>
-      </div>
+      <section className="py-16 px-6 bg-gray-100">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="font-display text-xl font-bold text-black mb-4 type-grow cursor-default">Want to work with us?</h2>
+          <div className="flex flex-col items-center gap-3">
+            <Link href="/join" className="btn-ink text-xs tracking-[0.15em] uppercase px-8 py-3">Join the Registry</Link>
+            <Link href="/contact" className="link-draw text-xs text-gray-500 hover:text-black transition-colors">Or get in touch directly &rarr;</Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

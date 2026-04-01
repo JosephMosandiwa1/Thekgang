@@ -47,11 +47,11 @@ export default function GovernancePage() {
               <div>
                 <p className="text-sm font-medium text-black">{m.name}</p>
                 <p className="text-[10px] text-gray-500">{m.role}</p>
-                {m.email && <p className="text-[10px] text-gray-500/50">{m.email}</p>}
+                {m.email && <p className="text-[10px] text-gray-500/70">{m.email}</p>}
               </div>
             </div>
           ))}
-          {members.length === 0 && !loading && <p className="text-sm text-gray-500/50 col-span-3 text-center py-4">No board members found — run the migration to seed data</p>}
+          {members.length === 0 && !loading && <p className="text-sm text-gray-500/70 col-span-3 text-center py-4">No board members found — run the migration to seed data</p>}
         </div>
       </div>
 
@@ -63,12 +63,12 @@ export default function GovernancePage() {
             <button className="bg-black text-white text-[10px] font-medium tracking-wider px-4 py-1.5 uppercase rounded hover:bg-black-light transition-colors">+ Schedule</button>
           </div>
           {meetings.length === 0 ? (
-            <p className="text-sm text-gray-500/50 text-center py-8">No meetings scheduled yet</p>
+            <p className="text-sm text-gray-500/70 text-center py-8">No meetings scheduled yet</p>
           ) : meetings.map(mt => (
             <div key={mt.id} className="flex items-center justify-between py-3 border-b border-gray-200/30 last:border-0">
               <div>
                 <p className="text-sm text-black">{mt.meeting_date} &middot; {mt.location || 'TBC'}</p>
-                <p className="text-[10px] text-gray-500/50 capitalize">{mt.meeting_type} meeting</p>
+                <p className="text-[10px] text-gray-500/70 capitalize">{mt.meeting_type} meeting</p>
               </div>
               <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded ${mt.status === 'completed' ? 'border-green-500/30 text-green-700' : 'border-amber-500/30 text-amber-700'}`}>{mt.status}</span>
             </div>
@@ -79,7 +79,7 @@ export default function GovernancePage() {
         <div className="border border-gray-200/60 rounded p-6">
           <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-500 mb-4">Resolutions</h2>
           {resolutions.length === 0 ? (
-            <p className="text-sm text-gray-500/50 text-center py-8">No resolutions recorded yet</p>
+            <p className="text-sm text-gray-500/70 text-center py-8">No resolutions recorded yet</p>
           ) : resolutions.map(r => (
             <div key={r.id} className="flex items-center justify-between py-3 border-b border-gray-200/30 last:border-0">
               <div>

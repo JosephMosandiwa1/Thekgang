@@ -57,7 +57,7 @@ export default function AdminDashboardPage() {
                 <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${d.type === 'DSAC' ? 'bg-red-500' : d.type === 'Compliance' ? 'bg-amber-500' : 'bg-blue-500'}`} />
                 <div>
                   <p className="text-sm text-black">{d.item}</p>
-                  <p className="text-[10px] text-gray-500/50">{d.date} &middot; {d.type}</p>
+                  <p className="text-[10px] text-gray-500/70">{d.date} &middot; {d.type}</p>
                 </div>
               </div>
             ))}
@@ -72,7 +72,7 @@ export default function AdminDashboardPage() {
               <div key={p.name} className="flex items-center justify-between py-3 border-b border-gray-200/30 last:border-0">
                 <div>
                   <p className="text-sm text-black font-medium">{p.name}</p>
-                  <p className="text-[10px] text-gray-500/50">{p.location}</p>
+                  <p className="text-[10px] text-gray-500/70">{p.location}</p>
                 </div>
                 <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded ${
                   p.status === 'Active' ? 'border-green-500/30 text-green-700' : 'border-amber-500/30 text-amber-700'

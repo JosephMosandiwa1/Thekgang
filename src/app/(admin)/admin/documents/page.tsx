@@ -45,14 +45,14 @@ export default function DocumentsPage() {
       </div>
 
       <input type="text" placeholder="Search documents..." value={search} onChange={e => setSearch(e.target.value)}
-        className="bg-white border border-gray-200/60 px-4 py-2 text-sm rounded text-black placeholder:text-gray-500/30 focus:outline-none focus:border-black w-full max-w-sm mb-6" />
+        className="bg-white border border-gray-200/60 px-4 py-2 text-sm rounded text-black placeholder:text-gray-500/50 focus:outline-none focus:border-black w-full max-w-sm mb-6" />
 
       <div className="border border-gray-200/60 rounded">
         <div className="grid grid-cols-12 gap-2 px-6 py-3 bg-white text-[10px] uppercase tracking-[0.12em] text-gray-500 rounded-t">
           <span className="col-span-4">Name</span><span className="col-span-2">Folder</span><span className="col-span-2">Type</span><span className="col-span-1">Size</span><span className="col-span-2">Date</span><span className="col-span-1">View</span>
         </div>
         {filtered.length === 0 ? (
-          <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No documents found'}</div>
+          <div className="px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No documents found'}</div>
         ) : filtered.map(d => (
           <div key={d.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors">
             <span className="col-span-4 text-black font-medium truncate">{d.name}</span>

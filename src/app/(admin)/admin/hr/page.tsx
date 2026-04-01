@@ -54,7 +54,7 @@ export default function HRPage() {
           <span className="col-span-2">Contract</span><span className="col-span-2">Start Date</span>
         </div>
         {staff.length === 0 ? (
-          <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No staff registered yet'}</div>
+          <div className="px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No staff registered yet'}</div>
         ) : staff.map(s => (
           <div key={s.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors">
             <span className="col-span-3 text-black font-medium">{s.name}</span>

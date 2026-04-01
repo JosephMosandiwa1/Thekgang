@@ -40,7 +40,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
         <p className="text-xs text-black font-medium mt-6 mb-2">{new Date(event.event_date).toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}{event.event_time ? ` at ${event.event_time.slice(0, 5)}` : ''}</p>
         <h1 className="font-display text-3xl font-bold text-black tracking-tight mb-4">{event.title}</h1>
         {event.venue && <p className="text-sm text-gray-500 mb-2">{event.venue}{event.venue_address ? `, ${event.venue_address}` : ''}</p>}
-        {event.capacity && <p className="text-xs text-gray-500/50 mb-6">{event.capacity} seats available</p>}
+        {event.capacity && <p className="text-xs text-gray-500/70 mb-6">{event.capacity} seats available</p>}
         {event.description && <div className="text-sm text-black/70 leading-relaxed mb-12 whitespace-pre-wrap">{event.description}</div>}
 
         {event.registration_required !== false && !registered && (

@@ -49,7 +49,7 @@ export default function ProcurementPage() {
             <span className="col-span-3">Name</span><span className="col-span-2">Contact</span><span className="col-span-2">Service</span><span className="col-span-1">Rating</span><span className="col-span-2">Status</span>
           </div>
           {vendors.length === 0 ? (
-            <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No vendors registered'}</div>
+            <div className="px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No vendors registered'}</div>
           ) : vendors.map(v => (
             <div key={v.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors">
               <span className="col-span-3 text-black font-medium">{v.name}</span>
@@ -68,7 +68,7 @@ export default function ProcurementPage() {
             <span className="col-span-2">PO#</span><span className="col-span-3">Vendor</span><span className="col-span-3">Description</span><span className="col-span-2 text-right">Total</span><span className="col-span-2">Status</span>
           </div>
           {pos.length === 0 ? (
-            <div className="px-6 py-12 text-center text-gray-500/50 text-sm">{loading ? 'Loading...' : 'No purchase orders'}</div>
+            <div className="px-6 py-12 text-center text-gray-500/70 text-sm">{loading ? 'Loading...' : 'No purchase orders'}</div>
           ) : pos.map(p => (
             <div key={p.id} className="grid grid-cols-12 gap-2 px-6 py-3 border-t border-gray-200/30 items-center text-sm hover:bg-gray-100/20 transition-colors">
               <span className="col-span-2 font-mono text-xs text-black">{p.number}</span>
