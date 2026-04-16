@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
+import { TicketQR, WhatsAppShareButton } from '@/components/EventFeatures';
 
 /**
  * DedicatedEventPage — the books-cluster mini-site for a single event.
@@ -21,7 +22,7 @@ interface EventFull {
   capacity: number; status: string; description: string; cover_image_url: string;
   programme_schedule: any[]; speakers: any[]; sponsors: any[]; recording_url: string;
   gallery_urls: string[]; feedback_enabled: boolean; registration_required: boolean;
-  is_dedicated: boolean; documents: any[]; virtual_link: string;
+  is_dedicated: boolean; documents: any[]; virtual_link: string; reading_list: any[];
 }
 
 const PROVINCES = ['Gauteng', 'Western Cape', 'KwaZulu-Natal', 'Eastern Cape', 'Limpopo', 'Free State', 'Mpumalanga', 'North West', 'Northern Cape'];
@@ -178,6 +179,7 @@ export default function DedicatedEventPage({ event, regCount }: { event: EventFu
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25" /></svg>
               Add to Calendar
             </a>
+            <WhatsAppShareButton eventTitle={event.title} eventDate={event.event_date} eventUrl={typeof window !== 'undefined' ? window.location.href : ''} venue={event.venue} />
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent z-10" />
@@ -311,6 +313,46 @@ export default function DedicatedEventPage({ event, regCount }: { event: EventFu
         </section>
       )}
 
+      {/* ── GALLERY ── */}
+      {Array.isArray(event.gallery_urls) && event.gallery_urls.length > 0 && (
+        <section className="py-16 px-6">
+          <div className="max-w-5xl mx-auto">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4 text-center">Gallery</p>
+            <h2 className="font-display text-2xl font-bold text-charcoal tracking-tight mb-8 text-center">Event Photos</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              {event.gallery_urls.map((url: string, i: number) => (
+                <a key={i} href={url} target="_blank" rel="noopener" className="aspect-square rounded overflow-hidden group">
+                  <img src={url} alt={`Gallery ${i + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── READING LIST ── */}
+      {Array.isArray(event.reading_list) && event.reading_list.length > 0 && (
+        <section className="py-16 px-6 bg-[#f5f3ef]">
+          <div className="max-w-4xl mx-auto">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4 text-center">Recommended Reading</p>
+            <h2 className="font-display text-2xl font-bold text-charcoal tracking-tight mb-8 text-center">Reading List</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {event.reading_list.map((book: any, i: number) => (
+                <div key={i} className="flex gap-4 bg-white rounded p-4 border border-charcoal/5">
+                  {book.cover_url && <img src={book.cover_url} alt={book.title} className="w-16 h-24 object-cover rounded flex-shrink-0" />}
+                  <div>
+                    <h3 className="text-sm font-semibold text-charcoal">{book.title}</h3>
+                    {book.author && <p className="text-xs text-charcoal/50 mt-0.5">{book.author}</p>}
+                    {book.description && <p className="text-xs text-charcoal/40 mt-2 line-clamp-2">{book.description}</p>}
+                    {book.link && <a href={book.link} target="_blank" rel="noopener" className="text-[10px] text-gold hover:text-gold/80 uppercase tracking-wider mt-2 inline-block">View →</a>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── TICKETS + REGISTRATION ── */}
       {!isPast && event.registration_required && (
         <section id="register" className="py-20 px-6 bg-charcoal text-white relative">
@@ -369,6 +411,9 @@ export default function DedicatedEventPage({ event, regCount }: { event: EventFu
                 </div>
                 <h2 className="font-display text-2xl font-bold text-white mb-2">You&apos;re {isFull ? 'on the waitlist' : 'registered'}!</h2>
                 <p className="text-sm text-white/40 mb-4">Confirmation sent to {form.email}.</p>
+                <div className="mb-6">
+                  <TicketQR code={`CDCC-${event.slug || event.id}-${Date.now().toString(36).toUpperCase()}`} eventTitle={event.title} />
+                </div>
                 <a href={`/api/events/${event.id}/calendar`} className="inline-flex items-center gap-2 border border-white/20 text-white/60 text-xs tracking-[0.1em] uppercase px-5 py-2 rounded hover:border-white/40 transition-colors">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25" /></svg>
                   Add to Calendar

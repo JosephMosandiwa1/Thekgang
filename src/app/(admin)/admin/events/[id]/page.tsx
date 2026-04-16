@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import ImageUploader from '@/components/ImageUploader';
+import { exportToCSV, AttendanceRegisterPrint, DSACReportTemplate } from '@/components/EventFeatures';
 
 /* ============================================================
    Event Detail — Admin Manage View
@@ -94,9 +95,28 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             <h1 className="text-2xl font-display font-bold text-black">{event.title}</h1>
             <p className="text-sm text-gray-500 mt-1">{event.event_date} &middot; {event.venue || 'TBC'}</p>
           </div>
-          {event.is_dedicated && event.slug && (
-            <a href={`/events/${event.slug}`} target="_blank" rel="noopener" className="text-[10px] uppercase tracking-wider px-4 py-2 border border-gray-200 text-gray-500 rounded hover:text-black hover:border-black transition-colors">View Public Page &rarr;</a>
-          )}
+          <div className="flex items-center gap-2">
+            {event.is_dedicated && event.slug && (
+              <a href={`/events/${event.slug}`} target="_blank" rel="noopener" className="text-[10px] uppercase tracking-wider px-4 py-2 border border-gray-200 text-gray-500 rounded hover:text-black hover:border-black transition-colors">View Public Page →</a>
+            )}
+            <button
+              onClick={async () => {
+                if (!supabase || !confirm('Clone this event as a new draft?')) return;
+                const { data: cloned } = await supabase.from('events').insert({
+                  title: `${event.title} (Copy)`, slug: `${event.slug || event.id}-copy-${Date.now().toString(36)}`,
+                  event_type: event.event_type, format: event.format, status: 'draft',
+                  description: event.description, tagline: event.tagline, is_dedicated: event.is_dedicated,
+                  programme_schedule: event.programme_schedule, speakers: event.speakers, sponsors: event.sponsors,
+                  venue: event.venue, venue_address: event.venue_address, capacity: event.capacity,
+                  registration_required: event.registration_required, event_date: event.event_date, event_time: event.event_time,
+                }).select('id').single();
+                if (cloned) window.location.href = `/admin/events/${cloned.id}`;
+              }}
+              className="text-[10px] uppercase tracking-wider px-4 py-2 border border-gray-200 text-gray-500 rounded hover:text-black hover:border-black transition-colors"
+            >
+              Clone Event
+            </button>
+          </div>
         </div>
       </div>
 
@@ -156,7 +176,28 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
 
       {/* TAB: Registrations */}
       {tab === 'registrations' && (
-        <div className="border border-gray-200/60 rounded">
+        <div>
+          <div className="flex justify-end gap-2 mb-4 no-print">
+            <button
+              onClick={() => exportToCSV(registrations.map(r => ({ Name: r.name, Email: r.email, Phone: r.phone || '', Organisation: r.organisation || '', Province: r.province || '', 'Checked In': r.checked_in ? 'Yes' : 'No', 'Registered At': r.created_at, Waitlisted: r.waitlisted ? 'Yes' : 'No' })), `${event.slug || event.id}-registrations`)}
+              className="text-[10px] uppercase tracking-wider px-4 py-2 border border-gray-200 text-gray-500 rounded hover:text-black hover:border-black transition-colors"
+            >
+              Export CSV
+            </button>
+            <button
+              onClick={() => window.print()}
+              className="text-[10px] uppercase tracking-wider px-4 py-2 border border-gray-200 text-gray-500 rounded hover:text-black hover:border-black transition-colors"
+            >
+              Print Attendance Register
+            </button>
+          </div>
+          <AttendanceRegisterPrint
+            eventTitle={event.title}
+            eventDate={new Date(event.event_date).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' })}
+            venue={event.venue}
+            registrations={registrations.map(r => ({ name: r.name, organisation: r.organisation, province: r.province }))}
+          />
+        <div className="border border-gray-200/60 rounded no-print">
           <div className="grid grid-cols-12 gap-2 px-6 py-3 bg-white text-[10px] uppercase tracking-[0.12em] text-gray-500">
             <span className="col-span-3">Name</span><span className="col-span-3">Email</span><span className="col-span-2">Organisation</span><span className="col-span-2">Province</span><span className="col-span-2">Check-in</span>
           </div>
@@ -175,6 +216,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
               </span>
             </div>
           ))}
+        </div>
         </div>
       )}
 
@@ -233,6 +275,14 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
       {/* TAB: Post-Event */}
       {tab === 'post-event' && (
         <div className="space-y-6">
+          {/* DSAC Report */}
+          <DSACReportTemplate
+            event={{ title: event.title, event_date: event.event_date, venue: event.venue, event_type: event.event_type, budget_allocated: (event as any).budget_allocated, budget_spent: (event as any).budget_spent }}
+            registrations={registrations.map(r => ({ checked_in: r.checked_in, province: r.province }))}
+            feedback={feedback.map(f => ({ rating: f.rating }))}
+            provinces={provinces}
+          />
+
           {/* Recording */}
           <div className="border border-gray-200/60 rounded p-6">
             <p className="text-[10px] uppercase tracking-wider text-gray-400 mb-3">Recording</p>
