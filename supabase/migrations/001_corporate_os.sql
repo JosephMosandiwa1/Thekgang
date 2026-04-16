@@ -1,5 +1,5 @@
 -- =====================================================================
--- Thekgang NPC — Corporate OS Schema
+-- BPCDCC — Corporate OS Schema
 -- Governance, Finance, HR, Procurement, Documents, Compliance,
 -- Stakeholders, Programmes, Events, CMS, Constituency
 -- Idempotent — safe to run multiple times
@@ -733,9 +733,9 @@ insert into storage.buckets (id, name, public) values ('podcast', 'podcast', tru
 
 -- Board Members
 insert into board_members (name, role, email, active) values
-  ('Terry-Ann Adams', 'Chairperson & Founder', 'terry@thekgang.org.za', true),
-  ('Lorraine Sithole', 'Treasurer', 'lorraine@thekgang.org.za', true),
-  ('Melvin Kaabwe', 'Secretary & Spokesperson', 'melvin@thekgang.org.za', true)
+  ('Terry-Ann Adams', 'Chairperson & Founder', 'terry@bpcdcc.org.za', true),
+  ('Lorraine Sithole', 'Treasurer', 'lorraine@bpcdcc.org.za', true),
+  ('Melvin Kaabwe', 'Secretary & Spokesperson', 'melvin@bpcdcc.org.za', true)
 on conflict do nothing;
 
 -- Chart of Accounts (NPC-appropriate)
@@ -801,7 +801,7 @@ on conflict (name) do nothing;
 insert into programmes (name, description, province, status) values
   ('Book Value Chain Imbizo', 'Multi-stakeholder gathering to discuss the SA book value chain — authors, publishers, printers, distributors', 'KwaZulu-Natal', 'planning'),
   ('Jacana Work Skills Programme', 'Collaboration with Jacana Literary Foundation — publishing postgraduate students researching indigenous language poetry anthologies', null, 'active'),
-  ('Thekgang Talking', 'Industry podcast featuring interviews with actors across the book publishing value chain', null, 'active'),
+  ('Zibonele Podcast', 'Industry podcast featuring interviews with actors across the book publishing value chain', null, 'active'),
   ('Author Branding & Marketing Workshop', 'Workshop for authors on building their brand and marketing their books', 'North West', 'planning'),
   ('Indigenous Language Book Distribution', 'Distribution of indigenous language books to schools in underserved provinces', 'Limpopo', 'planning')
 on conflict do nothing;

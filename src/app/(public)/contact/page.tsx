@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -16,7 +17,10 @@ export default function ContactPage() {
     <div>
       <section className="pt-28 pb-12 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4">Contact</p>
+          <div className="flex items-center gap-3 mb-4">
+            <Image src="/logos/icon-char-gld.svg" alt="" width={16} height={16} className="w-4 h-4 opacity-40" />
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60">Contact</p>
+          </div>
           <h1 className="font-display font-bold text-black tracking-tight leading-[1.05] type-grow cursor-default" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>Get in touch.</h1>
           <p className="text-sm text-gray-500 max-w-xl mt-6 leading-relaxed">Have a question or partnership proposal? <Link href="/join" className="link-draw text-black inline-block">Or join the registry directly &rarr;</Link></p>
         </div>
@@ -51,7 +55,7 @@ export default function ContactPage() {
           <div className="space-y-10 pt-4">
             <div>
               <p className="text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Email</p>
-              <p className="text-sm text-black type-breathe">info@thekgang.org.za</p>
+              <p className="text-sm text-black type-breathe">booksandpublishingcontentdevel@gmail.com</p>
             </div>
             <div>
               <p className="text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Board Contact</p>
@@ -59,7 +63,7 @@ export default function ContactPage() {
             </div>
             <div>
               <p className="text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-2">Mandate</p>
-              <p className="text-sm text-gray-600">Book Publishing, Manufacturing &amp; Distribution Cluster</p>
+              <p className="text-sm text-gray-600">Books &amp; Publishing — Content Developers &amp; Creators Council</p>
               <Link href="/about" className="link-draw text-[10px] text-gray-500 mt-2 inline-block hover:text-black transition-colors">Read our full story &rarr;</Link>
             </div>
           </div>

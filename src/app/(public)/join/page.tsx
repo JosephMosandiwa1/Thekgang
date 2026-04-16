@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 
 const PROVINCES = ['Gauteng', 'Western Cape', 'KwaZulu-Natal', 'Eastern Cape', 'Limpopo', 'Free State', 'Mpumalanga', 'North West', 'Northern Cape'];
-const TYPES = ['author', 'illustrator', 'translator', 'publisher', 'printer', 'distributor', 'bookseller', 'library', 'school', 'language_specialist', 'literary_agent', 'editor', 'designer', 'other'];
+const TYPES = ['author_writer', 'translator', 'designer', 'narrator', 'publisher_self_publisher', 'research_development', 'editor', 'indexer', 'proofreader', 'legal_ip', 'layout_designer', 'literary_agent', 'photographer', 'ai_software', 'other'];
 const LANGUAGES = ['English', 'isiZulu', 'isiXhosa', 'Afrikaans', 'Sepedi', 'Setswana', 'Sesotho', 'Xitsonga', 'siSwati', 'Tshivenda', 'isiNdebele', 'Khoekhoe', 'Other'];
 
 const steps = [
@@ -48,7 +48,7 @@ export default function JoinPage() {
             <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeWidth={1.5} d="M5 13l4 4L19 7" /></svg>
           </div>
           <h1 className="font-display text-3xl font-bold text-black mb-4">You&apos;ve been counted.</h1>
-          <p className="text-sm text-gray-500 mb-2">Welcome to the Thekgang registry, {form.name.split(' ')[0]}.</p>
+          <p className="text-sm text-gray-500 mb-2">Welcome to the CDCC council, {form.name.split(' ')[0]}.</p>
           <p className="text-xs text-gray-500/60">We&apos;ll be in touch within 48 hours to connect you to your province and relevant opportunities.</p>
         </div>
       </div>

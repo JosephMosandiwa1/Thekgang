@@ -1,11 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { ReactNode } from 'react';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { ReactNode, useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase/client';
+import type { User } from '@supabase/supabase-js';
 
 /* ============================================================
-   Admin Layout — Thekgang Corporate OS
+   Admin Layout — CDCC Corporate OS
    Grouped sidebar: Corporate, People, Programmes, Growth
    Literary-warm aesthetic: paper bg, ink text, saddle-brown accent
    ============================================================ */
@@ -48,6 +51,7 @@ const navGroups: NavGroup[] = [
   {
     title: 'Content',
     items: [
+      { href: '/admin/home', label: 'Homepage', icon: <I d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /> },
       { href: '/admin/pages', label: 'Website Pages', icon: <I d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6V7.5z" /> },
       { href: '/admin/posts', label: 'News & Blog', icon: <I d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /> },
       { href: '/admin/podcast', label: 'Podcast', icon: <I d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /> },
@@ -64,16 +68,45 @@ const navGroups: NavGroup[] = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [checking, setChecking] = useState(true);
+
+  const isLoginPage = pathname === '/admin/login';
+
+  useEffect(() => {
+    if (!supabase) { setChecking(false); return; }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setChecking(false);
+      if (!session && !isLoginPage) router.replace('/admin/login');
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (!session && !isLoginPage) router.replace('/admin/login');
+    });
+    return () => subscription.unsubscribe();
+  }, [isLoginPage, router]);
+
+  if (isLoginPage) return <>{children}</>;
+  if (checking) return <div className="min-h-screen bg-paper flex items-center justify-center text-charcoal/40 text-xs tracking-widest uppercase">Loading…</div>;
+  if (!user) return null;
+
+  const userInitials = (user.email ?? '??').slice(0, 2).toUpperCase();
+  const userName = user.user_metadata?.full_name ?? user.email?.split('@')[0] ?? 'Admin';
 
   return (
     <div className="min-h-screen bg-white text-black flex">
       <aside className="w-60 bg-white border-r border-gray-200/60 flex flex-col flex-shrink-0 overflow-y-auto">
         {/* Logo */}
-        <div className="px-6 py-5 border-b border-gray-200/60">
-          <Link href="/admin" className="font-display text-lg tracking-wide text-black hover:text-black transition-colors">
-            Thekgang
+        <div className="px-5 py-5 border-b border-gold/10">
+          <Link href="/admin" className="flex items-center gap-3 group">
+            <Image src="/logos/icon-char-gld.svg" alt="CDCC" width={28} height={28} className="w-7 h-7 transition-transform group-hover:scale-105" />
+            <div>
+              <p className="font-display text-sm tracking-wide text-charcoal font-semibold">CDCC</p>
+              <p className="text-[9px] uppercase tracking-[0.2em] text-gold/50">Corporate OS</p>
+            </div>
           </Link>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500/70 mt-1">Corporate OS</p>
         </div>
 
         <nav className="flex-1 px-3 py-3">
@@ -88,10 +121,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <Link key={link.href} href={link.href}
                     className={`flex items-center gap-3 px-3 py-2 text-[12px] tracking-wide rounded transition-colors ${
                       isActive
-                        ? 'bg-black text-black border-l-2 border-black -ml-px font-medium'
-                        : 'text-black/50 hover:text-black hover:bg-gray-100/50'
+                        ? 'bg-charcoal text-white border-l-2 border-gold -ml-px font-medium'
+                        : 'text-charcoal/50 hover:text-charcoal hover:bg-paper'
                     }`}>
-                    <span className={isActive ? 'text-black' : 'text-black/25'}>{link.icon}</span>
+                    <span className={isActive ? 'text-gold' : 'text-charcoal/25'}>{link.icon}</span>
                     {link.label}
                   </Link>
                 );
@@ -100,13 +133,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
-        <div className="h-px bg-black/15" />
-        <div className="px-6 py-4 border-t border-gray-200/60">
+        <div className="h-px bg-gold/10" />
+        <div className="px-5 py-4 border-t border-gold/10">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-semibold text-black">MK</div>
-            <div>
-              <p className="text-xs text-black">Melvin Kaabwe</p>
-              <p className="text-[10px] text-gray-500/60">Secretary</p>
+            <div className="w-8 h-8 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center text-[10px] font-semibold text-charcoal">{userInitials}</div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-black truncate">{userName}</p>
+              <button
+                onClick={() => { supabase?.auth.signOut(); router.replace('/admin/login'); }}
+                className="text-[10px] text-gray-500/60 hover:text-charcoal transition-colors"
+              >
+                Sign out
+              </button>
             </div>
           </div>
         </div>
