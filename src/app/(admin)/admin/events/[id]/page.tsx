@@ -131,7 +131,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
 
       {/* Tabs */}
       <div className="flex gap-1 mb-6 flex-wrap">
-        {(['overview', 'programme', 'speakers', 'sponsors', 'tickets', 'registrations', 'campaigns', 'post-event'] as const).map(t => {
+        {(['overview', 'speakers', 'programme', 'sponsors', 'tickets', 'registrations', 'campaigns', 'post-event'] as const).map(t => {
           const labels: Record<string, string> = { 'post-event': 'Post-Event', programme: `Programme (${(event.programme_schedule || []).length})`, speakers: `Speakers (${(event.speakers || []).length})`, sponsors: `Sponsors (${(event.sponsors || []).length})`, registrations: `Registrations (${registrations.length})`, campaigns: `Campaigns (${campaigns.length})` };
           return (
             <button key={t} onClick={() => setTab(t)} className={`text-[10px] uppercase tracking-wider px-4 py-2 rounded transition-colors ${tab === t ? 'bg-black text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}>
@@ -145,7 +145,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
       {tab === 'overview' && <OverviewEditor event={event} onSave={load} />}
 
       {/* TAB: Programme Builder */}
-      {tab === 'programme' && <ProgrammeBuilder event={event} onSave={load} />}
+      {tab === 'programme' && <ProgrammeBuilder event={event} onSave={load} eventSpeakers={Array.isArray(event.speakers) ? event.speakers : []} />}
 
       {/* TAB: Speakers */}
       {tab === 'speakers' && <SpeakersBuilder event={event} onSave={load} />}
@@ -341,7 +341,7 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
     if (!supabase) return;
     setSaving(true);
     const slug = form.slug || form.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    await supabase.from('events').update({
+    const update: Record<string, any> = {
       title: form.title, slug, tagline: form.tagline || null,
       description: form.description || null,
       event_date: form.event_date, event_time: form.event_time || null,
@@ -352,10 +352,12 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
       cover_image_url: form.cover_image_url || null,
       registration_required: form.registration_required,
       is_dedicated: form.is_dedicated,
-      virtual_link: form.virtual_link || null,
-      budget_allocated: parseFloat(form.budget_allocated) || 0,
-      budget_spent: parseFloat(form.budget_spent) || 0,
-    }).eq('id', event.id);
+    };
+    if (form.virtual_link) update.virtual_link = form.virtual_link;
+    if (form.budget_allocated) update.budget_allocated = parseFloat(form.budget_allocated);
+    if (form.budget_spent) update.budget_spent = parseFloat(form.budget_spent);
+    const { error } = await supabase.from('events').update(update).eq('id', event.id);
+    if (error) console.error('Save failed:', error.message);
     setSaving(false);
     onSave();
   }
@@ -425,11 +427,11 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
         </div>
         <div className="space-y-2 pt-2">
           <label className="flex items-center gap-3 cursor-pointer">
-            <input type="checkbox" checked={form.registration_required} onChange={e => setForm({ ...form, registration_required: e.target.checked })} className="w-4 h-4 accent-gold" />
+            <input type="checkbox" checked={form.registration_required} onChange={e => setForm({ ...form, registration_required: e.target.checked })} className="w-4 h-4 accent-black" />
             <span className="text-xs text-black">Registration required</span>
           </label>
           <label className="flex items-center gap-3 cursor-pointer">
-            <input type="checkbox" checked={form.is_dedicated} onChange={e => setForm({ ...form, is_dedicated: e.target.checked })} className="w-4 h-4 accent-gold" />
+            <input type="checkbox" checked={form.is_dedicated} onChange={e => setForm({ ...form, is_dedicated: e.target.checked })} className="w-4 h-4 accent-black" />
             <span className="text-xs text-black">Dedicated event page (mini-site at /events/{form.slug || '[slug]'})</span>
           </label>
         </div>
@@ -448,7 +450,7 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
 
 const SESSION_TYPES = ['opening', 'session', 'panel', 'workshop', 'break', 'closing', 'keynote'];
 
-function ProgrammeBuilder({ event, onSave }: { event: EventFull; onSave: () => void }) {
+function ProgrammeBuilder({ event, onSave, eventSpeakers }: { event: EventFull; onSave: () => void; eventSpeakers: any[] }) {
   const [items, setItems] = useState<any[]>(Array.isArray(event.programme_schedule) ? event.programme_schedule : []);
   const [editing, setEditing] = useState<number | null>(null);
   const [form, setForm] = useState({ time: '', title: '', description: '', type: 'session', facilitator: '', speakers: '', notes: '' });
@@ -513,7 +515,32 @@ function ProgrammeBuilder({ event, onSave }: { event: EventFull; onSave: () => v
           <Field label="Session Title" value={form.title} onChange={v => setForm({ ...form, title: v })} placeholder="Authors as Healers and Transformers" />
           <Field label="Subtitle / Description" value={form.description} onChange={v => setForm({ ...form, description: v })} placeholder="Reinventing Authorship in the Era of…" multiline />
           <Field label="Facilitator" value={form.facilitator} onChange={v => setForm({ ...form, facilitator: v })} placeholder="Sihle Khumalo" />
-          <Field label="Speakers" value={form.speakers} onChange={v => setForm({ ...form, speakers: v })} placeholder="Griffin Shea, Sewela Langeni, Dr Sydney Maluleke" />
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Speakers</label>
+            {eventSpeakers.length === 0 ? (
+              <p className="text-xs text-gray-400 italic py-2">No speakers added yet. Go to the Speakers tab first to add speakers, then assign them to sessions here.</p>
+            ) : (
+              <div className="flex flex-wrap gap-2 mt-1">
+                {eventSpeakers.map((sp: any, si: number) => {
+                  const selected = (form.speakers || '').split(',').map((s: string) => s.trim()).includes(sp.name);
+                  return (
+                    <button
+                      key={si}
+                      type="button"
+                      onClick={() => {
+                        const current = (form.speakers || '').split(',').map((s: string) => s.trim()).filter(Boolean);
+                        const next = selected ? current.filter(n => n !== sp.name) : [...current, sp.name];
+                        setForm({ ...form, speakers: next.join(', ') });
+                      }}
+                      className={`text-xs px-3 py-1.5 rounded border transition-colors ${selected ? 'bg-black text-white border-black' : 'bg-white text-black/60 border-gray-200 hover:border-black'}`}
+                    >
+                      {sp.name}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
           <Field label="Notes" value={form.notes} onChange={v => setForm({ ...form, notes: v })} placeholder="Internal notes (not shown publicly)" />
         </Modal>
       )}
