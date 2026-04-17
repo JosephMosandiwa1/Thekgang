@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import ImageUploader from '@/components/ImageUploader';
@@ -100,6 +100,17 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
   const [showCampaignForm, setShowCampaignForm] = useState(false);
   const [campaignForm, setCampaignForm] = useState({ campaign_type: 'invitation', subject: '', body: '', recipient_list: 'registrants' });
   const [postForm, setPostForm] = useState({ recording_url: '' });
+
+  // Auto-save ref — the OverviewEditor registers its save function here
+  const overviewSaveRef = useRef<(() => Promise<void>) | null>(null);
+
+  async function switchTab(newTab: typeof tab) {
+    // Auto-save overview if we're leaving it
+    if (tab === 'overview' && overviewSaveRef.current) {
+      await overviewSaveRef.current();
+    }
+    setTab(newTab);
+  }
 
   useEffect(() => { load(); }, [params.id]);
 
@@ -204,14 +215,14 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
       {/* Tabs — universal + type-specific */}
       <div className="flex gap-1 mb-6 flex-wrap">
         {getTabsForEventType(event.event_type, event, registrations, campaigns).map(t => (
-          <button key={t.id} onClick={() => setTab(t.id as any)} className={`text-[10px] uppercase tracking-wider px-4 py-2 rounded transition-colors ${tab === t.id ? 'bg-black text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}>
+          <button key={t.id} onClick={() => switchTab(t.id as any)} className={`text-[10px] uppercase tracking-wider px-4 py-2 rounded transition-colors ${tab === t.id ? 'bg-black text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}>
             {t.label}
           </button>
         ))}
       </div>
 
-      {/* TAB: Overview (editable) */}
-      {tab === 'overview' && <OverviewEditor event={event} onSave={load} />}
+      {/* TAB: Overview (editable, auto-saves on tab switch) */}
+      {tab === 'overview' && <OverviewEditor event={event} onSave={load} saveRef={overviewSaveRef} />}
 
       {/* TAB: Programme Builder */}
       {tab === 'programme' && <ProgrammeBuilder event={event} onSave={load} eventSpeakers={Array.isArray(event.speakers) ? event.speakers : []} />}
@@ -389,7 +400,7 @@ const EVENT_TYPES = ['event', 'symposium', 'workshop', 'imbizo', 'launch', 'webi
 const FORMATS = ['in-person', 'virtual', 'hybrid'];
 const STATUSES = ['draft', 'published', 'registration_open', 'full', 'completed', 'cancelled'];
 
-function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => void }) {
+function OverviewEditor({ event, onSave, saveRef }: { event: EventFull; onSave: () => void; saveRef: React.MutableRefObject<(() => Promise<void>) | null> }) {
   const [form, setForm] = useState({
     title: event.title || '', slug: event.slug || '', tagline: event.tagline || '',
     description: event.description || '', event_date: event.event_date?.split('T')[0] || '',
@@ -405,36 +416,60 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
     budget_spent: String((event as any).budget_spent || ''),
   });
   const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle');
+  const [saveError, setSaveError] = useState('');
 
   async function save() {
-    if (!supabase) return;
+    if (!supabase) { setSaveStatus('error'); setSaveError('Supabase not configured'); return; }
     setSaving(true);
+    setSaveStatus('idle');
     const slug = form.slug || form.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     const update: Record<string, any> = {
-      title: form.title, slug, tagline: form.tagline || null,
+      title: form.title,
+      slug,
+      tagline: form.tagline || null,
       description: form.description || null,
-      event_date: form.event_date, event_time: form.event_time || null,
-      end_date: form.end_date || null, venue: form.venue || null,
+      event_date: form.event_date || null,
+      event_time: form.event_time || null,
+      end_date: form.end_date || null,
+      venue: form.venue || null,
       venue_address: form.venue_address || null,
-      capacity: parseInt(form.capacity) || null,
-      event_type: form.event_type, format: form.format, status: form.status,
+      capacity: form.capacity ? parseInt(form.capacity) : null,
+      event_type: form.event_type,
+      format: form.format,
+      status: form.status,
       cover_image_url: form.cover_image_url || null,
       registration_required: form.registration_required,
       is_dedicated: form.is_dedicated,
     };
-    if (form.virtual_link) update.virtual_link = form.virtual_link;
-    if (form.budget_allocated) update.budget_allocated = parseFloat(form.budget_allocated);
-    if (form.budget_spent) update.budget_spent = parseFloat(form.budget_spent);
     const { error } = await supabase.from('events').update(update).eq('id', event.id);
-    if (error) console.error('Save failed:', error.message);
     setSaving(false);
-    onSave();
+    if (error) {
+      setSaveStatus('error');
+      setSaveError(error.message);
+      console.error('Save failed:', error.message, error);
+    } else {
+      setSaveStatus('saved');
+      setTimeout(() => setSaveStatus('idle'), 3000);
+      onSave();
+    }
   }
+
+  // Register save function for auto-save on tab switch
+  useEffect(() => {
+    saveRef.current = save;
+    return () => { saveRef.current = null; };
+  });
 
   return (
     <div className="space-y-5">
-      <div className="flex justify-end">
-        <button onClick={save} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-black/90 disabled:opacity-50 font-semibold">{saving ? 'Saving…' : 'Save Changes'}</button>
+      <div className="flex items-center justify-between">
+        {saveStatus === 'error' && <p className="text-xs text-red-500">Save failed: {saveError}</p>}
+        {saveStatus === 'saved' && <p className="text-xs text-green-600">✓ Changes saved</p>}
+        {saveStatus === 'idle' && <div />}
+        <button onClick={save} disabled={saving} className={`text-[10px] uppercase tracking-wider px-6 py-2.5 rounded font-semibold transition-colors ${saveStatus === 'error' ? 'bg-red-600 text-white hover:bg-red-700' : saveStatus === 'saved' ? 'bg-green-600 text-white' : 'bg-black text-white hover:bg-black/90'} disabled:opacity-50`}>
+          {saving ? 'Saving…' : saveStatus === 'saved' ? '✓ Saved' : saveStatus === 'error' ? 'Retry Save' : 'Save Changes'}
+        </button>
       </div>
 
       <div className="border border-gray-200/60 rounded p-6 space-y-4">
@@ -507,7 +542,7 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
       </div>
 
       <div className="flex justify-end">
-        <button onClick={save} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-black/90 disabled:opacity-50 font-semibold">{saving ? 'Saving…' : 'Save Changes'}</button>
+        <button onClick={save} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-black/90 disabled:opacity-50 font-semibold">{saving ? 'Saving…' : saveStatus === 'saved' ? '✓ Saved' : saveStatus === 'error' ? 'Error — retry' : 'Save Changes'}</button>
       </div>
     </div>
   );
