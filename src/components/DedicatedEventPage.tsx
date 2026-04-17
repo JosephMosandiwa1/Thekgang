@@ -117,23 +117,26 @@ export default function DedicatedEventPage({ event, regCount }: { event: EventFu
 
   return (
     <div className="bg-white text-charcoal">
-      {/* ── STICKY NAV ── */}
-      <nav ref={navRef} className="sticky top-0 z-50 bg-charcoal/95 backdrop-blur border-b border-gold/10">
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-12">
-          <Link href="/events" className="flex items-center gap-2">
-            <img src="/logos/icon-char-gld.svg" alt="CDCC" className="w-5 h-5 invert" />
-            <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 hidden sm:inline">CDCC</span>
-          </Link>
+      {/* ── EVENT SUB-NAV (sits below the main site header) ── */}
+      <nav ref={navRef} className="sticky top-0 z-40 bg-white border-b border-charcoal/10 shadow-sm">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-11">
           <div className="flex items-center gap-6">
             {NAV_ITEMS.map(item => (
-              <button key={item.id} onClick={() => scrollTo(item.id)} className={`text-[10px] uppercase tracking-[0.2em] transition-colors ${activeSection === item.id ? 'text-gold' : 'text-white/50 hover:text-white'}`}>
+              <button key={item.id} onClick={() => scrollTo(item.id)} className={`text-[10px] uppercase tracking-[0.2em] font-semibold transition-colors ${activeSection === item.id ? 'text-gold border-b-2 border-gold pb-0.5' : 'text-charcoal/40 hover:text-charcoal'}`}>
                 {item.label}
               </button>
             ))}
+          </div>
+          <div className="flex items-center gap-3">
             {!isPast && event.registration_required && (
               <button onClick={() => scrollTo('register')} className="text-[10px] uppercase tracking-[0.15em] bg-gold text-charcoal px-4 py-1.5 rounded font-semibold hover:bg-gold/90 transition-colors">
                 {isFull ? 'Waitlist' : 'Register'}
               </button>
+            )}
+            {isPast && event.recording_url && (
+              <a href={event.recording_url} target="_blank" rel="noopener" className="text-[10px] uppercase tracking-[0.15em] bg-charcoal text-white px-4 py-1.5 rounded font-semibold hover:bg-charcoal/90 transition-colors">
+                Watch Recording
+              </a>
             )}
           </div>
         </div>
