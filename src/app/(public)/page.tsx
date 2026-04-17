@@ -198,7 +198,7 @@ export default async function HomePage() {
   return (
     <div>
       {/* ═══ HERO ═══ */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 bg-charcoal overflow-hidden">
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 bg-black overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.025] pointer-events-none"
           style={{ backgroundImage: 'url(/logos/patt-01-wht.svg)', backgroundRepeat: 'repeat', backgroundSize: '200px' }}
@@ -215,14 +215,14 @@ export default async function HomePage() {
           <div className="flex justify-center mb-8 animate-fade-in">
             <Image src="/logos/icon-gld.svg" alt="" width={40} height={40} className="w-10 h-10 opacity-40" />
           </div>
-          <p className="text-gold/50 text-xs tracking-[0.4em] uppercase animate-fade-in mb-8">{hero.eyebrow}</p>
+          <p className="text-gray-500/50 text-xs tracking-[0.4em] uppercase animate-fade-in mb-8">{hero.eyebrow}</p>
           <h1
             className="font-display font-bold text-white leading-[0.95] tracking-tight animate-fade-in-delay"
             style={{ fontSize: 'clamp(36px, 8vw, 110px)' }}
           >
             {hero.headline_line1}
             <br />
-            <span className="text-gold/40 hover:text-gold/70 transition-colors cursor-default">{hero.headline_line2}</span>
+            <span className="text-gray-500/40 hover:text-gray-500/70 transition-colors cursor-default">{hero.headline_line2}</span>
             <br />
             {hero.headline_line3}
           </h1>
@@ -233,7 +233,7 @@ export default async function HomePage() {
             </Link>
             <Link
               href={hero.cta_secondary_href}
-              className="text-white/35 text-xs tracking-[0.15em] uppercase px-6 py-4 border border-white/10 transition-all hover:border-gold/30 hover:text-gold/60 type-breathe"
+              className="text-white/35 text-xs tracking-[0.15em] uppercase px-6 py-4 border border-white/10 transition-all hover:border-black/30 hover:text-gray-500/60 type-breathe"
             >
               {hero.cta_secondary_label}
             </Link>
@@ -241,7 +241,7 @@ export default async function HomePage() {
         </div>
 
         <div className="absolute bottom-8 text-center animate-fade-in-delay-2 z-10">
-          <Link href={hero.cluster_href} className="text-[9px] text-white/30 uppercase tracking-[0.2em] hover:text-gold/50 transition-colors">
+          <Link href={hero.cluster_href} className="text-[9px] text-white/30 uppercase tracking-[0.2em] hover:text-gray-500/50 transition-colors">
             {hero.cluster_label}
           </Link>
         </div>
@@ -251,7 +251,7 @@ export default async function HomePage() {
       {/* ═══ STAKEHOLDER CATEGORIES ═══ */}
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">{stakeholders.eyebrow}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">{stakeholders.eyebrow}</p>
           <h2
             className="font-display font-bold text-black tracking-tight mb-4 type-grow cursor-default"
             style={{ fontSize: 'clamp(24px, 4vw, 44px)' }}
@@ -269,9 +269,9 @@ export default async function HomePage() {
             {(stakeholders.categories || []).map((cat: string) => (
               <div
                 key={cat}
-                className="group bg-paper border border-gray-200/60 px-3 py-3 text-center transition-all hover:border-gold/40 hover:bg-white"
+                className="group bg-gray-50 border border-gray-200/60 px-3 py-3 text-center transition-all hover:border-black/40 hover:bg-white"
               >
-                <p className="text-[11px] font-medium text-charcoal group-hover:text-gold transition-colors">{cat}</p>
+                <p className="text-[11px] font-medium text-black group-hover:text-gray-500 transition-colors">{cat}</p>
               </div>
             ))}
           </div>
@@ -285,26 +285,26 @@ export default async function HomePage() {
       </section>
 
       {/* ═══ SOCIAL PROOF ═══ */}
-      <section className="py-12 px-6 border-y rule-gold">
+      <section className="py-12 px-6 border-y border-gray-200">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
           {(social_proof.items || []).map((item: any, i: number) => (
             <div key={i} className="flex items-center gap-8 sm:gap-16">
               <div className="text-center">
-                <p className="text-[9px] uppercase tracking-[0.3em] text-gold/50">{item.eyebrow}</p>
+                <p className="text-[9px] uppercase tracking-[0.3em] text-gray-500/50">{item.eyebrow}</p>
                 <p className="text-sm font-medium text-black mt-1 type-breathe cursor-default">{item.value}</p>
               </div>
-              {i < (social_proof.items?.length || 0) - 1 && <div className="hidden sm:block w-px h-8 bg-gold/15" />}
+              {i < (social_proof.items?.length || 0) - 1 && <div className="hidden sm:block w-px h-8 bg-black/15" />}
             </div>
           ))}
         </div>
       </section>
 
       {/* ═══ DOORWAY CARDS ═══ */}
-      <section className="py-20 px-6 bg-paper texture-paper">
+      <section className="py-20 px-6 bg-gray-50 texture-paper">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
           {(doorways.cards || []).map((card: any, i: number) => (
             <div key={i} className="bg-white p-8 border border-gray-200/60 card-hover transition-all">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-gold/60 mb-3">{card.eyebrow}</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500/60 mb-3">{card.eyebrow}</p>
               <h3 className="font-display text-lg font-bold text-black mb-3">{card.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed mb-4">{card.body}</p>
               {card.stats && (
@@ -337,7 +337,7 @@ export default async function HomePage() {
       {/* ═══ AUDIENCES ═══ */}
       <section className="py-24 px-6 seal-watermark seal-watermark-right">
         <div className="max-w-5xl mx-auto relative z-10">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-3">{audiences.eyebrow}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-3">{audiences.eyebrow}</p>
           <h2
             className="font-display font-bold text-black tracking-tight mb-14 type-grow cursor-default"
             style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}
@@ -372,12 +372,12 @@ export default async function HomePage() {
       <div className="pattern-divider" />
 
       {/* ═══ 6 PILLARS ═══ */}
-      <section className="py-24 px-6 bg-charcoal text-white pattern-overlay-dark relative">
+      <section className="py-24 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex items-center gap-4 mb-3">
             <Image src="/logos/icon-gld.svg" alt="" width={20} height={20} className="w-5 h-5 opacity-40" />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/50">{pillars.eyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/50">{pillars.eyebrow}</p>
           </div>
           <h2
             className="font-display font-bold text-white tracking-tight mb-4"
@@ -387,18 +387,18 @@ export default async function HomePage() {
           </h2>
           <p className="text-sm text-white/40 max-w-2xl mb-16 leading-relaxed">
             {pillars.subcopy}
-            <Link href={pillars.link_href} className="text-gold/40 hover:text-gold/60 transition-colors ml-2">
+            <Link href={pillars.link_href} className="text-gray-500/40 hover:text-gray-500/60 transition-colors ml-2">
               {pillars.link_label}
             </Link>
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {(pillars.items || []).map((p: any) => (
-              <Link key={p.num} href={p.link} className="group border-t border-gold/10 pt-6 block">
-                <p className="text-gold/40 text-[10px] tracking-[0.2em] uppercase font-semibold mb-2">{p.num}</p>
+              <Link key={p.num} href={p.link} className="group border-t border-black/10 pt-6 block">
+                <p className="text-gray-500/40 text-[10px] tracking-[0.2em] uppercase font-semibold mb-2">{p.num}</p>
                 <h3 className="font-display text-lg font-bold text-white mb-3 type-lift transition-all">{p.title}</h3>
                 <p className="text-sm text-white/40 leading-relaxed mb-3">{p.desc}</p>
-                <span className="text-[10px] text-gold/30 group-hover:text-gold/60 transition-colors">Learn more →</span>
+                <span className="text-[10px] text-gray-500/30 group-hover:text-gray-500/60 transition-colors">Learn more →</span>
               </Link>
             ))}
           </div>
@@ -409,7 +409,7 @@ export default async function HomePage() {
       {/* ═══ 5-YEAR OUTCOMES ═══ */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">{outcomes.eyebrow}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">{outcomes.eyebrow}</p>
           <h2
             className="font-display font-bold text-black tracking-tight mb-10 type-grow-amber cursor-default"
             style={{ fontSize: 'clamp(24px, 4vw, 44px)' }}
@@ -419,8 +419,8 @@ export default async function HomePage() {
 
           <div className="space-y-0">
             {(outcomes.items || []).map((item: any, i: number) => (
-              <div key={i} className="flex items-start gap-4 py-5 border-b rule-gold last:border-0">
-                <span className="text-[10px] text-gold/50 font-semibold mt-1 w-6 flex-shrink-0">
+              <div key={i} className="flex items-start gap-4 py-5 border-b border-gray-200 last:border-0">
+                <span className="text-[10px] text-gray-500/50 font-semibold mt-1 w-6 flex-shrink-0">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div>
@@ -442,7 +442,7 @@ export default async function HomePage() {
       <div className="pattern-divider" />
 
       {/* ═══ FINAL CTA ═══ */}
-      <section className="py-24 px-6 bg-paper texture-paper">
+      <section className="py-24 px-6 bg-gray-50 texture-paper">
         <div className="max-w-2xl mx-auto text-center relative z-10">
           <Image src="/logos/icon-char-gld.svg" alt="" width={32} height={32} className="w-8 h-8 mx-auto mb-6 opacity-30" />
           <h2

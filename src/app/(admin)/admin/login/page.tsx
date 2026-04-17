@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-paper flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <Image
@@ -44,17 +44,17 @@ export default function AdminLoginPage() {
             height={48}
             className="mx-auto mb-4"
           />
-          <h1 className="font-display text-xl tracking-wide text-charcoal font-semibold">
+          <h1 className="font-display text-xl tracking-wide text-black font-semibold">
             CDCC Corporate OS
           </h1>
-          <p className="text-xs text-charcoal/40 uppercase tracking-[0.2em] mt-1">
+          <p className="text-xs text-black/40 uppercase tracking-[0.2em] mt-1">
             Books & Publishing Cluster
           </p>
         </div>
 
         <form onSubmit={handleLogin} className="bg-white border border-gray-200/60 rounded-lg p-6 shadow-sm">
           <div className="mb-4">
-            <label htmlFor="email" className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1.5">
+            <label htmlFor="email" className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1.5">
               Email
             </label>
             <input
@@ -64,13 +64,13 @@ export default function AdminLoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="w-full px-3 py-2 border border-gray-200 rounded text-sm text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30"
+              className="w-full px-3 py-2 border border-gray-200 rounded text-sm text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-gold/30"
               placeholder="you@thekgang.org.za"
             />
           </div>
 
           <div className="mb-5">
-            <label htmlFor="password" className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1.5">
+            <label htmlFor="password" className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1.5">
               Password
             </label>
             <input
@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className="w-full px-3 py-2 border border-gray-200 rounded text-sm text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30"
+              className="w-full px-3 py-2 border border-gray-200 rounded text-sm text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-gold/30"
             />
           </div>
 
@@ -93,13 +93,13 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 bg-charcoal text-white text-xs uppercase tracking-[0.15em] font-semibold rounded hover:bg-charcoal/90 disabled:opacity-50 transition-colors"
+            className="w-full py-2.5 bg-black text-white text-xs uppercase tracking-[0.15em] font-semibold rounded hover:bg-black/90 disabled:opacity-50 transition-colors"
           >
             {loading ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
 
-        <p className="text-center text-[10px] text-charcoal/30 mt-6 tracking-wide">
+        <p className="text-center text-[10px] text-black/30 mt-6 tracking-wide">
           Thekgang NPC · Content Developers & Creators Council
         </p>
       </div>

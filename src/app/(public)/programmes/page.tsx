@@ -25,7 +25,7 @@ export default async function ProgrammesPage() {
     <div>
       <section className="pt-28 pb-12 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">Programmes</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">Programmes</p>
           <h1 className="font-display font-bold text-black tracking-tight leading-[1.05]" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>We go where the need is.</h1>
           <p className="text-sm text-gray-500 max-w-xl mt-6 leading-relaxed">From skills development to copyright advocacy. <Link href="/events" className="link-draw text-black inline-block">See upcoming events &rarr;</Link></p>
         </div>
@@ -35,7 +35,7 @@ export default async function ProgrammesPage() {
           {programmes.length === 0 ? (
             <p className="text-sm text-gray-500 text-center py-12">Programmes loading soon — <Link href="/join" className="link-draw text-black">join the council</Link> to be notified.</p>
           ) : programmes.map(p => (
-            <div key={p.id} className="group py-8 border-b rule-gold last:border-0">
+            <div key={p.id} className="group py-8 border-b border-gray-200 last:border-0">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <h2 className="font-display text-2xl font-bold text-black mb-2">{p.name}</h2>
@@ -50,7 +50,7 @@ export default async function ProgrammesPage() {
           ))}
         </div>
       </section>
-      <section className="py-16 px-6 bg-paper texture-paper">
+      <section className="py-16 px-6 bg-gray-50 texture-paper">
         <div className="max-w-2xl mx-auto text-center relative z-10">
           <h2 className="font-display text-xl font-bold text-black mb-4">Want to participate?</h2>
           <div className="flex flex-col items-center gap-3">

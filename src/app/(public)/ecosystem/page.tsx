@@ -39,7 +39,7 @@ const sectorGroups = [
   { label: 'Visual Arts', color: 'text-purple-600' },
   { label: 'Literary & Oral Arts', color: 'text-emerald-600' },
   { label: 'Music', color: 'text-blue-600' },
-  { label: 'Books & Publishing', color: 'text-gold' },
+  { label: 'Books & Publishing', color: 'text-gray-500' },
   { label: 'Screen', color: 'text-pink-600' },
   { label: 'Digital', color: 'text-cyan-600' },
   { label: 'Design', color: 'text-amber-600' },
@@ -51,12 +51,12 @@ export default function EcosystemPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="pt-28 pb-16 px-6 bg-charcoal text-white pattern-overlay-dark relative">
+      <section className="pt-28 pb-16 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <Image src="/logos/icon-gld.svg" alt="" width={16} height={16} className="w-4 h-4 opacity-40" />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/50">The Ecosystem</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/50">The Ecosystem</p>
           </div>
           <h1 className="font-display font-bold text-white tracking-tight leading-[1.05]"
             style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>
@@ -70,10 +70,10 @@ export default function EcosystemPage() {
       </section>
 
       {/* DSAC Context */}
-      <section className="py-16 px-6 bg-paper texture-paper">
+      <section className="py-16 px-6 bg-gray-50 texture-paper">
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="max-w-3xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">The Programme</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">The Programme</p>
             <h2 className="font-display text-2xl font-bold text-black tracking-tight mb-6">Department of Sport, Arts &amp; Culture</h2>
             <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
               <p>The CCI cluster programme emerged from the <strong className="text-black">2022 CCI Masterplan</strong> and was formalised following the CCI Bosberaad in August 2024.</p>
@@ -85,7 +85,7 @@ export default function EcosystemPage() {
       </section>
 
       {/* Sector Legend */}
-      <section className="py-6 px-6 border-y rule-gold">
+      <section className="py-6 px-6 border-y border-gray-200">
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-wrap gap-3 justify-center">
             {sectorGroups.map(s => (
@@ -98,21 +98,21 @@ export default function EcosystemPage() {
       {/* All 17 Clusters */}
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">All 17 Clusters</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">All 17 Clusters</p>
           <div className="space-y-0">
             {clusters.map(c => {
               const sectorColor = sectorGroups.find(s => s.label === c.sector)?.color || 'text-gray-500';
               return (
                 <div key={c.num}
-                  className={`flex items-start gap-4 py-5 border-b rule-gold last:border-0 transition-all ${
-                    c.isCDCC ? 'bg-gold/5 -mx-4 px-4 border-l-2 border-l-gold' : ''
+                  className={`flex items-start gap-4 py-5 border-b border-gray-200 last:border-0 transition-all ${
+                    c.isCDCC ? 'bg-black/5 -mx-4 px-4 border-l-2 border-l-gold' : ''
                   }`}>
-                  <span className="text-[10px] text-gold/40 font-semibold mt-1 w-6 flex-shrink-0">{c.num}</span>
+                  <span className="text-[10px] text-gray-500/40 font-semibold mt-1 w-6 flex-shrink-0">{c.num}</span>
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
-                      <p className={`text-base font-medium ${c.isCDCC ? 'text-gold' : 'text-black'}`}>
+                      <p className={`text-base font-medium ${c.isCDCC ? 'text-gray-500' : 'text-black'}`}>
                         {c.name}
-                        {c.isCDCC && <span className="ml-2 text-[9px] uppercase tracking-wider bg-gold text-white px-2 py-0.5 font-semibold">CDCC</span>}
+                        {c.isCDCC && <span className="ml-2 text-[9px] uppercase tracking-wider bg-black text-white px-2 py-0.5 font-semibold">CDCC</span>}
                       </p>
                     </div>
                     <p className={`text-[10px] uppercase tracking-wider mt-1 ${sectorColor}`}>{c.sector}</p>
@@ -125,10 +125,10 @@ export default function EcosystemPage() {
       </section>
 
       {/* What clusters provide */}
-      <section className="py-20 px-6 bg-charcoal text-white pattern-overlay-dark relative">
+      <section className="py-20 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
         <div className="max-w-5xl mx-auto relative z-10">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/50 mb-4">What Clusters Provide</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/50 mb-4">What Clusters Provide</p>
           <h2 className="font-display text-2xl font-bold text-white tracking-tight mb-10">Shared purpose, sector-specific focus.</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -139,7 +139,7 @@ export default function EcosystemPage() {
               { title: 'IP Protection', desc: 'Intellectual property management and copyright advocacy' },
               { title: 'Government Access', desc: 'Formal engagement channels with DSAC and other departments' },
             ].map(item => (
-              <div key={item.title} className="border-t border-gold/10 pt-4">
+              <div key={item.title} className="border-t border-black/10 pt-4">
                 <h3 className="text-sm font-semibold text-white mb-1">{item.title}</h3>
                 <p className="text-xs text-white/40">{item.desc}</p>
               </div>
@@ -150,7 +150,7 @@ export default function EcosystemPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 px-6 bg-paper texture-paper">
+      <section className="py-16 px-6 bg-gray-50 texture-paper">
         <div className="max-w-2xl mx-auto text-center relative z-10">
           <h2 className="font-display text-xl font-bold text-black mb-4">CDCC is your cluster.</h2>
           <p className="text-sm text-gray-500 mb-6">If you work in books, publishing, or content creation — this is where your voice gets heard.</p>

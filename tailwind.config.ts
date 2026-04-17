@@ -9,13 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        charcoal: '#2B2B2B',
-        gold: '#C5A15A',
-        'gold-light': '#D4B878',
-        'gold-dark': '#A88A42',
+        black: '#000000',
         white: '#FFFFFF',
-        cream: '#FAF8F5',
-        paper: '#F5F0EB',
         gray: {
           100: '#F5F5F5',
           200: '#E5E5E5',
@@ -24,12 +19,13 @@ const config: Config = {
           500: '#888888',
           600: '#525252',
           700: '#404040',
-          800: '#2B2B2B',
-          900: '#1A1A1A',
+          800: '#262626',
+          900: '#171717',
         },
       },
       fontFamily: {
-        sans: ['var(--font-hoves)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Georgia', 'serif'],
       },
     },
   },

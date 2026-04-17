@@ -86,7 +86,7 @@ export default function ProcurementPage() {
               <span className="col-span-3 text-black font-medium cursor-pointer hover:underline" onClick={() => openEditVendor(v)}>{v.name}</span>
               <span className="col-span-2 text-gray-500 text-xs">{v.contact_person || '—'}</span>
               <span className="col-span-2 text-[10px] text-gray-500 capitalize">{v.service_type}</span>
-              <span className="col-span-1 text-xs text-gold">{Array(v.rating || 0).fill('★').join('')}{Array(5 - (v.rating || 0)).fill('☆').join('')}</span>
+              <span className="col-span-1 text-xs text-gray-500">{Array(v.rating || 0).fill('★').join('')}{Array(5 - (v.rating || 0)).fill('☆').join('')}</span>
               <span className="col-span-2 text-gray-500 text-xs truncate">{v.email || '—'}</span>
               <span className="col-span-2 flex gap-1">
                 <button onClick={() => openEditVendor(v)} className="text-[9px] uppercase tracking-wider px-2 py-1 border border-gray-200 text-gray-500 rounded hover:bg-gray-50">Edit</button>
@@ -137,7 +137,7 @@ export default function ProcurementPage() {
                 <input value={vForm.email} onChange={e => setVForm(f => ({ ...f, email: e.target.value }))} placeholder="Email" className="border border-gray-200/60 px-3 py-2 text-sm rounded focus:outline-none focus:border-black" />
                 <input value={vForm.phone} onChange={e => setVForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone" className="border border-gray-200/60 px-3 py-2 text-sm rounded focus:outline-none focus:border-black" />
               </div>
-              <div><p className="text-xs text-gray-500 mb-1">Rating</p><div className="flex gap-1">{[1,2,3,4,5].map(s => <button key={s} type="button" onClick={() => setVForm(f => ({ ...f, rating: s }))} className={`text-xl ${s <= vForm.rating ? 'text-gold' : 'text-gray-200 hover:text-gold/50'}`}>★</button>)}</div></div>
+              <div><p className="text-xs text-gray-500 mb-1">Rating</p><div className="flex gap-1">{[1,2,3,4,5].map(s => <button key={s} type="button" onClick={() => setVForm(f => ({ ...f, rating: s }))} className={`text-xl ${s <= vForm.rating ? 'text-gray-500' : 'text-gray-200 hover:text-gray-500/50'}`}>★</button>)}</div></div>
               <textarea value={vForm.notes} onChange={e => setVForm(f => ({ ...f, notes: e.target.value }))} placeholder="Notes" rows={2} className="w-full border border-gray-200/60 px-3 py-2 text-sm rounded focus:outline-none focus:border-black resize-y" />
             </div>
             <div className="flex gap-3 mt-6">

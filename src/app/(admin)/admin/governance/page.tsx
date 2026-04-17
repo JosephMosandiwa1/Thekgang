@@ -88,7 +88,7 @@ export default function GovernancePage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {activeMembers.map(m => (
             <div key={m.id} className="flex items-center gap-3 p-4 bg-gray-100/30 rounded cursor-pointer hover:bg-gray-100/60 transition-colors" onClick={() => openEditMember(m)}>
-              <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center text-xs font-semibold text-charcoal">
+              <div className="w-10 h-10 rounded-full bg-black/10 border border-black/20 flex items-center justify-center text-xs font-semibold text-black">
                 {m.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
               </div>
               <div>

@@ -82,7 +82,7 @@ export default function EventPage({ params }: { params: { id: string } }) {
       <div className="max-w-3xl mx-auto">
         <Link href="/events" className="text-xs text-gray-500 hover:text-black transition-colors">&larr; All Events</Link>
         <div className="flex items-center gap-3 mt-6 mb-2">
-          {event.event_type && <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 border border-gold/20 text-gold/60 rounded">{event.event_type}</span>}
+          {event.event_type && <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 border border-black/20 text-gray-500/60 rounded">{event.event_type}</span>}
           {event.format && <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 border border-gray-200 text-gray-500 rounded">{event.format}</span>}
         </div>
         <p className="text-xs text-black font-medium mb-2">{new Date(event.event_date).toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}{event.event_time ? ` at ${event.event_time.slice(0, 5)}` : ''}</p>
@@ -92,9 +92,9 @@ export default function EventPage({ params }: { params: { id: string } }) {
         {event.description && <div className="text-sm text-black/70 leading-relaxed mb-12 whitespace-pre-wrap">{event.description}</div>}
 
         {isPast && event.recording_url && (
-          <div className="border border-gold/20 bg-gold/5 rounded p-6 mb-8 text-center">
+          <div className="border border-black/20 bg-black/5 rounded p-6 mb-8 text-center">
             <p className="text-sm font-medium text-black mb-2">Event recording available</p>
-            <a href={event.recording_url} target="_blank" rel="noopener" className="bg-gold text-charcoal text-xs tracking-[0.15em] uppercase font-semibold px-6 py-2 rounded inline-block hover:bg-gold/90 transition-colors">Watch Recording &rarr;</a>
+            <a href={event.recording_url} target="_blank" rel="noopener" className="bg-black text-black text-xs tracking-[0.15em] uppercase font-semibold px-6 py-2 rounded inline-block hover:bg-black/90 transition-colors">Watch Recording &rarr;</a>
           </div>
         )}
 
@@ -114,7 +114,7 @@ export default function EventPage({ params }: { params: { id: string } }) {
               <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone" className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black bg-white rounded" />
               <input value={form.organisation} onChange={e => setForm(f => ({ ...f, organisation: e.target.value }))} placeholder="Organisation" className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black bg-white rounded" />
               <label className="flex items-start gap-3 cursor-pointer"><input type="checkbox" checked={form.joinRegistry} onChange={e => setForm(f => ({ ...f, joinRegistry: e.target.checked }))} className="w-4 h-4 mt-0.5 accent-gold" /><div><p className="text-sm text-black">Also join the CDCC Council</p><p className="text-xs text-gray-500">Get represented in national policy</p></div></label>
-              <button type="submit" disabled={submitting} className="w-full bg-charcoal text-white text-xs font-semibold tracking-[0.15em] uppercase py-3 rounded disabled:opacity-50 hover:bg-charcoal/90 transition-colors">{submitting ? 'Registering...' : 'Register'}</button>
+              <button type="submit" disabled={submitting} className="w-full bg-black text-white text-xs font-semibold tracking-[0.15em] uppercase py-3 rounded disabled:opacity-50 hover:bg-black/90 transition-colors">{submitting ? 'Registering...' : 'Register'}</button>
             </form>
           </div>
         )}
@@ -123,7 +123,7 @@ export default function EventPage({ params }: { params: { id: string } }) {
           <div className="border border-green-600/30 bg-green-600/5 rounded p-8 text-center">
             <p className="font-display text-lg font-bold text-black mb-2">You&apos;re registered!</p>
             <p className="text-sm text-gray-500">Confirmation sent to {form.email}.</p>
-            {form.joinRegistry && <p className="text-xs text-gold mt-2">You&apos;ve also been added to the CDCC registry.</p>}
+            {form.joinRegistry && <p className="text-xs text-gray-500 mt-2">You&apos;ve also been added to the CDCC registry.</p>}
             <a href={`/api/events/${event.id}/calendar`} className="inline-flex items-center gap-2 mt-4 border border-gray-200 text-gray-500 text-xs tracking-[0.1em] uppercase px-4 py-2 rounded hover:border-black hover:text-black transition-colors">
               Add to Calendar
             </a>

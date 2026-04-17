@@ -1,11 +1,19 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { DM_Sans, Playfair_Display } from 'next/font/google';
 import './globals.css';
 
-const hoves = localFont({
-  src: '../../public/fonts/tt-hoves-pro.ttf',
-  variable: '--font-hoves',
+const sans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
   display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
+});
+
+const display = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  weight: ['400', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -14,12 +22,11 @@ export const metadata: Metadata = {
     template: '%s · CDCC',
   },
   description: 'The central strategic and coordinating body for South Africa\'s content development and creation sector. A DSAC Cultural & Creative Industries Cluster.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://thekgang.org.za'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://cdcc.org.za'),
   openGraph: {
     type: 'website',
-    siteName: 'CDCC — Thekgang',
+    siteName: 'CDCC',
     locale: 'en_ZA',
-    images: [{ url: '/logos/og-default.png', width: 1200, height: 630, alt: 'CDCC — Books & Publishing Content Developers and Creators Council' }],
   },
   alternates: {
     types: { 'application/rss+xml': '/api/feed' },
@@ -33,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${hoves.variable} font-sans antialiased`}>
+      <body className={`${sans.variable} ${display.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

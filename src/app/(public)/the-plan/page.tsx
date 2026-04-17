@@ -78,12 +78,12 @@ export default function ThePlanPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="pt-28 pb-16 px-6 bg-charcoal text-white pattern-overlay-dark relative">
+      <section className="pt-28 pb-16 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <Image src="/logos/icon-gld.svg" alt="" width={16} height={16} className="w-4 h-4 opacity-40" />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/50">The Plan</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/50">The Plan</p>
           </div>
           <h1 className="font-display font-bold text-white tracking-tight leading-[1.05]"
             style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>
@@ -99,7 +99,7 @@ export default function ThePlanPage() {
       {/* 3-Year Activities */}
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">3-Year Focus Areas</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">3-Year Focus Areas</p>
           <h2 className="font-display text-2xl md:text-3xl font-bold text-black tracking-tight mb-4">
             What we&apos;re doing now.
           </h2>
@@ -112,9 +112,9 @@ export default function ThePlanPage() {
             {threeYearActivities.map(a => {
               const sc = statusColors[a.status] || statusColors['Planning'];
               return (
-                <div key={a.num} className="py-8 border-b rule-gold last:border-0">
+                <div key={a.num} className="py-8 border-b border-gray-200 last:border-0">
                   <div className="flex items-start gap-4">
-                    <span className="text-[10px] text-gold/40 font-semibold mt-1 w-6 flex-shrink-0">{a.num}</span>
+                    <span className="text-[10px] text-gray-500/40 font-semibold mt-1 w-6 flex-shrink-0">{a.num}</span>
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="font-display text-lg font-bold text-black type-breathe">{a.title}</h3>
@@ -123,7 +123,7 @@ export default function ThePlanPage() {
                       <p className="text-sm text-gray-600 leading-relaxed mb-2">{a.desc}</p>
                       <p className="text-xs text-gray-500 leading-relaxed">{a.detail}</p>
                       {a.link && (
-                        <Link href={a.link} className="link-draw text-xs text-gold/60 hover:text-gold mt-3 inline-block transition-colors">
+                        <Link href={a.link} className="link-draw text-xs text-gray-500/60 hover:text-gray-500 mt-3 inline-block transition-colors">
                           See our advocacy work &rarr;
                         </Link>
                       )}
@@ -139,9 +139,9 @@ export default function ThePlanPage() {
       <div className="pattern-divider" />
 
       {/* 5-Year Outcomes */}
-      <section className="py-20 px-6 bg-paper texture-paper">
+      <section className="py-20 px-6 bg-gray-50 texture-paper">
         <div className="max-w-5xl mx-auto relative z-10">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">5-Year Outcomes</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">5-Year Outcomes</p>
           <h2 className="font-display text-2xl md:text-3xl font-bold text-black tracking-tight mb-4">
             Where this leads.
           </h2>
@@ -152,7 +152,7 @@ export default function ThePlanPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {fiveYearOutcomes.map((o, i) => (
               <div key={i} className="bg-white p-6 border border-gray-200/60 card-hover transition-all">
-                <span className="text-[10px] text-gold/50 font-semibold">{String(i + 1).padStart(2, '0')}</span>
+                <span className="text-[10px] text-gray-500/50 font-semibold">{String(i + 1).padStart(2, '0')}</span>
                 <h3 className="font-display text-base font-bold text-black mt-2 mb-2">{o.title}</h3>
                 <p className="text-xs text-gray-500 leading-relaxed">{o.desc}</p>
               </div>
@@ -162,10 +162,10 @@ export default function ThePlanPage() {
       </section>
 
       {/* Value Proposition */}
-      <section className="py-20 px-6 bg-charcoal text-white pattern-overlay-dark relative">
+      <section className="py-20 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/50 mb-4">Why It Matters</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/50 mb-4">Why It Matters</p>
           <p className="font-display text-xl md:text-2xl text-white leading-relaxed italic">
             &ldquo;Unlike fragmented industry bodies that serve narrow interests, CDCC is uniquely positioned
             to represent the full spectrum of stakeholders — from independent creatives to large production companies —

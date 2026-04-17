@@ -35,7 +35,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   const useDarkNav = !scrolled && isHome;
 
   return (
-    <div className="min-h-screen bg-white text-charcoal">
+    <div className="min-h-screen bg-white text-black">
       {/* ── NAV ── */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         useDarkNav ? 'bg-transparent' : 'bg-white/95 backdrop-blur-xl border-b border-gray-200'
@@ -56,7 +56,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <Link key={link.href} href={link.href}
                 className={`nav-transform text-[11px] tracking-[0.15em] uppercase ${
                   pathname.startsWith(link.href)
-                    ? useDarkNav ? 'text-white' : 'text-charcoal'
+                    ? useDarkNav ? 'text-white' : 'text-black'
                     : useDarkNav ? 'text-white/50' : 'text-gray-500'
                 }`}>
                 {link.label}
@@ -92,7 +92,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <div className="lg:hidden bg-white border-t border-gray-200 px-6 py-6 space-y-4">
             {navLinks.map(link => (
               <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
-                className="block text-[12px] tracking-[0.1em] uppercase text-gray-500 hover:text-charcoal transition-colors">
+                className="block text-[12px] tracking-[0.1em] uppercase text-gray-500 hover:text-black transition-colors">
                 {link.label}
               </Link>
             ))}
@@ -107,7 +107,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <main>{children}</main>
 
       {/* ── FOOTER — Brand-rich, literary ── */}
-      <footer className="bg-charcoal text-white overflow-hidden">
+      <footer className="bg-black text-white overflow-hidden">
         {/* Pattern strip at top of footer */}
         <div className="h-[3px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
 
@@ -120,7 +120,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
           <p className="text-4xl md:text-6xl lg:text-7xl font-semibold leading-[1.05] tracking-tight type-breathe cursor-default relative z-10">
             Every story<br />
-            <span className="text-gold/60 colour-flash-gold transition-colors">deserves</span><br />
+            <span className="text-gray-500/60 colour-flash-gold transition-colors">deserves</span><br />
             to be told.
           </p>
         </div>
@@ -128,11 +128,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         {/* Newsletter */}
         <div className="max-w-6xl mx-auto px-6 pb-16">
           <div className="border-t border-white/10 pt-12 max-w-md">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/50 mb-4">Stay in the story</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/50 mb-4">Stay in the story</p>
             <form onSubmit={e => e.preventDefault()} className="flex gap-2">
               <input type="email" placeholder="your@email.com"
-                className="flex-1 bg-transparent border-b border-white/15 px-0 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-gold transition-colors" />
-              <button type="submit" className="text-[10px] uppercase tracking-[0.2em] text-gold/60 hover:text-gold transition-colors type-breathe px-2">
+                className="flex-1 bg-transparent border-b border-white/15 px-0 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-black transition-colors" />
+              <button type="submit" className="text-[10px] uppercase tracking-[0.2em] text-gray-500/60 hover:text-gray-500 transition-colors type-breathe px-2">
                 Subscribe &rarr;
               </button>
             </form>

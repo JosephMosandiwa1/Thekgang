@@ -34,7 +34,7 @@ export default async function EventsPage() {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <Image src="/logos/icon-char-gld.svg" alt="" width={16} height={16} className="w-4 h-4 opacity-40" />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60">Events</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60">Events</p>
           </div>
           <h1 className="font-display font-bold text-black tracking-tight leading-[1.05]" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>What&apos;s happening.</h1>
           <p className="text-sm text-gray-500 max-w-xl mt-6 leading-relaxed">Symposiums, workshops, imbizos — across 9 provinces. <Link href="/programmes" className="link-draw text-black inline-block">See our programmes &rarr;</Link></p>
@@ -46,11 +46,11 @@ export default async function EventsPage() {
           {/* Upcoming */}
           {upcoming.length > 0 ? (
             <div className="mb-16">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-gold/60 mb-6">Upcoming</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500/60 mb-6">Upcoming</p>
               {upcoming.map(e => (
                 <Link key={e.id} href={eventLink(e)} className="group block card-hover p-8 bg-white rounded mb-4 transition-all">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 border border-gold/20 text-gold/60 rounded">{e.event_type || 'event'}</span>
+                    <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 border border-black/20 text-gray-500/60 rounded">{e.event_type || 'event'}</span>
                     <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 border border-gray-200 text-gray-500 rounded">{e.format || 'in-person'}</span>
                     {e.is_dedicated && <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 bg-blue-50 text-blue-600 rounded">Dedicated Page</span>}
                   </div>
@@ -58,7 +58,7 @@ export default async function EventsPage() {
                   <h2 className="font-display text-2xl font-bold text-black mb-2">{e.title}</h2>
                   {e.venue && <p className="text-sm text-gray-500">{e.venue}</p>}
                   {e.description && <p className="text-sm text-gray-500 mt-3 leading-relaxed line-clamp-2">{e.description}</p>}
-                  <span className="text-[10px] uppercase tracking-[0.15em] text-gray-500 group-hover:text-gold transition-colors mt-4 inline-block">
+                  <span className="text-[10px] uppercase tracking-[0.15em] text-gray-500 group-hover:text-gray-500 transition-colors mt-4 inline-block">
                     {e.is_dedicated ? 'View Event Page' : 'Register'} &rarr;
                   </span>
                 </Link>
@@ -76,13 +76,13 @@ export default async function EventsPage() {
             <div>
               <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-6">Past Events</p>
               {past.map(e => (
-                <div key={e.id} className="flex items-center justify-between py-4 border-b rule-gold last:border-0">
+                <div key={e.id} className="flex items-center justify-between py-4 border-b border-gray-200 last:border-0">
                   <div>
                     <Link href={eventLink(e)} className="text-sm text-black hover:underline font-medium">{e.title}</Link>
                     <p className="text-xs text-gray-500">{e.event_date} &middot; {e.venue || 'Virtual'}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    {e.recording_url && <a href={e.recording_url} target="_blank" rel="noopener" className="text-[9px] uppercase tracking-wider px-2 py-1 border border-gold/30 text-gold rounded hover:bg-gold/5 transition-colors">Watch &rarr;</a>}
+                    {e.recording_url && <a href={e.recording_url} target="_blank" rel="noopener" className="text-[9px] uppercase tracking-wider px-2 py-1 border border-black/30 text-gray-500 rounded hover:bg-black/5 transition-colors">Watch &rarr;</a>}
                     <span className="text-[10px] text-gray-400">Completed</span>
                   </div>
                 </div>

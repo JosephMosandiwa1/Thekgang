@@ -17,12 +17,12 @@ export default function AdvocacyPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="pt-28 pb-16 px-6 bg-charcoal text-white pattern-overlay-dark relative">
+      <section className="pt-28 pb-16 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <Image src="/logos/icon-gld.svg" alt="" width={16} height={16} className="w-4 h-4 opacity-40" />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/50">Advocacy</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/50">Advocacy</p>
           </div>
           <h1 className="font-display font-bold text-white tracking-tight leading-[1.05]"
             style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>
@@ -38,7 +38,7 @@ export default function AdvocacyPage() {
       {/* Why This Matters */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">The Problem</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">The Problem</p>
           <h2 className="font-display text-2xl md:text-3xl font-bold text-black tracking-tight mb-8 type-grow cursor-default">
             Creators create. Then what?
           </h2>
@@ -64,9 +64,9 @@ export default function AdvocacyPage() {
       <div className="pattern-divider" />
 
       {/* What We're Doing */}
-      <section className="py-20 px-6 bg-paper texture-paper">
+      <section className="py-20 px-6 bg-gray-50 texture-paper">
         <div className="max-w-5xl mx-auto relative z-10">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">Our Advocacy Agenda</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">Our Advocacy Agenda</p>
           <h2 className="font-display text-2xl font-bold text-black tracking-tight mb-10">
             What CDCC is lobbying for.
           </h2>
@@ -99,7 +99,7 @@ export default function AdvocacyPage() {
               },
             ].map((item, i) => (
               <div key={i} className="bg-white p-6 border border-gray-200/60 card-hover transition-all">
-                <span className="text-[10px] text-gold/50 font-semibold">{String(i + 1).padStart(2, '0')}</span>
+                <span className="text-[10px] text-gray-500/50 font-semibold">{String(i + 1).padStart(2, '0')}</span>
                 <h3 className="font-display text-base font-bold text-black mt-2 mb-2">{item.title}</h3>
                 <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
               </div>
@@ -111,7 +111,7 @@ export default function AdvocacyPage() {
       {/* Who Benefits */}
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">Who This Protects</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">Who This Protects</p>
           <h2 className="font-display text-2xl font-bold text-black tracking-tight mb-10">
             Every discipline in the value chain.
           </h2>
@@ -122,8 +122,8 @@ export default function AdvocacyPage() {
               'Narrators', 'Self-Publishers', 'Editors', 'AI Developers', 'Literary Agents',
               'Layout Artists', 'Indexers', 'Proofreaders', 'Researchers',
             ].map(cat => (
-              <div key={cat} className="bg-paper border border-gray-200/60 px-3 py-3 text-center">
-                <p className="text-[11px] font-medium text-charcoal">{cat}</p>
+              <div key={cat} className="bg-gray-50 border border-gray-200/60 px-3 py-3 text-center">
+                <p className="text-[11px] font-medium text-black">{cat}</p>
               </div>
             ))}
           </div>
@@ -131,7 +131,7 @@ export default function AdvocacyPage() {
       </section>
 
       {/* Quote */}
-      <section className="py-20 px-6 bg-charcoal text-white pattern-overlay-dark relative">
+      <section className="py-20 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <p className="font-display text-xl md:text-2xl text-white leading-relaxed italic">
@@ -139,13 +139,13 @@ export default function AdvocacyPage() {
             CDCC&apos;s advocacy ensures that every creator — from first-time author to established publisher —
             has their work legally recognised and commercially protected.&rdquo;
           </p>
-          <p className="text-xs text-gold/40 mt-6">CDCC Advocacy Position</p>
+          <p className="text-xs text-gray-500/40 mt-6">CDCC Advocacy Position</p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
       </section>
 
       {/* CTA */}
-      <section className="py-16 px-6 bg-paper texture-paper">
+      <section className="py-16 px-6 bg-gray-50 texture-paper">
         <div className="max-w-2xl mx-auto text-center relative z-10">
           <h2 className="font-display text-xl font-bold text-black mb-4">Strengthen the voice.</h2>
           <p className="text-sm text-gray-500 mb-6">

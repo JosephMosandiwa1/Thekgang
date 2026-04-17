@@ -297,7 +297,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                   <div key={f.id} className="border border-gray-100 rounded p-3">
                     <div className="flex justify-between items-center mb-1">
                       <p className="text-sm font-medium text-black">{f.name || 'Anonymous'}</p>
-                      <div className="flex gap-0.5">{[1,2,3,4,5].map(s => <span key={s} className={`text-xs ${s <= f.rating ? 'text-gold' : 'text-gray-200'}`}>★</span>)}</div>
+                      <div className="flex gap-0.5">{[1,2,3,4,5].map(s => <span key={s} className={`text-xs ${s <= f.rating ? 'text-gray-500' : 'text-gray-200'}`}>★</span>)}</div>
                     </div>
                     {f.highlights && <p className="text-xs text-gray-600"><strong>Highlights:</strong> {f.highlights}</p>}
                     {f.improvements && <p className="text-xs text-gray-600"><strong>Improvements:</strong> {f.improvements}</p>}
@@ -363,7 +363,7 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
   return (
     <div className="space-y-5">
       <div className="flex justify-end">
-        <button onClick={save} disabled={saving} className="bg-gold text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-gold/90 disabled:opacity-50 font-semibold">{saving ? 'Saving…' : 'Save Changes'}</button>
+        <button onClick={save} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-black/90 disabled:opacity-50 font-semibold">{saving ? 'Saving…' : 'Save Changes'}</button>
       </div>
 
       <div className="border border-gray-200/60 rounded p-6 space-y-4">
@@ -373,16 +373,16 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
 
         <div className="grid grid-cols-3 gap-3">
           <div>
-            <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Type</label>
-            <select value={form.event_type} onChange={e => setForm({ ...form, event_type: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">{EVENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}</select>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Type</label>
+            <select value={form.event_type} onChange={e => setForm({ ...form, event_type: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black">{EVENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}</select>
           </div>
           <div>
-            <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Format</label>
-            <select value={form.format} onChange={e => setForm({ ...form, format: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">{FORMATS.map(f => <option key={f} value={f}>{f}</option>)}</select>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Format</label>
+            <select value={form.format} onChange={e => setForm({ ...form, format: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black">{FORMATS.map(f => <option key={f} value={f}>{f}</option>)}</select>
           </div>
           <div>
-            <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Status</label>
-            <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">{STATUSES.map(s => <option key={s} value={s}>{s.replace('_', ' ')}</option>)}</select>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Status</label>
+            <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black">{STATUSES.map(s => <option key={s} value={s}>{s.replace('_', ' ')}</option>)}</select>
           </div>
         </div>
 
@@ -404,12 +404,12 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
       <div className="border border-gray-200/60 rounded p-6 space-y-4">
         <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-2">Description & Cover</p>
         <div>
-          <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Cover Image</label>
+          <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Cover Image</label>
           <ImageUploader value={form.cover_image_url} onChange={(url: string) => setForm({ ...form, cover_image_url: url })} folder="events" label="" />
         </div>
         <div>
-          <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Description</label>
-          <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={6} placeholder="Describe the event — who it's for, what it covers, what to expect…" className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold resize-y" />
+          <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Description</label>
+          <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={6} placeholder="Describe the event — who it's for, what it covers, what to expect…" className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black resize-y" />
         </div>
       </div>
 
@@ -426,17 +426,17 @@ function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => voi
         <div className="space-y-2 pt-2">
           <label className="flex items-center gap-3 cursor-pointer">
             <input type="checkbox" checked={form.registration_required} onChange={e => setForm({ ...form, registration_required: e.target.checked })} className="w-4 h-4 accent-gold" />
-            <span className="text-xs text-charcoal">Registration required</span>
+            <span className="text-xs text-black">Registration required</span>
           </label>
           <label className="flex items-center gap-3 cursor-pointer">
             <input type="checkbox" checked={form.is_dedicated} onChange={e => setForm({ ...form, is_dedicated: e.target.checked })} className="w-4 h-4 accent-gold" />
-            <span className="text-xs text-charcoal">Dedicated event page (mini-site at /events/{form.slug || '[slug]'})</span>
+            <span className="text-xs text-black">Dedicated event page (mini-site at /events/{form.slug || '[slug]'})</span>
           </label>
         </div>
       </div>
 
       <div className="flex justify-end">
-        <button onClick={save} disabled={saving} className="bg-gold text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-gold/90 disabled:opacity-50 font-semibold">{saving ? 'Saving…' : 'Save Changes'}</button>
+        <button onClick={save} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-black/90 disabled:opacity-50 font-semibold">{saving ? 'Saving…' : 'Save Changes'}</button>
       </div>
     </div>
   );
@@ -478,26 +478,26 @@ function ProgrammeBuilder({ event, onSave }: { event: EventFull; onSave: () => v
       <div className="flex justify-between items-center mb-4">
         <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Programme Schedule · {items.length} items</p>
         <div className="flex gap-2">
-          <button onClick={openNew} className="bg-charcoal text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-charcoal/90">+ Add Session</button>
-          <button onClick={persist} disabled={saving} className="bg-gold text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-gold/90 disabled:opacity-50">{saving ? 'Saving…' : 'Save Programme'}</button>
+          <button onClick={openNew} className="bg-black text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-black/90">+ Add Session</button>
+          <button onClick={persist} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-black/90 disabled:opacity-50">{saving ? 'Saving…' : 'Save Programme'}</button>
         </div>
       </div>
       <div className="space-y-1">
         {items.map((item, i) => (
           <div key={i} className={`flex items-center gap-3 px-4 py-3 rounded border ${item.type === 'break' ? 'bg-gray-50 border-gray-100' : 'bg-white border-gray-200/60'}`}>
-            <span className="text-xs font-mono text-gold/70 w-14 flex-shrink-0">{item.time || '—'}</span>
+            <span className="text-xs font-mono text-gray-500/70 w-14 flex-shrink-0">{item.time || '—'}</span>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 border border-gray-200 text-gray-400 rounded">{item.type}</span>
-                <p className="text-sm font-medium text-charcoal truncate">{item.title}</p>
+                <p className="text-sm font-medium text-black truncate">{item.title}</p>
               </div>
-              {item.facilitator && <p className="text-[11px] text-gold mt-0.5">Facilitator: {item.facilitator}</p>}
+              {item.facilitator && <p className="text-[11px] text-gray-500 mt-0.5">Facilitator: {item.facilitator}</p>}
               {item.speakers && <p className="text-[11px] text-gray-500 mt-0.5">{item.speakers}</p>}
             </div>
             <div className="flex items-center gap-1">
               <button onClick={() => moveItem(i, -1)} className="text-gray-300 hover:text-gray-600 text-xs px-1" title="Move up">↑</button>
               <button onClick={() => moveItem(i, 1)} className="text-gray-300 hover:text-gray-600 text-xs px-1" title="Move down">↓</button>
-              <button onClick={() => openEdit(i)} className="text-[10px] text-gray-400 hover:text-charcoal px-2">Edit</button>
+              <button onClick={() => openEdit(i)} className="text-[10px] text-gray-400 hover:text-black px-2">Edit</button>
               <button onClick={() => removeItem(i)} className="text-[10px] text-red-400 hover:text-red-600 px-2">×</button>
             </div>
           </div>
@@ -508,7 +508,7 @@ function ProgrammeBuilder({ event, onSave }: { event: EventFull; onSave: () => v
         <Modal title={editing === -1 ? 'Add Session' : 'Edit Session'} onClose={() => setEditing(null)} onSave={saveItem}>
           <div className="grid grid-cols-2 gap-3">
             <Field label="Time" value={form.time} onChange={v => setForm({ ...form, time: v })} placeholder="09:00" />
-            <div><label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Type</label><select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">{SESSION_TYPES.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
+            <div><label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Type</label><select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black">{SESSION_TYPES.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
           </div>
           <Field label="Session Title" value={form.title} onChange={v => setForm({ ...form, title: v })} placeholder="Authors as Healers and Transformers" />
           <Field label="Subtitle / Description" value={form.description} onChange={v => setForm({ ...form, description: v })} placeholder="Reinventing Authorship in the Era of…" multiline />
@@ -556,22 +556,22 @@ function SpeakersBuilder({ event, onSave }: { event: EventFull; onSave: () => vo
       <div className="flex justify-between items-center mb-4">
         <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Speakers · {speakers.length}</p>
         <div className="flex gap-2">
-          <button onClick={openNew} className="bg-charcoal text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-charcoal/90">+ Add Speaker</button>
-          <button onClick={persist} disabled={saving} className="bg-gold text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-gold/90 disabled:opacity-50">{saving ? 'Saving…' : 'Save Speakers'}</button>
+          <button onClick={openNew} className="bg-black text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-black/90">+ Add Speaker</button>
+          <button onClick={persist} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-black/90 disabled:opacity-50">{saving ? 'Saving…' : 'Save Speakers'}</button>
         </div>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {speakers.map((sp, i) => (
           <div key={i} className="border border-gray-200/60 rounded p-4 bg-white group">
             {sp.photo_url && <img src={sp.photo_url} alt={sp.name} className="w-14 h-14 rounded-full object-cover mb-3 grayscale group-hover:grayscale-0 transition-all" />}
-            <p className="text-sm font-medium text-charcoal">{sp.name}</p>
+            <p className="text-sm font-medium text-black">{sp.name}</p>
             <p className="text-[11px] text-gray-500">{sp.title}{sp.organisation ? ` — ${sp.organisation}` : ''}</p>
             <div className="flex items-center gap-1 mt-1">
               <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 border border-gray-200 text-gray-400 rounded">{sp.type}</span>
               {sp.session && <span className="text-[9px] text-gray-400 truncate">{sp.session}</span>}
             </div>
             <div className="flex gap-2 mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button onClick={() => openEdit(i)} className="text-[10px] text-gray-400 hover:text-charcoal">Edit</button>
+              <button onClick={() => openEdit(i)} className="text-[10px] text-gray-400 hover:text-black">Edit</button>
               <button onClick={() => removeItem(i)} className="text-[10px] text-red-400 hover:text-red-600">Remove</button>
             </div>
           </div>
@@ -582,13 +582,13 @@ function SpeakersBuilder({ event, onSave }: { event: EventFull; onSave: () => vo
         <Modal title={editing === -1 ? 'Add Speaker' : 'Edit Speaker'} onClose={() => setEditing(null)} onSave={saveItem}>
           <div className="grid grid-cols-2 gap-3">
             <Field label="Full Name" value={form.name} onChange={v => setForm({ ...form, name: v })} required placeholder="Prof Sihawukele Ngubane" />
-            <div><label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Type</label><select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">{SPEAKER_TYPES.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
+            <div><label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Type</label><select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black">{SPEAKER_TYPES.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
           </div>
           <Field label="Title / Role" value={form.title} onChange={v => setForm({ ...form, title: v })} placeholder="Professor of isiZulu Literature" />
           <Field label="Organisation" value={form.organisation} onChange={v => setForm({ ...form, organisation: v })} placeholder="University of KwaZulu-Natal" />
           <Field label="Session" value={form.session} onChange={v => setForm({ ...form, session: v })} placeholder="Authors as Healers and Transformers" />
           <div>
-            <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Photo</label>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Photo</label>
             <ImageUploader value={form.photo_url} onChange={(url: string) => setForm({ ...form, photo_url: url })} folder="speakers" label="" />
           </div>
           <Field label="Bio" value={form.bio} onChange={v => setForm({ ...form, bio: v })} multiline placeholder="Prof Ngubane is an academic and astute professional…" />
@@ -636,8 +636,8 @@ function SponsorsBuilder({ event, onSave }: { event: EventFull; onSave: () => vo
       <div className="flex justify-between items-center mb-4">
         <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Sponsors & Partners · {sponsors.length}</p>
         <div className="flex gap-2">
-          <button onClick={openNew} className="bg-charcoal text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-charcoal/90">+ Add</button>
-          <button onClick={persist} disabled={saving} className="bg-gold text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-gold/90 disabled:opacity-50">{saving ? 'Saving…' : 'Save Sponsors'}</button>
+          <button onClick={openNew} className="bg-black text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-black/90">+ Add</button>
+          <button onClick={persist} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-black/90 disabled:opacity-50">{saving ? 'Saving…' : 'Save Sponsors'}</button>
         </div>
       </div>
       {grouped.length === 0 && <p className="text-sm text-gray-400 py-8 text-center">No sponsors yet. Add your first partner or sponsor.</p>}
@@ -649,11 +649,11 @@ function SponsorsBuilder({ event, onSave }: { event: EventFull; onSave: () => vo
               <div key={sp._idx} className="border border-gray-200/60 rounded p-4 bg-white flex items-center gap-3 group min-w-[200px]">
                 {sp.logo_url ? <img src={sp.logo_url} alt={sp.name} className="w-10 h-10 object-contain" /> : <div className="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-[10px] text-gray-400 font-bold">{(sp.name || '?')[0]}</div>}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-charcoal truncate">{sp.name}</p>
+                  <p className="text-sm font-medium text-black truncate">{sp.name}</p>
                   {sp.website && <p className="text-[10px] text-gray-400 truncate">{sp.website}</p>}
                 </div>
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button onClick={() => openEdit(sp._idx)} className="text-[10px] text-gray-400 hover:text-charcoal">Edit</button>
+                  <button onClick={() => openEdit(sp._idx)} className="text-[10px] text-gray-400 hover:text-black">Edit</button>
                   <button onClick={() => removeItem(sp._idx)} className="text-[10px] text-red-400 hover:text-red-600">×</button>
                 </div>
               </div>
@@ -664,9 +664,9 @@ function SponsorsBuilder({ event, onSave }: { event: EventFull; onSave: () => vo
       {editing !== null && (
         <Modal title={editing === -1 ? 'Add Sponsor' : 'Edit Sponsor'} onClose={() => setEditing(null)} onSave={saveItem}>
           <Field label="Name" value={form.name} onChange={v => setForm({ ...form, name: v })} required placeholder="International Authors Forum" />
-          <div><label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Tier</label><select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">{SPONSOR_TYPES.map(t => <option key={t} value={t}>{t.replace('_', ' ')}</option>)}</select></div>
+          <div><label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Tier</label><select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black">{SPONSOR_TYPES.map(t => <option key={t} value={t}>{t.replace('_', ' ')}</option>)}</select></div>
           <div>
-            <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Logo</label>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Logo</label>
             <ImageUploader value={form.logo_url} onChange={(url: string) => setForm({ ...form, logo_url: url })} folder="sponsors" label="" />
           </div>
           <Field label="Website" value={form.website} onChange={v => setForm({ ...form, website: v })} placeholder="https://internationalauthors.org" />
@@ -687,12 +687,12 @@ function Modal({ title, onClose, onSave, children }: { title: string; onClose: (
       <div className="fixed inset-0 z-[101] flex items-start justify-center pt-16 p-6">
         <div className="bg-white border border-gray-200/60 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto">
           <div className="px-6 py-4 border-b border-gray-100">
-            <h3 className="text-base font-display font-bold text-charcoal">{title}</h3>
+            <h3 className="text-base font-display font-bold text-black">{title}</h3>
           </div>
           <div className="px-6 py-5 space-y-4">{children}</div>
           <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3">
-            <button onClick={onClose} className="text-xs text-charcoal/50 hover:text-charcoal px-4 py-2">Cancel</button>
-            <button onClick={onSave} className="bg-charcoal text-white text-xs uppercase tracking-[0.15em] font-semibold px-6 py-2.5 rounded hover:bg-charcoal/90">Save</button>
+            <button onClick={onClose} className="text-xs text-black/50 hover:text-black px-4 py-2">Cancel</button>
+            <button onClick={onSave} className="bg-black text-white text-xs uppercase tracking-[0.15em] font-semibold px-6 py-2.5 rounded hover:bg-black/90">Save</button>
           </div>
         </div>
       </div>
@@ -765,13 +765,13 @@ function TicketsManager({ eventId }: { eventId: number }) {
     <div>
       <div className="flex justify-between items-center mb-4">
         <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Ticket Types · {tickets.length}</p>
-        <button onClick={openNew} className="bg-charcoal text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-charcoal/90">+ Add Ticket Type</button>
+        <button onClick={openNew} className="bg-black text-white text-[10px] uppercase tracking-wider px-4 py-2 rounded hover:bg-black/90">+ Add Ticket Type</button>
       </div>
 
       <div className="grid grid-cols-3 gap-3 mb-6">
-        <div className="border border-gray-200/60 rounded p-3 text-center"><p className="text-xl font-bold text-charcoal">{tickets.length}</p><p className="text-[9px] text-gray-500 uppercase">Types</p></div>
+        <div className="border border-gray-200/60 rounded p-3 text-center"><p className="text-xl font-bold text-black">{tickets.length}</p><p className="text-[9px] text-gray-500 uppercase">Types</p></div>
         <div className="border border-green-500/30 bg-green-500/5 rounded p-3 text-center"><p className="text-xl font-bold text-green-700">{totalSold}</p><p className="text-[9px] text-gray-500 uppercase">Sold</p></div>
-        <div className="border border-gold/30 bg-gold/5 rounded p-3 text-center"><p className="text-xl font-bold text-gold">R{totalRevenue.toLocaleString('en-ZA')}</p><p className="text-[9px] text-gray-500 uppercase">Revenue</p></div>
+        <div className="border border-black/30 bg-black/5 rounded p-3 text-center"><p className="text-xl font-bold text-gray-500">R{totalRevenue.toLocaleString('en-ZA')}</p><p className="text-[9px] text-gray-500 uppercase">Revenue</p></div>
       </div>
 
       {tickets.length === 0 ? (
@@ -785,7 +785,7 @@ function TicketsManager({ eventId }: { eventId: number }) {
             <div key={t.id} className={`flex items-center gap-4 px-4 py-3 rounded border ${t.is_active ? 'bg-white border-gray-200/60' : 'bg-gray-50 border-gray-100 opacity-60'}`}>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium text-charcoal">{t.name}</p>
+                  <p className="text-sm font-medium text-black">{t.name}</p>
                   {!t.is_active && <span className="text-[9px] uppercase text-red-400">Inactive</span>}
                 </div>
                 <p className="text-xs text-gray-500 mt-0.5">
@@ -798,7 +798,7 @@ function TicketsManager({ eventId }: { eventId: number }) {
                 <button onClick={() => toggleActive(t)} className={`text-[9px] uppercase tracking-wider px-2 py-1 border rounded ${t.is_active ? 'border-green-500/30 text-green-700' : 'border-gray-200 text-gray-500'}`}>
                   {t.is_active ? 'Active' : 'Activate'}
                 </button>
-                <button onClick={() => openEdit(t)} className="text-[10px] text-gray-400 hover:text-charcoal">Edit</button>
+                <button onClick={() => openEdit(t)} className="text-[10px] text-gray-400 hover:text-black">Edit</button>
                 <button onClick={() => deleteTicket(t.id)} className="text-[10px] text-red-400 hover:text-red-600">Delete</button>
               </div>
             </div>
@@ -830,13 +830,13 @@ function Field({ label, value, onChange, required, multiline, type = 'text', pla
 }) {
   return (
     <div>
-      <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">{label}</label>
+      <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">{label}</label>
       {multiline ? (
         <textarea value={value} onChange={e => onChange(e.target.value)} rows={4} placeholder={placeholder}
-          className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold resize-y" />
+          className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black resize-y" />
       ) : (
         <input type={type} value={value} onChange={e => onChange(e.target.value)} required={required} placeholder={placeholder}
-          className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold" />
+          className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black" />
       )}
     </div>
   );

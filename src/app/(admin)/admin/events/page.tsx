@@ -362,12 +362,12 @@ export default function EventsPage() {
                 <div
                   key={day}
                   className={`py-2 text-sm rounded relative ${
-                    isToday ? 'bg-black text-white font-bold' : hasEvent ? 'bg-gold/10 font-medium' : 'text-gray-600'
+                    isToday ? 'bg-black text-white font-bold' : hasEvent ? 'bg-black/10 font-medium' : 'text-gray-600'
                   }`}
                 >
                   {day}
                   {hasEvent && (
-                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-gold" />
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black" />
                   )}
                 </div>
               );

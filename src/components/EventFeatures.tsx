@@ -12,8 +12,8 @@ export function TicketQR({ code, eventTitle, size = 180 }: { code: string; event
   return (
     <div className="flex flex-col items-center gap-3 p-6 bg-white rounded-lg border border-gray-200">
       <QRCodeSVG value={code} size={size} level="M" includeMargin />
-      <p className="font-mono text-xs text-charcoal/60 tracking-wider">{code}</p>
-      <p className="text-[10px] text-charcoal/40 text-center max-w-[200px]">{eventTitle}</p>
+      <p className="font-mono text-xs text-black/60 tracking-wider">{code}</p>
+      <p className="text-[10px] text-black/40 text-center max-w-[200px]">{eventTitle}</p>
     </div>
   );
 }
@@ -146,54 +146,54 @@ export function DSACReportTemplate({ event, registrations, feedback, provinces }
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-8 max-w-3xl mx-auto" id="dsac-report">
-      <div className="text-center mb-8 pb-6 border-b border-gold/20">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-2">DSAC Quarterly Report · Event Summary</p>
-        <h2 className="font-display text-2xl font-bold text-charcoal">{event.title}</h2>
-        <p className="text-sm text-charcoal/50 mt-1">{event.event_date} · {event.venue || 'Virtual'}</p>
+      <div className="text-center mb-8 pb-6 border-b border-black/20">
+        <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-2">DSAC Quarterly Report · Event Summary</p>
+        <h2 className="font-display text-2xl font-bold text-black">{event.title}</h2>
+        <p className="text-sm text-black/50 mt-1">{event.event_date} · {event.venue || 'Virtual'}</p>
       </div>
 
       <div className="grid grid-cols-4 gap-4 mb-8">
-        <div className="text-center p-3 bg-charcoal/5 rounded">
-          <p className="text-2xl font-bold text-charcoal">{registrations.length}</p>
-          <p className="text-[9px] uppercase text-charcoal/50">Registered</p>
+        <div className="text-center p-3 bg-black/5 rounded">
+          <p className="text-2xl font-bold text-black">{registrations.length}</p>
+          <p className="text-[9px] uppercase text-black/50">Registered</p>
         </div>
         <div className="text-center p-3 bg-green-50 rounded">
           <p className="text-2xl font-bold text-green-700">{attended}</p>
-          <p className="text-[9px] uppercase text-charcoal/50">Attended</p>
+          <p className="text-[9px] uppercase text-black/50">Attended</p>
         </div>
-        <div className="text-center p-3 bg-charcoal/5 rounded">
-          <p className="text-2xl font-bold text-charcoal">{attendanceRate}%</p>
-          <p className="text-[9px] uppercase text-charcoal/50">Attendance Rate</p>
+        <div className="text-center p-3 bg-black/5 rounded">
+          <p className="text-2xl font-bold text-black">{attendanceRate}%</p>
+          <p className="text-[9px] uppercase text-black/50">Attendance Rate</p>
         </div>
         <div className="text-center p-3 bg-amber-50 rounded">
           <p className="text-2xl font-bold text-amber-700">{avgRating}/5</p>
-          <p className="text-[9px] uppercase text-charcoal/50">Avg Rating</p>
+          <p className="text-[9px] uppercase text-black/50">Avg Rating</p>
         </div>
       </div>
 
       <div className="mb-6">
-        <p className="text-[10px] uppercase tracking-wider text-charcoal/40 mb-2">Provincial Representation ({provinces.length} provinces)</p>
-        <p className="text-sm text-charcoal/70">{provinces.length > 0 ? provinces.join(', ') : 'No province data collected'}</p>
+        <p className="text-[10px] uppercase tracking-wider text-black/40 mb-2">Provincial Representation ({provinces.length} provinces)</p>
+        <p className="text-sm text-black/70">{provinces.length > 0 ? provinces.join(', ') : 'No province data collected'}</p>
       </div>
 
       {(event.budget_allocated || event.budget_spent) && (
         <div className="mb-6">
-          <p className="text-[10px] uppercase tracking-wider text-charcoal/40 mb-2">Budget</p>
+          <p className="text-[10px] uppercase tracking-wider text-black/40 mb-2">Budget</p>
           <div className="flex gap-8">
-            <div><p className="text-sm text-charcoal/50">Allocated</p><p className="text-lg font-bold text-charcoal">R{(event.budget_allocated || 0).toLocaleString('en-ZA')}</p></div>
-            <div><p className="text-sm text-charcoal/50">Spent</p><p className="text-lg font-bold text-charcoal">R{(event.budget_spent || 0).toLocaleString('en-ZA')}</p></div>
+            <div><p className="text-sm text-black/50">Allocated</p><p className="text-lg font-bold text-black">R{(event.budget_allocated || 0).toLocaleString('en-ZA')}</p></div>
+            <div><p className="text-sm text-black/50">Spent</p><p className="text-lg font-bold text-black">R{(event.budget_spent || 0).toLocaleString('en-ZA')}</p></div>
           </div>
         </div>
       )}
 
       <div className="mb-6">
-        <p className="text-[10px] uppercase tracking-wider text-charcoal/40 mb-2">Feedback Summary</p>
-        <p className="text-sm text-charcoal/70">{feedback.length} feedback responses received. Average rating: {avgRating}/5.</p>
+        <p className="text-[10px] uppercase tracking-wider text-black/40 mb-2">Feedback Summary</p>
+        <p className="text-sm text-black/70">{feedback.length} feedback responses received. Average rating: {avgRating}/5.</p>
       </div>
 
-      <div className="text-center pt-6 border-t border-charcoal/10">
-        <p className="text-[10px] text-charcoal/30">Report generated by CDCC Corporate OS · Thekgang NPC</p>
-        <button onClick={() => window.print()} className="mt-3 text-xs text-gold hover:text-gold/80 uppercase tracking-wider transition-colors no-print">Print Report</button>
+      <div className="text-center pt-6 border-t border-black/10">
+        <p className="text-[10px] text-black/30">Report generated by CDCC Corporate OS · Thekgang NPC</p>
+        <button onClick={() => window.print()} className="mt-3 text-xs text-gray-500 hover:text-gray-500/80 uppercase tracking-wider transition-colors no-print">Print Report</button>
       </div>
     </div>
   );

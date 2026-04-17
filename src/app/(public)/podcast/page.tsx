@@ -38,7 +38,7 @@ export default async function PodcastPage({ searchParams }: { searchParams: Prom
     <div>
       <section className="pt-28 pb-12 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">Podcast</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">Podcast</p>
           <h1 className="font-display font-bold text-black tracking-tight leading-[1.05]" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>Zibonele.</h1>
           <p className="text-sm text-gray-500 max-w-xl mt-6 leading-relaxed">Conversations with the people who move SA&apos;s content creation sector. <Link href="/news" className="link-draw text-black inline-block">Or read our news &rarr;</Link></p>
         </div>
@@ -52,9 +52,9 @@ export default async function PodcastPage({ searchParams }: { searchParams: Prom
               <Link href="/join" className="btn-ink text-xs tracking-[0.15em] uppercase px-8 py-3">Join the council to be notified</Link>
             </div>
           ) : episodes.map(ep => (
-            <div key={ep.id} className="py-8 border-b rule-gold last:border-0">
+            <div key={ep.id} className="py-8 border-b border-gray-200 last:border-0">
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-[10px] text-gold/60 font-mono font-semibold">S{String(ep.season).padStart(2, '0')}E{String(ep.episode_number).padStart(2, '0')}</span>
+                <span className="text-[10px] text-gray-500/60 font-mono font-semibold">S{String(ep.season).padStart(2, '0')}E{String(ep.episode_number).padStart(2, '0')}</span>
                 {ep.duration_minutes && <span className="text-[10px] text-gray-500">{ep.duration_minutes} min</span>}
               </div>
               <h2 className="font-display text-2xl font-bold text-black mb-2">{ep.title}</h2>
@@ -69,7 +69,7 @@ export default async function PodcastPage({ searchParams }: { searchParams: Prom
               {page > 1 && (
                 <Link
                   href={`/podcast?page=${page - 1}`}
-                  className="text-xs uppercase tracking-[0.15em] text-charcoal/50 hover:text-charcoal transition-colors"
+                  className="text-xs uppercase tracking-[0.15em] text-black/50 hover:text-black transition-colors"
                 >
                   &larr; Previous
                 </Link>
@@ -80,7 +80,7 @@ export default async function PodcastPage({ searchParams }: { searchParams: Prom
               {page < totalPages && (
                 <Link
                   href={`/podcast?page=${page + 1}`}
-                  className="text-xs uppercase tracking-[0.15em] text-charcoal/50 hover:text-charcoal transition-colors"
+                  className="text-xs uppercase tracking-[0.15em] text-black/50 hover:text-black transition-colors"
                 >
                   Next &rarr;
                 </Link>

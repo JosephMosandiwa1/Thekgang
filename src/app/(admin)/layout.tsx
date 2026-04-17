@@ -89,7 +89,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [isLoginPage, router]);
 
   if (isLoginPage) return <>{children}</>;
-  if (checking) return <div className="min-h-screen bg-paper flex items-center justify-center text-charcoal/40 text-xs tracking-widest uppercase">Loading…</div>;
+  if (checking) return <div className="min-h-screen bg-gray-50 flex items-center justify-center text-black/40 text-xs tracking-widest uppercase">Loading…</div>;
   if (!user) return null;
 
   const userInitials = (user.email ?? '??').slice(0, 2).toUpperCase();
@@ -99,12 +99,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-white text-black flex">
       <aside className="w-60 bg-white border-r border-gray-200/60 flex flex-col flex-shrink-0 overflow-y-auto">
         {/* Logo */}
-        <div className="px-5 py-5 border-b border-gold/10">
+        <div className="px-5 py-5 border-b border-black/10">
           <Link href="/admin" className="flex items-center gap-3 group">
             <Image src="/logos/icon-char-gld.svg" alt="CDCC" width={28} height={28} className="w-7 h-7 transition-transform group-hover:scale-105" />
             <div>
-              <p className="font-display text-sm tracking-wide text-charcoal font-semibold">CDCC</p>
-              <p className="text-[9px] uppercase tracking-[0.2em] text-gold/50">Corporate OS</p>
+              <p className="font-display text-sm tracking-wide text-black font-semibold">CDCC</p>
+              <p className="text-[9px] uppercase tracking-[0.2em] text-gray-500/50">Corporate OS</p>
             </div>
           </Link>
         </div>
@@ -121,10 +121,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <Link key={link.href} href={link.href}
                     className={`flex items-center gap-3 px-3 py-2 text-[12px] tracking-wide rounded transition-colors ${
                       isActive
-                        ? 'bg-charcoal text-white border-l-2 border-gold -ml-px font-medium'
-                        : 'text-charcoal/50 hover:text-charcoal hover:bg-paper'
+                        ? 'bg-black text-white border-l-2 border-black -ml-px font-medium'
+                        : 'text-black/50 hover:text-black hover:bg-gray-50'
                     }`}>
-                    <span className={isActive ? 'text-gold' : 'text-charcoal/25'}>{link.icon}</span>
+                    <span className={isActive ? 'text-gray-500' : 'text-black/25'}>{link.icon}</span>
                     {link.label}
                   </Link>
                 );
@@ -133,15 +133,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
-        <div className="h-px bg-gold/10" />
-        <div className="px-5 py-4 border-t border-gold/10">
+        <div className="h-px bg-black/10" />
+        <div className="px-5 py-4 border-t border-black/10">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center text-[10px] font-semibold text-charcoal">{userInitials}</div>
+            <div className="w-8 h-8 rounded-full bg-black/10 border border-black/20 flex items-center justify-center text-[10px] font-semibold text-black">{userInitials}</div>
             <div className="flex-1 min-w-0">
               <p className="text-xs text-black truncate">{userName}</p>
               <button
                 onClick={() => { supabase?.auth.signOut(); router.replace('/admin/login'); }}
-                className="text-[10px] text-gray-500/60 hover:text-charcoal transition-colors"
+                className="text-[10px] text-gray-500/60 hover:text-black transition-colors"
               >
                 Sign out
               </button>

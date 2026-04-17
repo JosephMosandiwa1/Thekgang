@@ -109,14 +109,14 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
         )}
 
         <div className="flex items-center gap-3 mt-6 mb-3">
-          {post.category && <span className="text-[10px] uppercase tracking-wider text-gold/60">{post.category.replace('_', ' ')}</span>}
+          {post.category && <span className="text-[10px] uppercase tracking-wider text-gray-500/60">{post.category.replace('_', ' ')}</span>}
           <span className="text-[10px] text-gray-500/60">{post.published_at ? new Date(post.published_at).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}</span>
         </div>
         <h1 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-4">{post.title}</h1>
 
         {author && (
           <p className="text-sm text-gray-500 mb-8">
-            By <span className="text-charcoal font-medium">{author.first_name} {author.last_name}</span>
+            By <span className="text-black font-medium">{author.first_name} {author.last_name}</span>
             {author.job_title && <span className="text-gray-400"> · {author.job_title}</span>}
           </p>
         )}
@@ -124,7 +124,7 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
         {typeof post.content === 'string' ? (
           post.content.trim() ? (
             <div
-              className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-black prose-p:text-black/80 prose-blockquote:border-l-[3px] prose-blockquote:border-gold prose-blockquote:text-gray-500 prose-blockquote:italic prose-img:rounded"
+              className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-black prose-p:text-black/80 prose-blockquote:border-l-[3px] prose-blockquote:border-black prose-blockquote:text-gray-500 prose-blockquote:italic prose-img:rounded"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           ) : (
@@ -135,7 +135,7 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
             {Array.isArray(post.content) && post.content.map((block: { type: string; text: string }, i: number) => {
               if (block.type === 'paragraph') return <p key={i} className="text-sm text-black/80 leading-relaxed mb-4">{block.text}</p>;
               if (block.type === 'heading') return <h2 key={i} className="font-display text-xl font-bold text-black mt-8 mb-3">{block.text}</h2>;
-              if (block.type === 'quote') return <blockquote key={i} className="border-l-[3px] border-gold pl-6 my-6 italic text-gray-500">{block.text}</blockquote>;
+              if (block.type === 'quote') return <blockquote key={i} className="border-l-[3px] border-black pl-6 my-6 italic text-gray-500">{block.text}</blockquote>;
               return <p key={i} className="text-sm text-black/80 leading-relaxed mb-4">{typeof block === 'string' ? block : JSON.stringify(block)}</p>;
             })}
             {(!post.content || !Array.isArray(post.content) || post.content.length === 0) && <p className="text-sm text-gray-500">Article content will be available soon.</p>}

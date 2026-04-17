@@ -34,7 +34,7 @@ export default async function CMSPage({ params }: { params: { slug: string } }) 
         <h1 className="font-display text-3xl md:text-4xl font-bold text-black tracking-tight mb-8">{page.title}</h1>
         {isHtml ? (
           <div
-            className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-black prose-p:text-black/80 prose-blockquote:border-l-[3px] prose-blockquote:border-gold prose-blockquote:text-gray-500 prose-blockquote:italic prose-img:rounded"
+            className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-black prose-p:text-black/80 prose-blockquote:border-l-[3px] prose-blockquote:border-black prose-blockquote:text-gray-500 prose-blockquote:italic prose-img:rounded"
             dangerouslySetInnerHTML={{ __html: page.content as string }}
           />
         ) : (
@@ -42,7 +42,7 @@ export default async function CMSPage({ params }: { params: { slug: string } }) 
             {Array.isArray(page.content) && page.content.map((block: any, i: number) => {
               if (block.type === 'paragraph') return <p key={i} className="text-sm text-black/80 leading-relaxed mb-4">{block.text}</p>;
               if (block.type === 'heading') return <h2 key={i} className="font-display text-xl font-bold text-black mt-8 mb-3">{block.text}</h2>;
-              if (block.type === 'quote') return <blockquote key={i} className="border-l-[3px] border-gold pl-6 my-6 italic text-gray-500">{block.text}</blockquote>;
+              if (block.type === 'quote') return <blockquote key={i} className="border-l-[3px] border-black pl-6 my-6 italic text-gray-500">{block.text}</blockquote>;
               if (block.type === 'image') return <img key={i} src={block.url} alt={block.alt || ''} className="w-full rounded my-6" />;
               return <p key={i} className="text-sm text-black/80 leading-relaxed mb-4">{typeof block === 'string' ? block : ''}</p>;
             })}

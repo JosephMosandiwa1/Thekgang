@@ -21,7 +21,7 @@ export default function StakeholdersPage() {
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <Image src="/logos/icon-char-gld.svg" alt="" width={16} height={16} className="w-4 h-4 opacity-40" />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60">Stakeholders</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60">Stakeholders</p>
           </div>
           <h1 className="font-display font-bold text-black tracking-tight leading-[1.05]"
             style={{ fontSize: 'clamp(32px, 5vw, 56px)' }}>
@@ -35,9 +35,9 @@ export default function StakeholdersPage() {
       </section>
 
       {/* What Makes CDCC Unique */}
-      <section className="py-20 px-6 bg-paper texture-paper">
+      <section className="py-20 px-6 bg-gray-50 texture-paper">
         <div className="max-w-5xl mx-auto relative z-10">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">What Makes CDCC Different</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">What Makes CDCC Different</p>
           <h2 className="font-display text-2xl font-bold text-black tracking-tight mb-10">
             Not fragmented bodies. One coordinated structure.
           </h2>
@@ -82,7 +82,7 @@ export default function StakeholdersPage() {
               },
             ].map((item, i) => (
               <div key={i} className="bg-white p-6 border border-gray-200/60 card-hover transition-all">
-                <span className="text-[10px] text-gold/50 font-semibold">{String(i + 1).padStart(2, '0')}</span>
+                <span className="text-[10px] text-gray-500/50 font-semibold">{String(i + 1).padStart(2, '0')}</span>
                 <h3 className="font-display text-base font-bold text-black mt-2 mb-2">{item.title}</h3>
                 <p className="text-xs text-gray-500 leading-relaxed mb-3">{item.desc}</p>
                 <Link href={item.link} className="link-draw text-[10px] text-gray-500 hover:text-black transition-colors">
@@ -97,13 +97,13 @@ export default function StakeholdersPage() {
       {/* Who Should Affiliate */}
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">Who Should Affiliate</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">Who Should Affiliate</p>
           <h2 className="font-display text-2xl font-bold text-black tracking-tight mb-10">
             If you create or enable content — you belong here.
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="border-l-2 border-gold/20 pl-6">
+            <div className="border-l-2 border-black/20 pl-6">
               <h3 className="font-display text-lg font-bold text-black mb-3">Individual Practitioners</h3>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li>Authors, writers, and poets</li>
@@ -115,7 +115,7 @@ export default function StakeholdersPage() {
                 <li>AI and software developers in publishing</li>
               </ul>
             </div>
-            <div className="border-l-2 border-gold/20 pl-6">
+            <div className="border-l-2 border-black/20 pl-6">
               <h3 className="font-display text-lg font-bold text-black mb-3">Organisations & Enterprises</h3>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li>Publishing houses (traditional and digital)</li>
@@ -132,7 +132,7 @@ export default function StakeholdersPage() {
       </section>
 
       {/* Quote */}
-      <section className="py-16 px-6 bg-charcoal text-white pattern-overlay-dark relative">
+      <section className="py-16 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <p className="font-display text-xl md:text-2xl text-white leading-relaxed italic">
@@ -146,7 +146,7 @@ export default function StakeholdersPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 px-6 bg-paper texture-paper">
+      <section className="py-16 px-6 bg-gray-50 texture-paper">
         <div className="max-w-2xl mx-auto text-center relative z-10">
           <h2 className="font-display text-xl font-bold text-black mb-4">Ready to affiliate?</h2>
           <p className="text-sm text-gray-500 mb-6">

@@ -38,7 +38,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
     <div>
       <section className="pt-28 pb-12 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold/60 mb-4">News &amp; Stories</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">News &amp; Stories</p>
           <h1 className="font-display font-bold text-black tracking-tight leading-[1.05]" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>From the sector.</h1>
           <p className="text-sm text-gray-500 max-w-xl mt-6 leading-relaxed">Articles and stories from the content creation ecosystem. <Link href="/podcast" className="link-draw text-black inline-block">Or listen to Zibonele &rarr;</Link></p>
         </div>
@@ -51,7 +51,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
               <Link href="/join" className="link-draw text-xs text-gray-500 hover:text-black transition-colors">Join the council to stay updated &rarr;</Link>
             </div>
           ) : posts.map(p => (
-            <Link key={p.id} href={`/news/${p.slug}`} className="group block py-8 border-b rule-gold last:border-0 hover:bg-paper/50 -mx-4 px-4 transition-colors">
+            <Link key={p.id} href={`/news/${p.slug}`} className="group block py-8 border-b border-gray-200 last:border-0 hover:bg-gray-50/50 -mx-4 px-4 transition-colors">
               <div className="flex items-center gap-3 mb-2">
                 {p.category && <span className="text-[10px] uppercase tracking-wider text-gray-500">{p.category.replace('_', ' ')}</span>}
                 <span className="text-[10px] text-gray-500">{p.published_at ? new Date(p.published_at).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}</span>
@@ -67,7 +67,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
               {page > 1 && (
                 <Link
                   href={`/news?page=${page - 1}`}
-                  className="text-xs uppercase tracking-[0.15em] text-charcoal/50 hover:text-charcoal transition-colors"
+                  className="text-xs uppercase tracking-[0.15em] text-black/50 hover:text-black transition-colors"
                 >
                   &larr; Previous
                 </Link>
@@ -78,7 +78,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
               {page < totalPages && (
                 <Link
                   href={`/news?page=${page + 1}`}
-                  className="text-xs uppercase tracking-[0.15em] text-charcoal/50 hover:text-charcoal transition-colors"
+                  className="text-xs uppercase tracking-[0.15em] text-black/50 hover:text-black transition-colors"
                 >
                   Next &rarr;
                 </Link>
