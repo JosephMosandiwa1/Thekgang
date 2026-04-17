@@ -18,6 +18,78 @@ interface Feedback { id: string; name: string; rating: number; highlights: strin
 
 const CAMPAIGN_TYPES = ['save_the_date', 'invitation', 'reminder', 'last_call', 'post_event', 'custom'];
 
+function getTabsForEventType(eventType: string, event: any, registrations: any[], campaigns: any[]) {
+  const universal = [
+    { id: 'overview', label: 'Overview' },
+  ];
+
+  const typeSpecific: Record<string, Array<{ id: string; label: string }>> = {
+    symposium: [
+      { id: 'speakers', label: `Speakers (${(event.speakers || []).length})` },
+      { id: 'programme', label: `Programme (${(event.programme_schedule || []).length})` },
+      { id: 'sponsors', label: `Sponsors (${(event.sponsors || []).length})` },
+    ],
+    book_fair: [
+      { id: 'speakers', label: 'Speakers' },
+      { id: 'programme', label: 'Programme' },
+      { id: 'sponsors', label: 'Sponsors' },
+    ],
+    workshop: [
+      { id: 'speakers', label: 'Facilitator' },
+      { id: 'programme', label: 'Curriculum' },
+    ],
+    imbizo: [
+      { id: 'speakers', label: 'Speakers' },
+    ],
+    book_launch: [
+      { id: 'speakers', label: 'Author' },
+      { id: 'programme', label: 'Programme' },
+    ],
+    webinar: [
+      { id: 'speakers', label: 'Speakers' },
+    ],
+    conference: [
+      { id: 'speakers', label: `Speakers (${(event.speakers || []).length})` },
+      { id: 'programme', label: 'Programme' },
+      { id: 'sponsors', label: 'Sponsors' },
+    ],
+    reading: [
+      { id: 'speakers', label: 'Readers' },
+    ],
+    awards: [
+      { id: 'speakers', label: 'Judges & Presenters' },
+      { id: 'programme', label: 'Gala Programme' },
+      { id: 'sponsors', label: 'Sponsors' },
+    ],
+    training: [
+      { id: 'speakers', label: 'Trainers' },
+      { id: 'programme', label: 'Curriculum' },
+    ],
+    agm: [
+      { id: 'speakers', label: 'Board' },
+      { id: 'programme', label: 'Agenda' },
+    ],
+    festival: [
+      { id: 'speakers', label: `Participants (${(event.speakers || []).length})` },
+      { id: 'programme', label: 'Sub-events' },
+      { id: 'sponsors', label: 'Partners' },
+    ],
+  };
+
+  const shared = [
+    { id: 'tickets', label: 'Tickets' },
+    { id: 'registrations', label: `Registrations (${registrations.length})` },
+    { id: 'campaigns', label: `Campaigns (${campaigns.length})` },
+    { id: 'post-event', label: 'Post-Event' },
+  ];
+
+  return [
+    ...universal,
+    ...(typeSpecific[eventType] || typeSpecific.symposium || []),
+    ...shared,
+  ];
+}
+
 export default function EventDetailPage({ params }: { params: { id: string } }) {
   const [event, setEvent] = useState<EventFull | null>(null);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
@@ -129,16 +201,13 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
         <div className="border border-amber-500/30 bg-amber-500/5 rounded p-3 text-center"><p className="text-xl font-bold text-amber-700">{avgRating}</p><p className="text-[9px] text-gray-500 uppercase">Avg Rating</p></div>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs — universal + type-specific */}
       <div className="flex gap-1 mb-6 flex-wrap">
-        {(['overview', 'speakers', 'programme', 'sponsors', 'tickets', 'registrations', 'campaigns', 'post-event'] as const).map(t => {
-          const labels: Record<string, string> = { 'post-event': 'Post-Event', programme: `Programme (${(event.programme_schedule || []).length})`, speakers: `Speakers (${(event.speakers || []).length})`, sponsors: `Sponsors (${(event.sponsors || []).length})`, registrations: `Registrations (${registrations.length})`, campaigns: `Campaigns (${campaigns.length})` };
-          return (
-            <button key={t} onClick={() => setTab(t)} className={`text-[10px] uppercase tracking-wider px-4 py-2 rounded transition-colors ${tab === t ? 'bg-black text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}>
-              {labels[t] || t}
-            </button>
-          );
-        })}
+        {getTabsForEventType(event.event_type, event, registrations, campaigns).map(t => (
+          <button key={t.id} onClick={() => setTab(t.id as any)} className={`text-[10px] uppercase tracking-wider px-4 py-2 rounded transition-colors ${tab === t.id ? 'bg-black text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}>
+            {t.label}
+          </button>
+        ))}
       </div>
 
       {/* TAB: Overview (editable) */}

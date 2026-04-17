@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
-import DedicatedEventPage from '@/components/DedicatedEventPage';
+import EventMiniSite from '@/components/event-minisite/EventMiniSite';
 
 interface EventFull {
   id: number; title: string; slug: string; tagline: string; event_type: string; format: string;
@@ -74,7 +74,7 @@ export default function EventPage({ params }: { params: { id: string } }) {
   const spotsLeft = event.capacity ? Math.max(0, event.capacity - regCount) : null;
 
   if (event.is_dedicated) {
-    return <DedicatedEventPage event={event as any} regCount={regCount} />;
+    return <EventMiniSite event={event as any} regCount={regCount} />;
   }
 
   return (
