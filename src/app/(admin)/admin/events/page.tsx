@@ -103,11 +103,18 @@ export default function EventsPage() {
     setLoading(false);
   }
 
-  function openNew() {
-    setEditing(null);
-    setForm(EMPTY_FORM);
-    setShowMore(true);
-    setShowForm(true);
+  async function openNew() {
+    if (!supabase) return;
+    const { data } = await supabase.from('events').insert({
+      title: 'Untitled Event',
+      event_date: new Date().toISOString().split('T')[0],
+      status: 'draft',
+      event_type: 'event',
+      format: 'in-person',
+      is_dedicated: true,
+      registration_required: true,
+    }).select('id').single();
+    if (data) router.push(`/admin/events/${data.id}`);
   }
 
   function openEdit(ev: Event) {

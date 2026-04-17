@@ -141,26 +141,8 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
         })}
       </div>
 
-      {/* TAB: Overview */}
-      {tab === 'overview' && (
-        <div className="space-y-6">
-          {event.description && <div className="border border-gray-200/60 rounded p-6"><p className="text-[10px] uppercase tracking-wider text-gray-400 mb-2">Description</p><p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{event.description}</p></div>}
-          {event.programme_schedule && event.programme_schedule.length > 0 && (
-            <div className="border border-gray-200/60 rounded p-6">
-              <p className="text-[10px] uppercase tracking-wider text-gray-400 mb-3">Programme ({event.programme_schedule.length} items)</p>
-              {event.programme_schedule.map((item: any, i: number) => (
-                <div key={i} className="flex gap-4 py-2 border-b border-gray-100 last:border-0"><span className="text-xs text-gray-500 w-14 flex-shrink-0 font-mono">{item.time}</span><div><p className="text-sm font-medium text-black">{item.title}</p>{item.speaker && <p className="text-xs text-gray-500">{item.speaker}</p>}</div></div>
-              ))}
-            </div>
-          )}
-          {event.speakers && event.speakers.length > 0 && (
-            <div className="border border-gray-200/60 rounded p-6">
-              <p className="text-[10px] uppercase tracking-wider text-gray-400 mb-3">Speakers ({event.speakers.length})</p>
-              <div className="grid grid-cols-2 gap-4">{event.speakers.map((sp: any, i: number) => (<div key={i} className="border border-gray-100 rounded p-3"><p className="text-sm font-medium text-black">{sp.name}</p><p className="text-xs text-gray-500">{sp.title}{sp.organisation ? ` — ${sp.organisation}` : ''}</p></div>))}</div>
-            </div>
-          )}
-        </div>
-      )}
+      {/* TAB: Overview (editable) */}
+      {tab === 'overview' && <OverviewEditor event={event} onSave={load} />}
 
       {/* TAB: Programme Builder */}
       {tab === 'programme' && <ProgrammeBuilder event={event} onSave={load} />}
@@ -326,6 +308,136 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// OVERVIEW EDITOR (replaces read-only overview with full edit form)
+// ═══════════════════════════════════════════════════════════════
+
+const EVENT_TYPES = ['event', 'symposium', 'workshop', 'imbizo', 'launch', 'webinar', 'conference'];
+const FORMATS = ['in-person', 'virtual', 'hybrid'];
+const STATUSES = ['draft', 'published', 'registration_open', 'full', 'completed', 'cancelled'];
+
+function OverviewEditor({ event, onSave }: { event: EventFull; onSave: () => void }) {
+  const [form, setForm] = useState({
+    title: event.title || '', slug: event.slug || '', tagline: event.tagline || '',
+    description: event.description || '', event_date: event.event_date?.split('T')[0] || '',
+    event_time: event.event_time?.slice(0, 5) || '', end_date: (event as any).end_date?.split('T')[0] || '',
+    venue: event.venue || '', venue_address: event.venue_address || '',
+    capacity: String(event.capacity || ''), event_type: event.event_type || 'event',
+    format: event.format || 'in-person', status: event.status || 'draft',
+    cover_image_url: (event as any).cover_image_url || '',
+    registration_required: event.registration_required !== false,
+    is_dedicated: event.is_dedicated || false,
+    virtual_link: (event as any).virtual_link || '',
+    budget_allocated: String((event as any).budget_allocated || ''),
+    budget_spent: String((event as any).budget_spent || ''),
+  });
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    if (!supabase) return;
+    setSaving(true);
+    const slug = form.slug || form.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    await supabase.from('events').update({
+      title: form.title, slug, tagline: form.tagline || null,
+      description: form.description || null,
+      event_date: form.event_date, event_time: form.event_time || null,
+      end_date: form.end_date || null, venue: form.venue || null,
+      venue_address: form.venue_address || null,
+      capacity: parseInt(form.capacity) || null,
+      event_type: form.event_type, format: form.format, status: form.status,
+      cover_image_url: form.cover_image_url || null,
+      registration_required: form.registration_required,
+      is_dedicated: form.is_dedicated,
+      virtual_link: form.virtual_link || null,
+      budget_allocated: parseFloat(form.budget_allocated) || 0,
+      budget_spent: parseFloat(form.budget_spent) || 0,
+    }).eq('id', event.id);
+    setSaving(false);
+    onSave();
+  }
+
+  return (
+    <div className="space-y-5">
+      <div className="flex justify-end">
+        <button onClick={save} disabled={saving} className="bg-gold text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-gold/90 disabled:opacity-50 font-semibold">{saving ? 'Saving…' : 'Save Changes'}</button>
+      </div>
+
+      <div className="border border-gray-200/60 rounded p-6 space-y-4">
+        <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-2">Event Details</p>
+        <Field label="Title" value={form.title} onChange={v => setForm({ ...form, title: v })} required placeholder="Power of the Pen 2026" />
+        <Field label="Tagline" value={form.tagline} onChange={v => setForm({ ...form, tagline: v })} placeholder="One sentence that captures what this event is" />
+
+        <div className="grid grid-cols-3 gap-3">
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Type</label>
+            <select value={form.event_type} onChange={e => setForm({ ...form, event_type: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">{EVENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}</select>
+          </div>
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Format</label>
+            <select value={form.format} onChange={e => setForm({ ...form, format: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">{FORMATS.map(f => <option key={f} value={f}>{f}</option>)}</select>
+          </div>
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Status</label>
+            <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">{STATUSES.map(s => <option key={s} value={s}>{s.replace('_', ' ')}</option>)}</select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-3">
+          <Field label="Date" value={form.event_date} onChange={v => setForm({ ...form, event_date: v })} type="date" required />
+          <Field label="Time" value={form.event_time} onChange={v => setForm({ ...form, event_time: v })} type="time" />
+          <Field label="End date" value={form.end_date} onChange={v => setForm({ ...form, end_date: v })} type="date" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="Venue" value={form.venue} onChange={v => setForm({ ...form, venue: v })} placeholder="Durban ICC, Hall A" />
+          <Field label="Full venue address" value={form.venue_address} onChange={v => setForm({ ...form, venue_address: v })} placeholder="Street, city, postal code" />
+        </div>
+
+        <Field label="Capacity" value={form.capacity} onChange={v => setForm({ ...form, capacity: v })} type="number" placeholder="150" />
+        <Field label="URL slug" value={form.slug} onChange={v => setForm({ ...form, slug: v })} placeholder="auto-generated from title" />
+      </div>
+
+      <div className="border border-gray-200/60 rounded p-6 space-y-4">
+        <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-2">Description & Cover</p>
+        <div>
+          <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Cover Image</label>
+          <ImageUploader value={form.cover_image_url} onChange={(url: string) => setForm({ ...form, cover_image_url: url })} folder="events" label="" />
+        </div>
+        <div>
+          <label className="block text-[10px] uppercase tracking-[0.15em] text-charcoal/50 font-semibold mb-1">Description</label>
+          <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={6} placeholder="Describe the event — who it's for, what it covers, what to expect…" className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold resize-y" />
+        </div>
+      </div>
+
+      <div className="border border-gray-200/60 rounded p-6 space-y-4">
+        <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-2">Settings</p>
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="Virtual link (Zoom / Teams)" value={form.virtual_link} onChange={v => setForm({ ...form, virtual_link: v })} placeholder="https://zoom.us/j/..." />
+          <div />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="Budget allocated (ZAR)" value={form.budget_allocated} onChange={v => setForm({ ...form, budget_allocated: v })} type="number" placeholder="0" />
+          <Field label="Budget spent (ZAR)" value={form.budget_spent} onChange={v => setForm({ ...form, budget_spent: v })} type="number" placeholder="0" />
+        </div>
+        <div className="space-y-2 pt-2">
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" checked={form.registration_required} onChange={e => setForm({ ...form, registration_required: e.target.checked })} className="w-4 h-4 accent-gold" />
+            <span className="text-xs text-charcoal">Registration required</span>
+          </label>
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" checked={form.is_dedicated} onChange={e => setForm({ ...form, is_dedicated: e.target.checked })} className="w-4 h-4 accent-gold" />
+            <span className="text-xs text-charcoal">Dedicated event page (mini-site at /events/{form.slug || '[slug]'})</span>
+          </label>
+        </div>
+      </div>
+
+      <div className="flex justify-end">
+        <button onClick={save} disabled={saving} className="bg-gold text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-gold/90 disabled:opacity-50 font-semibold">{saving ? 'Saving…' : 'Save Changes'}</button>
+      </div>
     </div>
   );
 }
