@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import ImageUploader from '@/components/ImageUploader';
+import RichTextEditor from '@/components/RichTextEditor';
 import { exportToCSV, AttendanceRegisterPrint, DSACReportTemplate } from '@/components/EventFeatures';
 
 /* ============================================================
@@ -21,6 +22,7 @@ const CAMPAIGN_TYPES = ['save_the_date', 'invitation', 'reminder', 'last_call', 
 function getTabsForEventType(eventType: string, event: any, registrations: any[], campaigns: any[]) {
   const universal = [
     { id: 'overview', label: 'Overview' },
+    { id: 'design', label: 'Design' },
   ];
 
   const typeSpecific: Record<string, Array<{ id: string; label: string }>> = {
@@ -96,7 +98,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [feedback, setFeedback] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<'overview' | 'programme' | 'speakers' | 'sponsors' | 'tickets' | 'registrations' | 'campaigns' | 'post-event'>('overview');
+  const [tab, setTab] = useState<'overview' | 'design' | 'programme' | 'speakers' | 'sponsors' | 'tickets' | 'registrations' | 'campaigns' | 'post-event'>('overview');
   const [showCampaignForm, setShowCampaignForm] = useState(false);
   const [campaignForm, setCampaignForm] = useState({ campaign_type: 'invitation', subject: '', body: '', recipient_list: 'registrants' });
   const [postForm, setPostForm] = useState({ recording_url: '' });
@@ -223,6 +225,9 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
 
       {/* TAB: Overview (editable, auto-saves on tab switch) */}
       {tab === 'overview' && <OverviewEditor event={event} onSave={load} saveRef={overviewSaveRef} />}
+
+      {/* TAB: Design (mini-site theme, hero, footer, sections) */}
+      {tab === 'design' && <DesignEditor eventId={event.id} onSave={load} />}
 
       {/* TAB: Programme Builder */}
       {tab === 'programme' && <ProgrammeBuilder event={event} onSave={load} eventSpeakers={Array.isArray(event.speakers) ? event.speakers : []} />}
@@ -393,6 +398,161 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
 }
 
 // ═══════════════════════════════════════════════════════════════
+// DESIGN EDITOR (mini-site theme, hero, footer, section builder)
+// ═══════════════════════════════════════════════════════════════
+
+function DesignEditor({ eventId, onSave }: { eventId: number; onSave: () => void }) {
+  const [theme, setTheme] = useState({
+    accent_color: '#000000', accent_color_2: '', hero_type: 'image', hero_media_url: '',
+    event_logo_url: '', dark_mode: false, font_heading: 'Playfair Display', font_body: 'DM Sans',
+    footer_text: '', footer_contact_email: '', footer_social_links: '{}',
+  });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (!supabase) { setLoading(false); return; }
+    supabase.from('event_theme').select('*').eq('event_id', eventId).maybeSingle().then(({ data }) => {
+      if (data) setTheme({
+        accent_color: data.accent_color || '#000000',
+        accent_color_2: data.accent_color_2 || '',
+        hero_type: data.hero_type || 'image',
+        hero_media_url: data.hero_media_url || '',
+        event_logo_url: data.event_logo_url || '',
+        dark_mode: data.dark_mode || false,
+        font_heading: data.font_heading || 'Playfair Display',
+        font_body: data.font_body || 'DM Sans',
+        footer_text: data.footer_text || '',
+        footer_contact_email: data.footer_contact_email || '',
+        footer_social_links: JSON.stringify(data.footer_social_links || {}),
+      });
+      setLoading(false);
+    });
+  }, [eventId]);
+
+  async function save() {
+    if (!supabase) return;
+    setSaving(true);
+    let socialLinks = {};
+    try { socialLinks = JSON.parse(theme.footer_social_links); } catch { /* ignore */ }
+    const payload = {
+      event_id: eventId,
+      accent_color: theme.accent_color,
+      accent_color_2: theme.accent_color_2 || null,
+      hero_type: theme.hero_type,
+      hero_media_url: theme.hero_media_url || null,
+      event_logo_url: theme.event_logo_url || null,
+      dark_mode: theme.dark_mode,
+      font_heading: theme.font_heading,
+      font_body: theme.font_body,
+      footer_text: theme.footer_text || null,
+      footer_contact_email: theme.footer_contact_email || null,
+      footer_social_links: socialLinks,
+      updated_at: new Date().toISOString(),
+    };
+    await supabase.from('event_theme').upsert(payload, { onConflict: 'event_id' });
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+    onSave();
+  }
+
+  if (loading) return <p className="text-xs text-gray-400 py-8 text-center">Loading design settings…</p>;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        {saved && <p className="text-xs text-green-600">✓ Design saved</p>}
+        {!saved && <div />}
+        <button onClick={save} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-black/90 disabled:opacity-50 font-semibold">
+          {saving ? 'Saving…' : saved ? '✓ Saved' : 'Save Design'}
+        </button>
+      </div>
+
+      {/* Theme colours */}
+      <div className="border border-gray-200/60 rounded p-6 space-y-4">
+        <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-2">Theme & Colours</p>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Accent Colour</label>
+            <div className="flex items-center gap-2">
+              <input type="color" value={theme.accent_color} onChange={e => setTheme(t => ({ ...t, accent_color: e.target.value }))} className="w-10 h-10 rounded border border-gray-200 cursor-pointer" />
+              <input type="text" value={theme.accent_color} onChange={e => setTheme(t => ({ ...t, accent_color: e.target.value }))} className="flex-1 px-3 py-2 border border-gray-200 rounded text-sm font-mono focus:outline-none focus:border-black" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Secondary Colour</label>
+            <div className="flex items-center gap-2">
+              <input type="color" value={theme.accent_color_2 || '#000000'} onChange={e => setTheme(t => ({ ...t, accent_color_2: e.target.value }))} className="w-10 h-10 rounded border border-gray-200 cursor-pointer" />
+              <input type="text" value={theme.accent_color_2} onChange={e => setTheme(t => ({ ...t, accent_color_2: e.target.value }))} placeholder="optional" className="flex-1 px-3 py-2 border border-gray-200 rounded text-sm font-mono focus:outline-none focus:border-black" />
+            </div>
+          </div>
+          <div>
+            <label className="flex items-center gap-3 cursor-pointer mt-6">
+              <input type="checkbox" checked={theme.dark_mode} onChange={e => setTheme(t => ({ ...t, dark_mode: e.target.checked }))} className="w-4 h-4 accent-black" />
+              <span className="text-xs text-black">Dark mode hero</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div className="border border-gray-200/60 rounded p-6 space-y-4">
+        <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-2">Hero & Banner</p>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Hero Type</label>
+            <select value={theme.hero_type} onChange={e => setTheme(t => ({ ...t, hero_type: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black">
+              <option value="image">Image</option>
+              <option value="video">Video</option>
+              <option value="gradient">Gradient</option>
+              <option value="pattern">Pattern</option>
+              <option value="solid">Solid colour</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Hero Media URL</label>
+            <input type="text" value={theme.hero_media_url} onChange={e => setTheme(t => ({ ...t, hero_media_url: e.target.value }))} placeholder="Image or video URL" className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black" />
+          </div>
+        </div>
+        <div>
+          <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Hero Image Upload</label>
+          <ImageUploader value={theme.hero_media_url} onChange={(url: string) => setTheme(t => ({ ...t, hero_media_url: url }))} folder="events" label="" />
+        </div>
+        <div>
+          <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Event Logo</label>
+          <ImageUploader value={theme.event_logo_url} onChange={(url: string) => setTheme(t => ({ ...t, event_logo_url: url }))} folder="events" label="" />
+        </div>
+      </div>
+
+      {/* Typography */}
+      <div className="border border-gray-200/60 rounded p-6 space-y-4">
+        <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-2">Typography</p>
+        <div className="grid grid-cols-2 gap-4">
+          <Field label="Heading Font" value={theme.font_heading} onChange={v => setTheme(t => ({ ...t, font_heading: v }))} placeholder="Playfair Display" />
+          <Field label="Body Font" value={theme.font_body} onChange={v => setTheme(t => ({ ...t, font_body: v }))} placeholder="DM Sans" />
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="border border-gray-200/60 rounded p-6 space-y-4">
+        <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-2">Mini-site Footer</p>
+        <Field label="Footer Text" value={theme.footer_text} onChange={v => setTheme(t => ({ ...t, footer_text: v }))} placeholder="Organised by CDCC — Books & Publishing Content Developers and Creators Council" multiline />
+        <Field label="Contact Email" value={theme.footer_contact_email} onChange={v => setTheme(t => ({ ...t, footer_contact_email: v }))} placeholder="events@cdcc.org.za" />
+        <Field label="Social Links (JSON)" value={theme.footer_social_links} onChange={v => setTheme(t => ({ ...t, footer_social_links: v }))} placeholder='{"twitter": "https://...", "facebook": "https://..."}' multiline />
+      </div>
+
+      <div className="flex justify-end">
+        <button onClick={save} disabled={saving} className="bg-black text-white text-[10px] uppercase tracking-wider px-6 py-2.5 rounded hover:bg-black/90 disabled:opacity-50 font-semibold">
+          {saving ? 'Saving…' : 'Save Design'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
 // OVERVIEW EDITOR (replaces read-only overview with full edit form)
 // ═══════════════════════════════════════════════════════════════
 
@@ -515,7 +675,7 @@ function OverviewEditor({ event, onSave, saveRef }: { event: EventFull; onSave: 
         </div>
         <div>
           <label className="block text-[10px] uppercase tracking-[0.15em] text-black/50 font-semibold mb-1">Description</label>
-          <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={6} placeholder="Describe the event — who it's for, what it covers, what to expect…" className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-black resize-y" />
+          <RichTextEditor value={form.description} onChange={html => setForm({ ...form, description: html })} placeholder="Describe the event — who it's for, what it covers, what to expect…" minHeight={250} />
         </div>
       </div>
 
