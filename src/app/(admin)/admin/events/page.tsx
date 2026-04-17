@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
 import ImageUploader from '@/components/ImageUploader';
 import RichTextEditor from '@/components/RichTextEditor';
@@ -74,10 +75,11 @@ const EMPTY_FORM = {
   status: 'published' as (typeof STATUSES)[number],
   cover_image_url: '',
   registration_required: true,
-  is_dedicated: false,
+  is_dedicated: true,
 };
 
 export default function EventsPage() {
+  const router = useRouter();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'list' | 'calendar'>('list');
@@ -104,7 +106,7 @@ export default function EventsPage() {
   function openNew() {
     setEditing(null);
     setForm(EMPTY_FORM);
-    setShowMore(false);
+    setShowMore(true);
     setShowForm(true);
   }
 
@@ -157,13 +159,21 @@ export default function EventsPage() {
     };
     if (editing) {
       await supabase.from('events').update(record).eq('id', editing.id);
+      setSaving(false);
+      setShowForm(false);
+      setEditing(null);
+      load();
     } else {
-      await supabase.from('events').insert(record);
+      const { data: created } = await supabase.from('events').insert(record).select('id').single();
+      setSaving(false);
+      setShowForm(false);
+      setEditing(null);
+      if (created) {
+        router.push(`/admin/events/${created.id}`);
+      } else {
+        load();
+      }
     }
-    setSaving(false);
-    setShowForm(false);
-    setEditing(null);
-    load();
   }
 
   async function handleDelete(ev: Event) {
