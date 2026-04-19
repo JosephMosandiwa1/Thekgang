@@ -5,12 +5,27 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', topic: 'general', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true); setError(null);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || 'Submit failed'); setSending(false); return; }
+      setSubmitted(true);
+    } catch (err) {
+      setError(String(err));
+    }
+    setSending(false);
   }
 
   return (

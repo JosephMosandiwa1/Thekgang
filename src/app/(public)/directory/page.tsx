@@ -5,38 +5,43 @@ import type { Metadata } from 'next';
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'Directory',
-  description: 'Browse registered members of the Books and Publishing Content Developers and Creators Council — authors, publishers, illustrators, translators, and more.',
+  title: 'Member directory',
+  description: 'Browse practitioners enrolled in the Content Development Council — authors, editors, illustrators, publishers, translators and more, across all 14 publishing disciplines.',
 };
 
-const TYPE_LABELS: Record<string, string> = {
-  author: 'Authors', illustrator: 'Illustrators', translator: 'Translators',
-  publisher: 'Publishers', printer: 'Printers', distributor: 'Distributors',
-  bookseller: 'Booksellers', library: 'Libraries', school: 'Schools',
-  literary_agent: 'Literary Agents', editor: 'Editors', designer: 'Designers',
-  journalist: 'Journalists', other: 'Other',
-};
-
-interface Member { id: string; name: string; organisation: string | null; province: string | null; constituency_type: string }
+interface MemberRow {
+  id: number;
+  full_name: string;
+  organisation: string | null;
+  province: string | null;
+  city: string | null;
+  disciplines: string[];
+  bio: string | null;
+  website_url: string | null;
+  member_number: string | null;
+}
 
 export default async function DirectoryPage() {
   const sb = getSupabase();
-  let members: Member[] = [];
+  let members: MemberRow[] = [];
   if (sb) {
     const { data } = await sb
-      .from('constituency_submissions')
-      .select('id, name, organisation, province, constituency_type')
-      .eq('status', 'verified')
-      .order('name');
-    members = (data || []) as Member[];
+      .from('members')
+      .select('id, full_name, organisation, province, city, disciplines, bio, website_url, member_number')
+      .eq('consent_directory', true)
+      .eq('verified', true)
+      .eq('status', 'active')
+      .order('full_name');
+    members = (data || []) as MemberRow[];
   }
 
-  const byType: Record<string, Member[]> = {};
+  // Group by primary discipline (first in the array) to show a segmented directory
+  const byDiscipline: Record<string, MemberRow[]> = {};
   for (const m of members) {
-    const key = m.constituency_type || 'other';
-    (byType[key] ??= []).push(m);
+    const key = m.disciplines[0] || 'Other';
+    (byDiscipline[key] ??= []).push(m);
   }
-  const types = Object.entries(byType).sort(([, a], [, b]) => b.length - a.length);
+  const sortedDisciplines = Object.entries(byDiscipline).sort(([, a], [, b]) => b.length - a.length);
 
   return (
     <div>
@@ -45,8 +50,8 @@ export default async function DirectoryPage() {
           <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60 mb-4">Directory</p>
           <h1 className="font-display font-bold text-black tracking-tight leading-[1.05]" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>Our people.</h1>
           <p className="text-sm text-gray-500 max-w-xl mt-6 leading-relaxed">
-            Registered members of the Books & Publishing Content Developers and Creators Council across all 14 constituency types.
-            <Link href="/join" className="link-draw text-black inline-block ml-1">Join the council →</Link>
+            Verified members of the Council who have opted in to the public directory. Only practitioners with active membership are shown.{' '}
+            <Link href="/join" className="text-black underline">Join the Council →</Link>
           </p>
         </div>
       </section>
@@ -54,44 +59,39 @@ export default async function DirectoryPage() {
       <section className="pb-20 px-6">
         <div className="max-w-5xl mx-auto">
           {members.length === 0 ? (
-            <div className="border border-gray-200 rounded p-12 text-center bg-white">
-              <p className="text-gray-500 mb-2">No verified members in the directory yet.</p>
-              <p className="text-xs text-gray-400">Members appear here once their constituency submission is verified by the CDCC secretariat.</p>
-              <Link href="/join" className="link-draw text-xs text-black inline-block mt-4">Register as a member →</Link>
+            <div className="border border-gray-200 p-12 text-center bg-white">
+              <p className="text-gray-500 mb-2">No directory entries yet.</p>
+              <p className="text-xs text-gray-400">Practitioners appear here once they enrol, are verified, and opt in to the public directory.</p>
+              <Link href="/join" className="text-xs text-black underline inline-block mt-4">Enrol as a member →</Link>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12">
-                <div className="border border-gray-200 rounded p-4 text-center bg-white">
-                  <p className="text-2xl font-display font-bold text-black">{members.length}</p>
-                  <p className="text-[9px] uppercase text-gray-500 tracking-wider">Total Members</p>
-                </div>
-                <div className="border border-gray-200 rounded p-4 text-center bg-white">
-                  <p className="text-2xl font-display font-bold text-black">{types.length}</p>
-                  <p className="text-[9px] uppercase text-gray-500 tracking-wider">Constituency Types</p>
-                </div>
-                <div className="border border-gray-200 rounded p-4 text-center bg-white">
-                  <p className="text-2xl font-display font-bold text-black">{new Set(members.map(m => m.province).filter(Boolean)).size}</p>
-                  <p className="text-[9px] uppercase text-gray-500 tracking-wider">Provinces</p>
-                </div>
-                <div className="border border-black/20 rounded p-4 text-center bg-black/5">
-                  <p className="text-2xl font-display font-bold text-gray-500">{members.filter(m => m.organisation).length}</p>
-                  <p className="text-[9px] uppercase text-gray-500 tracking-wider">With Organisations</p>
-                </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+                <StatCard value={members.length} label="Members in directory" />
+                <StatCard value={sortedDisciplines.length} label="Disciplines represented" />
+                <StatCard value={new Set(members.map((m) => m.province).filter(Boolean)).size} label="Provinces" />
+                <StatCard value={members.filter((m) => m.organisation).length} label="With organisations" />
               </div>
 
-              {types.map(([type, typeMembers]) => (
-                <div key={type} className="mb-10">
+              {sortedDisciplines.map(([discipline, list]) => (
+                <div key={discipline} className="mb-10">
                   <div className="flex items-center gap-3 mb-4">
-                    <h2 className="font-display text-lg font-bold text-black">{TYPE_LABELS[type] || type}</h2>
-                    <span className="text-[10px] text-gray-400 font-mono">{typeMembers.length}</span>
+                    <h2 className="font-display text-lg font-bold text-black">{discipline}</h2>
+                    <span className="text-[10px] text-gray-400 font-mono">{list.length}</span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {typeMembers.map(m => (
-                      <div key={m.id} className="border border-gray-200/60 rounded p-4 bg-white">
-                        <p className="text-sm font-medium text-black">{m.name}</p>
+                    {list.map((m) => (
+                      <div key={m.id} className="border border-gray-200/60 p-4 bg-white">
+                        <p className="text-sm font-medium text-black">{m.full_name}</p>
                         {m.organisation && <p className="text-xs text-gray-500 mt-0.5">{m.organisation}</p>}
-                        {m.province && <p className="text-[10px] text-gray-400 mt-1">{m.province}</p>}
+                        {m.disciplines.length > 1 && (
+                          <p className="text-[10px] text-gray-400 mt-1">Also: {m.disciplines.slice(1).join(' · ')}</p>
+                        )}
+                        <div className="flex items-center justify-between mt-2">
+                          {m.province && <p className="text-[10px] text-gray-400">{[m.city, m.province].filter(Boolean).join(', ')}</p>}
+                          {m.member_number && <p className="text-[10px] font-mono text-gray-400">{m.member_number}</p>}
+                        </div>
+                        {m.website_url && <a href={m.website_url} target="_blank" rel="noopener" className="text-[10px] text-gray-500 hover:text-black underline mt-1 inline-block">website →</a>}
                       </div>
                     ))}
                   </div>
@@ -101,6 +101,15 @@ export default async function DirectoryPage() {
           )}
         </div>
       </section>
+    </div>
+  );
+}
+
+function StatCard({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="border border-gray-200 p-4 text-center bg-white">
+      <p className="text-2xl font-display font-bold text-black">{value}</p>
+      <p className="text-[9px] uppercase text-gray-500 tracking-wider">{label}</p>
     </div>
   );
 }

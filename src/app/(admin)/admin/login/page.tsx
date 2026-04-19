@@ -97,6 +97,12 @@ export default function AdminLoginPage() {
           >
             {loading ? 'Signing in…' : 'Sign in'}
           </button>
+
+          <div className="text-center mt-4">
+            <a href="/admin/login/reset" className="text-xs text-gray-500 hover:text-black transition-colors">
+              Forgot password?
+            </a>
+          </div>
         </form>
 
         <p className="text-center text-[10px] text-black/30 mt-6 tracking-wide">
