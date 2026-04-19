@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { formatDate, slugify, supabaseErrorMessage } from '@/lib/utils';
+import { FeatureOnSiteButton } from '@/components/placements/FeatureOnSiteButton';
 
 interface Release { id?: number; slug: string; title: string; dateline: string | null; summary: string | null; body: string | null; topic: string | null; released_at: string | null; status: string; spokesperson_id: number | null; press_kit_url: string | null }
 interface Spokes { id?: number; name: string; role: string | null; email: string | null; phone: string | null; bio: string | null; topics: string[]; available: boolean; order_index: number; headshot_url: string | null }
@@ -84,7 +85,12 @@ export default function AdminPress() {
                   <td className="px-4 py-3 text-xs text-gray-600">{r.topic || '—'}</td>
                   <td className="px-4 py-3 text-xs text-gray-600">{r.released_at ? formatDate(r.released_at, 'short') : '—'}</td>
                   <td className="px-4 py-3"><span className={`text-[10px] uppercase px-2 py-0.5 ${r.status === 'released' ? 'bg-green-100 text-green-700' : r.status === 'scheduled' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600'}`}>{r.status}</span></td>
-                  <td className="px-4 py-3 text-right"><button onClick={() => setEditingRel(r)} className="text-xs text-gray-500 hover:text-black">Edit →</button></td>
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex gap-2 justify-end items-center">
+                      {r.id && <FeatureOnSiteButton contentKind="press_release" refId={r.id} contentTitle={r.title} label="Feature" className="text-xs text-gray-500 hover:text-black" />}
+                      <button onClick={() => setEditingRel(r)} className="text-xs text-gray-500 hover:text-black">Edit →</button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

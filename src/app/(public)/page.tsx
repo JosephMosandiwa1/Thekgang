@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase/client';
+import { Placements } from '@/components/placements/Placements';
 
 /* ============================================================
    CDCC Homepage — Supabase-driven with hardcoded fallback
@@ -197,6 +198,10 @@ export default async function HomePage() {
 
   return (
     <div>
+      {/* Homepage placements — render above the hardcoded homepage if any are live */}
+      <Placements slot="homepage_hero" />
+      <Placements slot="homepage_announcement" />
+
       {/* ═══ HERO ═══ */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 bg-black overflow-hidden">
         <div
@@ -247,6 +252,14 @@ export default async function HomePage() {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent z-10" />
       </section>
+
+      {/* Featured placements strip (shows as a row of up to 3 cards) */}
+      <Placements slot="homepage_featured" wrapperClassName="grid md:grid-cols-3 gap-4 px-6 md:px-8 py-12 max-w-6xl mx-auto" />
+
+      {/* Single spotlight placement */}
+      <div className="px-6 md:px-8 max-w-6xl mx-auto">
+        <Placements slot="homepage_spotlight" />
+      </div>
 
       {/* ═══ STAKEHOLDER CATEGORIES ═══ */}
       <section className="py-20 px-6">

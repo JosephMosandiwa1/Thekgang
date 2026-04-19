@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { formatDate, formatRand, slugify, supabaseErrorMessage } from '@/lib/utils';
+import { FeatureOnSiteButton } from '@/components/placements/FeatureOnSiteButton';
 
 interface Opp {
   id: number;
@@ -143,7 +144,10 @@ export default function AdminGrants() {
                     }`}>{o.status}</span>
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <button onClick={() => setEditing(o)} className="text-xs text-gray-500 hover:text-black">Edit →</button>
+                    <div className="flex gap-2 justify-end items-center">
+                      <FeatureOnSiteButton contentKind="grant" refId={o.id} contentTitle={o.title} label="Feature" className="text-xs text-gray-500 hover:text-black" />
+                      <button onClick={() => setEditing(o)} className="text-xs text-gray-500 hover:text-black">Edit →</button>
+                    </div>
                   </td>
                 </tr>
               ))}

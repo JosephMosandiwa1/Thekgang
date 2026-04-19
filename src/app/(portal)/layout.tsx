@@ -20,6 +20,8 @@ const NAV = [
   { href: '/portal/events', label: 'Events' },
   { href: '/portal/certificates', label: 'Certificates' },
   { href: '/portal/working-groups', label: 'Working groups' },
+  { href: '/portal/agm', label: 'AGM' },
+  { href: '/portal/messages', label: 'Messages' },
   { href: '/portal/sector-data', label: 'Sector data' },
   { href: '/portal/policy', label: 'Policy' },
   { href: '/portal/grants', label: 'Grants' },
@@ -77,6 +79,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
 
   return (
     <div className="min-h-screen bg-white text-black">
+      <a href="#portal-main" className="skip-link">Skip to main content</a>
       <header className="border-b border-gray-200/60 px-6 md:px-10 py-4 sticky top-0 bg-white z-10">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-6">
           <Link href="/portal" className="flex items-center gap-3 group">
@@ -124,7 +127,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         </nav>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 md:px-10 py-10">{children}</main>
+      <main id="portal-main" className="max-w-6xl mx-auto px-6 md:px-10 py-10">{children}</main>
     </div>
   );
 }

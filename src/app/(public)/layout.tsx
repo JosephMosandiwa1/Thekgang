@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { GlobalBanner, GlobalTicker, GlobalTakeover, FooterCallout } from '@/components/placements/GlobalPlacements';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 /* ============================================================
    CDCC Public Layout
@@ -36,6 +38,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
   return (
     <div className="min-h-screen bg-white text-black">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+      {/* Global banner from the Placements system (sits above everything) */}
+      <div className="fixed top-0 left-0 right-0 z-[55]"><GlobalBanner /></div>
+      <GlobalTakeover />
+
       {/* ── NAV ── */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         useDarkNav ? 'bg-transparent' : 'bg-white/95 backdrop-blur-xl border-b border-gray-200'
@@ -67,10 +74,15 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             }`}>
               Join the Registry
             </Link>
+            <LanguageSwitcher className={useDarkNav ? 'text-white/70' : ''} />
           </div>
 
           {/* Mobile: brand icon as menu toggle */}
-          <button onClick={() => setMobileOpen(!mobileOpen)}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
             className={`lg:hidden transition-colors ${useDarkNav ? 'text-white/70' : 'text-gray-500'}`}>
             {mobileOpen ? (
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
@@ -89,7 +101,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         </nav>
 
         {mobileOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-200 px-6 py-6 space-y-4">
+          <div id="mobile-menu" className="lg:hidden bg-white border-t border-gray-200 px-6 py-6 space-y-4">
             {navLinks.map(link => (
               <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
                 className="block text-[12px] tracking-[0.1em] uppercase text-gray-500 hover:text-black transition-colors">
@@ -104,7 +116,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         )}
       </header>
 
-      <main>{children}</main>
+      <main id="main-content">{children}</main>
 
       {/* ── FOOTER — Brand-rich, literary ── */}
       <footer className="bg-black text-white overflow-hidden">
@@ -198,6 +210,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         {/* Bottom gold line */}
         <div className="h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
       </footer>
+
+      {/* Footer callout + ticker from Placements system */}
+      <FooterCallout />
+      <GlobalTicker />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import ImageUploader from '@/components/ImageUploader';
 import RichTextEditor from '@/components/RichTextEditor';
+import { FeatureOnSiteButton } from '@/components/placements/FeatureOnSiteButton';
 import { exportToCSV, AttendanceRegisterPrint, DSACReportTemplate } from '@/components/EventFeatures';
 
 /* ============================================================
@@ -181,6 +182,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             <p className="text-sm text-gray-500 mt-1">{event.event_date} &middot; {event.venue || 'TBC'}</p>
           </div>
           <div className="flex items-center gap-2">
+            <FeatureOnSiteButton contentKind="event" refId={event.id} contentTitle={event.title} label="+ Feature on site" />
             {event.is_dedicated && event.slug && (
               <a href={`/events/${event.slug}`} target="_blank" rel="noopener" className="text-[10px] uppercase tracking-wider px-4 py-2 border border-gray-200 text-gray-500 rounded hover:text-black hover:border-black transition-colors">View Public Page →</a>
             )}

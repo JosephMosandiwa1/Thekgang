@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import RichTextEditor from '@/components/RichTextEditor';
+import { FeatureOnSiteButton } from '@/components/placements/FeatureOnSiteButton';
 
 interface Post { id: number; slug: string; title: string; category: string; status: string; published_at: string; created_at: string; content: any; meta_description: string }
 
@@ -117,10 +118,11 @@ export default function PostsPage() {
             <span className="col-span-2 text-gray-500 text-xs capitalize">{p.category || '—'}</span>
             <span className="col-span-2"><span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border rounded ${p.status === 'published' ? 'border-green-500/30 text-green-700' : 'border-gray-200/60 text-gray-500'}`}>{p.status}</span></span>
             <span className="col-span-2 text-gray-500 text-xs">{p.published_at?.split('T')[0] || '—'}</span>
-            <span className="col-span-2 flex gap-2">
+            <span className="col-span-2 flex gap-2 items-center">
               <button onClick={() => togglePublish(p)} className={`text-[9px] uppercase tracking-wider px-2 py-1 border rounded transition-colors ${p.status === 'published' ? 'border-amber-500/30 text-amber-700 hover:bg-amber-50' : 'border-green-500/30 text-green-700 hover:bg-green-50'}`}>
                 {p.status === 'published' ? 'Unpublish' : 'Publish'}
               </button>
+              <FeatureOnSiteButton contentKind="post" refId={p.id} contentTitle={p.title} label="Feature" className="text-[9px] uppercase tracking-wider px-2 py-1 border border-gray-300 text-gray-500 rounded hover:border-black hover:text-black transition-colors" />
               <button onClick={() => handleDelete(p)} className="text-[9px] uppercase tracking-wider px-2 py-1 border border-red-500/20 text-red-500 rounded hover:bg-red-50 transition-colors">Del</button>
             </span>
           </div>

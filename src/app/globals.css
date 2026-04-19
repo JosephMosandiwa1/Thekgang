@@ -29,6 +29,60 @@ body {
   color: #fff;
 }
 
+/* ── ACCESSIBILITY: Skip link ── */
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 1rem;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: top 0.2s ease;
+  border: 2px solid transparent;
+}
+.skip-link:focus {
+  top: 0.5rem;
+  outline: none;
+  border-color: #D4AF37;
+}
+
+/* ── ACCESSIBILITY: Visible focus ring on keyboard nav ── */
+*:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 2px;
+}
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 1px;
+}
+
+/* Visually-hidden utility for sr-only labels not covered by tailwind preset */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .font-display {
   font-family: var(--font-display), Georgia, serif;
 }

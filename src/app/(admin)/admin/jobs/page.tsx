@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { formatDate, formatRand, slugify, supabaseErrorMessage } from '@/lib/utils';
+import { FeatureOnSiteButton } from '@/components/placements/FeatureOnSiteButton';
 
 interface Job {
   id?: number; slug?: string | null; title: string; employer_name: string; employer_logo_url: string | null;
@@ -84,8 +85,11 @@ export default function AdminJobs() {
                     : <span className={`text-[10px] uppercase px-2 py-0.5 ${j.status === 'open' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>{j.status}</span>}
                 </td>
                 <td className="px-4 py-3 text-right text-xs">
-                  {!j.approved && <button onClick={() => approve(j, true)} className="text-green-700 hover:underline mr-3">Approve</button>}
-                  <button onClick={() => setEditing(j)} className="text-gray-500 hover:text-black">Edit →</button>
+                  <div className="flex gap-2 justify-end items-center">
+                    {!j.approved && <button onClick={() => approve(j, true)} className="text-green-700 hover:underline">Approve</button>}
+                    {j.id && <FeatureOnSiteButton contentKind="job" refId={j.id} contentTitle={j.title} label="Feature" className="text-xs text-gray-500 hover:text-black" />}
+                    <button onClick={() => setEditing(j)} className="text-gray-500 hover:text-black">Edit →</button>
+                  </div>
                 </td>
               </tr>
             ))}

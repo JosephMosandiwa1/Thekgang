@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import { formatDate, slugify, supabaseErrorMessage } from '@/lib/utils';
+import { FeatureOnSiteButton } from '@/components/placements/FeatureOnSiteButton';
 
 interface Consult {
   id?: number; slug: string; title: string; subject: string | null; body: string | null;
@@ -62,8 +63,11 @@ export default function AdminConsultations() {
                 <td className="px-4 py-3 text-xs text-gray-600">{c.closes_at ? formatDate(c.closes_at, 'short') : '—'}</td>
                 <td className="px-4 py-3"><span className={`text-[10px] uppercase px-2 py-0.5 ${c.status === 'open' ? 'bg-green-100 text-green-700' : c.status === 'responded' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600'}`}>{c.status}</span></td>
                 <td className="px-4 py-3 text-right">
-                  <Link href={`/consultations/${c.slug}`} target="_blank" className="text-xs text-gray-500 hover:text-black mr-3">Preview →</Link>
-                  <button onClick={() => setEditing(c)} className="text-xs text-gray-500 hover:text-black">Edit</button>
+                  <div className="flex gap-2 justify-end items-center">
+                    <Link href={`/consultations/${c.slug}`} target="_blank" className="text-xs text-gray-500 hover:text-black">Preview →</Link>
+                    {c.id && <FeatureOnSiteButton contentKind="consultation" refId={c.id} contentTitle={c.title} label="Feature" className="text-xs text-gray-500 hover:text-black" />}
+                    <button onClick={() => setEditing(c)} className="text-xs text-gray-500 hover:text-black">Edit</button>
+                  </div>
                 </td>
               </tr>
             ))}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { formatDate, formatRand, supabaseErrorMessage } from '@/lib/utils';
+import { FeatureOnSiteButton } from '@/components/placements/FeatureOnSiteButton';
 
 interface Book {
   id?: number; isbn: string | null; title: string; subtitle: string | null;
@@ -87,7 +88,12 @@ export default function AdminBooks() {
                 <td className="px-4 py-3 text-xs">{b.publisher_name || '—'}</td>
                 <td className="px-4 py-3 text-xs font-mono">{b.isbn || '—'}</td>
                 <td className="px-4 py-3 text-xs text-gray-600">{b.published_date ? formatDate(b.published_date, 'short') : '—'}</td>
-                <td className="px-4 py-3 text-right"><button onClick={() => setEditing(b)} className="text-xs text-gray-500 hover:text-black">Edit →</button></td>
+                <td className="px-4 py-3 text-right">
+                  <div className="flex gap-2 justify-end items-center">
+                    {b.id && <FeatureOnSiteButton contentKind="book" refId={b.id} contentTitle={b.title} label="Feature" className="text-xs text-gray-500 hover:text-black" />}
+                    <button onClick={() => setEditing(b)} className="text-xs text-gray-500 hover:text-black">Edit →</button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
