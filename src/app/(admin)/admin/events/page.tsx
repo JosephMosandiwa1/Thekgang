@@ -165,14 +165,28 @@ export default function EventsPage() {
       is_dedicated: form.is_dedicated,
     };
     if (editing) {
-      await supabase.from('events').update(record).eq('id', editing.id);
+      const { error: updateErr } = await supabase.from('events').update(record).eq('id', editing.id);
       setSaving(false);
+      if (updateErr) {
+        console.error('[events] update failed', updateErr, record);
+        alert(`Could not update event:\n\n${updateErr.message}\n${updateErr.details ?? ''}\n${updateErr.hint ?? ''}`);
+        return;
+      }
       setShowForm(false);
       setEditing(null);
       load();
     } else {
-      const { data: created } = await supabase.from('events').insert(record).select('id').single();
+      const { data: created, error: insertErr } = await supabase
+        .from('events')
+        .insert(record)
+        .select('id')
+        .single();
       setSaving(false);
+      if (insertErr) {
+        console.error('[events] insert failed', insertErr, record);
+        alert(`Could not create event:\n\n${insertErr.message}\n${insertErr.details ?? ''}\n${insertErr.hint ?? ''}`);
+        return;
+      }
       setShowForm(false);
       setEditing(null);
       if (created) {
