@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CDCC tokens — Phase A0 of The Press rebuild.
+   Lives alongside the legacy Ink & Light theme below. Both cohabit
+   until every admin surface is re-authored under /admin with the
+   Press shell. Charcoal + Gold + TT Hoves Pro (falls back to DM
+   Sans via --font-sans). */
+@import './cdcc-tokens.css';
+
 /* ============================================================
    Thekgang — "Ink & Light" Theme
    Black & white at rest. Colour on interaction.
