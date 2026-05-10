@@ -8,6 +8,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { checkSpam } from '@/lib/spam';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -24,6 +25,17 @@ export async function POST(req: NextRequest) {
   if (!body?.form_id || !body.payload) {
     return NextResponse.json({ ok: false, error: 'Missing form_id or payload' }, { status: 400 });
   }
+
+  // Spam guard. Honeypot field for press forms travels inside the
+  // payload object (the form renderer hands every field through).
+  const honeypotVal = (body.payload as Record<string, unknown>)?.website_url;
+  const spamEmail = (body.payload as Record<string, unknown>)?.email as string | undefined;
+  const blocked = checkSpam(
+    req,
+    { website_url: typeof honeypotVal === 'string' ? honeypotVal : '' },
+    { route: '/api/press/submissions', email: spamEmail || null },
+  );
+  if (blocked) return NextResponse.json({ ok: false, error: blocked.error }, { status: blocked.status });
 
   const admin = createClient(url, serviceKey);
 

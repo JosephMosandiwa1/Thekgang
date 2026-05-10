@@ -1,19 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import { getSupabase } from '@/lib/supabase/server';
 import { sendEmail } from '@/lib/email';
+import { checkSpam } from '@/lib/spam';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { email, full_name, phone, disciplines = [], province, source = 'public', lists = ['general'] } = body;
-    if (!email || !email.includes('@')) {
+
+    // Strict email regex (was `.includes('@')` — too permissive)
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email))) {
       return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
     }
+
+    const blocked = checkSpam(req, body, { route: '/api/newsletter/subscribe', email });
+    if (blocked) return NextResponse.json({ error: blocked.error }, { status: blocked.status });
+
     const supabase = getSupabase();
     if (!supabase) return NextResponse.json({ error: 'DB unavailable' }, { status: 503 });
 
-    const verifyToken = Math.random().toString(36).slice(2) + Date.now().toString(36);
-    const unsubToken = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    // Cryptographically strong tokens (was Math.random — predictable)
+    const verifyToken = randomUUID().replace(/-/g, '');
+    const unsubToken = randomUUID().replace(/-/g, '');
 
     const { data: existing } = await supabase.from('newsletter_subscribers').select('id').eq('email', email).maybeSingle();
     let subscriberId: number;

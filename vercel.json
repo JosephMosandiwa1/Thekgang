@@ -1,0 +1,14 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "crons": [
+    {
+      "path": "/api/press/voices/publish-due",
+      "schedule": "0 * * * *"
+    }
+  ],
+  "git": {
+    "deploymentEnabled": false
+  }
+}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabase } from '@/lib/supabase/server';
+import { checkSpam } from '@/lib/spam';
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,6 +9,13 @@ export async function POST(req: NextRequest) {
     if (!consultation_id || !respondent_name || !respondent_email || !response_text) {
       return NextResponse.json({ error: 'consultation_id, respondent_name, respondent_email, response_text required' }, { status: 400 });
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(respondent_email))) {
+      return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
+    }
+
+    const blocked = checkSpam(req, body, { route: '/api/consultations/respond', email: respondent_email });
+    if (blocked) return NextResponse.json({ error: blocked.error }, { status: blocked.status });
+
     const supabase = getSupabase();
     if (!supabase) return NextResponse.json({ error: 'DB unavailable' }, { status: 503 });
 

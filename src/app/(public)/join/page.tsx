@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase/client';
 
 const PROVINCES = ['Gauteng', 'Western Cape', 'KwaZulu-Natal', 'Eastern Cape', 'Limpopo', 'Free State', 'Mpumalanga', 'North West', 'Northern Cape'];
 const TYPES = ['author_writer', 'translator', 'designer', 'narrator', 'publisher_self_publisher', 'research_development', 'editor', 'indexer', 'proofreader', 'legal_ip', 'layout_designer', 'literary_agent', 'photographer', 'ai_software', 'other'];
@@ -15,25 +14,35 @@ const steps = [
 ];
 
 export default function JoinPage() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', province: '', type: '', organisation: '', languages: [] as string[], specialisation: '', bio: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', province: '', type: '', organisation: '', languages: [] as string[], specialisation: '', bio: '', popia_consent: false, website_url: '' });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<'quick' | 'full'>('full');
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setError(null);
     if (!form.name || !form.email || !form.type) return;
-    setSubmitting(true);
-    if (supabase) {
-      await supabase.from('constituency_submissions').insert({
-        name: form.name, email: form.email, phone: form.phone || null,
-        province: form.province || null, constituency_type: form.type,
-        organisation: form.organisation || null, languages: form.languages,
-        specialisation: form.specialisation || null, bio: form.bio || null,
-      });
+    if (!form.popia_consent) {
+      setError('Please tick the POPIA consent box to continue.');
+      return;
     }
-    setSubmitting(false);
-    setSubmitted(true);
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/join', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Submission failed');
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Submission failed. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const toggleLang = (lang: string) => {
@@ -145,6 +154,38 @@ export default function JoinPage() {
                   className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white rounded resize-none" />
               </div>
             </>
+          )}
+
+          {/* POPIA consent — required */}
+          <div className="border border-gray-200 bg-gray-50/50 rounded p-4 mt-2">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.popia_consent}
+                onChange={e => setForm(f => ({ ...f, popia_consent: e.target.checked }))}
+                required
+                className="mt-1"
+              />
+              <span className="text-xs text-gray-700 leading-relaxed">
+                <strong>POPIA consent.</strong> I consent to the CDCC processing my personal information for the purposes of constituency mapping, member communications, and connecting me to relevant programmes and opportunities. I understand I can withdraw consent at any time by emailing the CDCC secretariat.
+              </span>
+            </label>
+          </div>
+
+          {/* Honeypot — humans should never see or fill this */}
+          <input
+            type="text"
+            name="website_url"
+            value={form.website_url}
+            onChange={e => setForm(f => ({ ...f, website_url: e.target.value }))}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+          />
+
+          {error && (
+            <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>
           )}
 
           <button type="submit" disabled={submitting}

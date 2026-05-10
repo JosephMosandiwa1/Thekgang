@@ -74,15 +74,65 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
   if (!user) return null;
 
-  const userInitials = (user.email ?? '??').slice(0, 2).toUpperCase();
-  const userName = user.user_metadata?.full_name ?? user.email?.split('@')[0] ?? 'Admin';
-  const roleDef = role ? ROLES[role] : null;
-  const groups = visibleSurfaces(role);
-
   const signOut = async () => {
     await supabase?.auth.signOut();
     router.replace('/admin/login');
   };
+
+  // Admin gate · authenticated users without an admin-tier role see a
+  // standalone access-denied screen and cannot reach any /admin/* surface.
+  // Closes the audit gap where 28+ legacy admin routes had no role check.
+  if (!isAdminRole(role)) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 16,
+        padding: 24,
+        background: 'var(--bg-1)',
+        color: 'var(--fg-2)',
+        fontFamily: 'var(--font-sans)',
+        textAlign: 'center',
+      }}>
+        <div style={{ fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--fg-4)' }}>
+          Access denied
+        </div>
+        <div style={{ fontSize: 16, color: 'var(--fg-1)', maxWidth: 420, lineHeight: 1.5 }}>
+          Your account is signed in but does not have admin access to The Press.
+        </div>
+        <div style={{ fontSize: 13, color: 'var(--fg-3)', maxWidth: 420, lineHeight: 1.5 }}>
+          Contact the Executive Director if you believe this is a mistake.
+        </div>
+        <button
+          type="button"
+          onClick={signOut}
+          style={{
+            marginTop: 16,
+            padding: '10px 20px',
+            background: 'var(--cdcc-charcoal)',
+            color: 'var(--cdcc-stone)',
+            border: 0,
+            borderRadius: 'var(--radius-sm)',
+            fontFamily: 'var(--font-sans)',
+            fontSize: 12,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+          }}
+        >
+          Sign out
+        </button>
+      </div>
+    );
+  }
+
+  const userInitials = (user.email ?? '??').slice(0, 2).toUpperCase();
+  const userName = user.user_metadata?.full_name ?? user.email?.split('@')[0] ?? 'Admin';
+  const roleDef = role ? ROLES[role] : null;
+  const groups = visibleSurfaces(role);
 
   return (
     <div className="press-shell">
