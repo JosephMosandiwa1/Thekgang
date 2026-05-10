@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PageZone } from '@/components/placements/PageZone';
 
 export const metadata: Metadata = {
   title: 'DSAC CCI Clusters',
@@ -50,6 +51,7 @@ const sectorGroups = [
 export default function EcosystemPage() {
   return (
     <div>
+      <PageZone page="/ecosystem" position="head" wrapperClassName="px-6 pt-24 max-w-5xl mx-auto" />
       {/* Hero */}
       <section className="pt-28 pb-16 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
@@ -160,6 +162,7 @@ export default function EcosystemPage() {
           </div>
         </div>
       </section>
+      <PageZone page="/ecosystem" position="footer" wrapperClassName="px-6 py-10 max-w-5xl mx-auto grid md:grid-cols-3 gap-3" />
     </div>
   );
 }

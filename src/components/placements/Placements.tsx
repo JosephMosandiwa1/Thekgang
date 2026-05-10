@@ -1,5 +1,10 @@
 import { getSupabase } from '@/lib/supabase/server';
-import { fetchLivePlacements, resolvePlacement, type PlacementRow } from '@/lib/placements';
+import {
+  fetchLivePlacements,
+  fetchLivePlacementsForPagePosition,
+  resolvePlacement,
+  type PlacementRow,
+} from '@/lib/placements';
 import { HeroStyle, FullTakeoverStyle } from './styles/HeroStyle';
 import { CardStyle, CalloutStyle } from './styles/CardStyle';
 import { BannerStyle } from './styles/BannerStyle';
@@ -8,24 +13,32 @@ import { ModalStyle } from './styles/ModalStyle';
 import { CtaStripStyle } from './styles/CtaStripStyle';
 
 /**
- * Placements — server component that fetches + renders all live placements
- * for a given slot.
+ * Placements — server component that fetches + renders all live placements.
  *
- * Usage:
- *   <Placements slot="homepage_hero" />
- *   <Placements slot="homepage_featured" wrapperClassName="grid md:grid-cols-3 gap-4 px-6 max-w-6xl mx-auto" />
+ * Two query modes:
+ *   1) by slot slug (legacy / explicit):
+ *      <Placements slot="homepage_hero" />
+ *   2) by page + canonical position (dynamic discovery):
+ *      <Placements page="/about" position="sidebar" />
+ *
+ * The (page, position) form is what `PageZone` wraps and what marketing
+ * pages use at canonical anchors. Admins create new slots in
+ * /admin/placements/slots that target (page, position) pairs and they
+ * light up automatically.
  */
-interface PlacementsProps {
-  slot: string;
-  wrapperClassName?: string;
-  limit?: number;
-}
+type PlacementsProps =
+  | { slot: string;             page?: never; position?: never; wrapperClassName?: string; limit?: number }
+  | { slot?: never;             page: string;  position: string; wrapperClassName?: string; limit?: number };
 
-export async function Placements({ slot, wrapperClassName, limit }: PlacementsProps) {
+export async function Placements(props: PlacementsProps) {
   const supabase = getSupabase();
   if (!supabase) return null;
 
-  const rows = await fetchLivePlacements(supabase, slot, limit);
+  const limit = props.limit ?? 5;
+  const rows: PlacementRow[] = props.slot
+    ? await fetchLivePlacements(supabase, props.slot, limit)
+    : await fetchLivePlacementsForPagePosition(supabase, props.page!, props.position!, limit);
+
   if (rows.length === 0) return null;
 
   // For tickers, render as a single row combining all items
@@ -64,8 +77,8 @@ export async function Placements({ slot, wrapperClassName, limit }: PlacementsPr
     }
   });
 
-  if (wrapperClassName) {
-    return <div className={wrapperClassName}>{elements}</div>;
+  if (props.wrapperClassName) {
+    return <div className={props.wrapperClassName}>{elements}</div>;
   }
   return <>{elements}</>;
 }

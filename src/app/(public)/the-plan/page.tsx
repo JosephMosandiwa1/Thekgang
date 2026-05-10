@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PageZone } from '@/components/placements/PageZone';
 
 export const metadata: Metadata = {
   title: 'The 3-Year Strategic Plan',
@@ -77,6 +78,7 @@ const statusColors: Record<string, { bg: string; text: string }> = {
 export default function ThePlanPage() {
   return (
     <div>
+      <PageZone page="/the-plan" position="head" wrapperClassName="px-6 pt-24 max-w-5xl mx-auto" />
       {/* Hero */}
       <section className="pt-28 pb-16 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
@@ -187,6 +189,7 @@ export default function ThePlanPage() {
           <Link href="/about" className="link-draw text-xs text-gray-500 hover:text-black transition-colors">Our mandate &rarr;</Link>
         </div>
       </section>
+      <PageZone page="/the-plan" position="footer" wrapperClassName="px-6 py-10 max-w-5xl mx-auto grid md:grid-cols-3 gap-3" />
     </div>
   );
 }

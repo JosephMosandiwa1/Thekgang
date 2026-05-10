@@ -7,6 +7,7 @@ import ImageUploader from '@/components/ImageUploader';
 import RichTextEditor from '@/components/RichTextEditor';
 import { FeatureOnSiteButton } from '@/components/placements/FeatureOnSiteButton';
 import { exportToCSV, AttendanceRegisterPrint, DSACReportTemplate } from '@/components/EventFeatures';
+import { SurfacesTab } from './SurfacesTab';
 
 /* ============================================================
    Event Detail — Admin Manage View
@@ -80,6 +81,7 @@ function getTabsForEventType(eventType: string, event: any, registrations: any[]
   };
 
   const shared = [
+    { id: 'surfaces', label: 'Surfaces' },
     { id: 'tickets', label: 'Tickets' },
     { id: 'registrations', label: `Registrations (${registrations.length})` },
     { id: 'campaigns', label: `Campaigns (${campaigns.length})` },
@@ -239,6 +241,9 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
 
       {/* TAB: Sponsors */}
       {tab === 'sponsors' && <SponsorsBuilder event={event} onSave={load} />}
+
+      {/* TAB: Surfaces · where this event is featured across the site */}
+      {tab === ('surfaces' as any) && <SurfacesTab eventId={event.id} eventTitle={event.title} eventStatus={event.status} />}
 
       {/* TAB: Tickets */}
       {tab === 'tickets' as any && <TicketsManager eventId={event.id} />}

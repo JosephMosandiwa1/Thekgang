@@ -76,18 +76,79 @@ export async function fetchLivePlacements(
   const { data: slot } = await supabase.from('placement_slots').select('id, max_concurrent').eq('slug', slotSlug).maybeSingle();
   if (!slot) return [];
   const slotRow = slot as { id: number; max_concurrent: number };
+  return fetchLivePlacementsForSlotId(supabase, slotRow.id, slotRow.max_concurrent, limit);
+}
 
+/**
+ * Internal · fetch live placements when we already know the slot id.
+ */
+async function fetchLivePlacementsForSlotId(
+  supabase: SupabaseClient,
+  slotId: number,
+  maxConcurrent: number,
+  limit: number,
+): Promise<PlacementRow[]> {
   const nowIso = new Date().toISOString();
   const { data } = await supabase
     .from('placements')
     .select('*')
-    .eq('slot_id', slotRow.id)
+    .eq('slot_id', slotId)
     .eq('status', 'live')
     .or(`starts_at.is.null,starts_at.lte.${nowIso}`)
     .or(`ends_at.is.null,ends_at.gt.${nowIso}`)
     .order('priority', { ascending: false })
-    .limit(Math.min(limit, slotRow.max_concurrent));
+    .limit(Math.min(limit, maxConcurrent));
   return ((data || []) as unknown) as PlacementRow[];
+}
+
+/**
+ * Fetch live placements for the slot(s) registered for a given (page, position).
+ *
+ * Multiple slots can target the same (page, position) if max_concurrent
+ * needs grow over time — they're flattened in priority order. Returns
+ * empty array when no slot is registered.
+ */
+export async function fetchLivePlacementsForPagePosition(
+  supabase: SupabaseClient,
+  page: string,
+  position: string,
+  limit = 5,
+): Promise<PlacementRow[]> {
+  const { data: slots } = await supabase
+    .from('placement_slots')
+    .select('id, max_concurrent')
+    .eq('active', true)
+    .eq('page_path', page)
+    .eq('position', position);
+  const slotRows = (slots ?? []) as Array<{ id: number; max_concurrent: number }>;
+  if (slotRows.length === 0) return [];
+
+  const all: PlacementRow[] = [];
+  for (const s of slotRows) {
+    const rows = await fetchLivePlacementsForSlotId(supabase, s.id, s.max_concurrent, limit);
+    all.push(...rows);
+  }
+  return all
+    .sort((a, b) => b.priority - a.priority)
+    .slice(0, limit);
+}
+
+/**
+ * Resolver registry — each content kind exposes a function that takes a
+ * placement row and a Supabase client, fetches the underlying content,
+ * and returns a display payload. New content kinds (newsletter, etc.)
+ * register themselves via `registerResolver()` so this central file
+ * doesn't have to be edited when a new module ships.
+ */
+type Resolver = (
+  supabase: SupabaseClient,
+  p: PlacementRow,
+) => Promise<DisplayPayload | null>;
+
+const RESOLVERS: Map<ContentKind, Resolver> = new Map();
+
+export function registerResolver(kind: ContentKind, fn: Resolver) {
+  RESOLVERS.set(kind, fn);
 }
 
 /**
@@ -115,7 +176,10 @@ export async function resolvePlacement(
 
   if (!p.ref_id) return null;
 
-  // Polymorphic fetch per content kind
+  const registered = RESOLVERS.get(p.content_kind);
+  if (registered) return registered(supabase, p);
+
+  // Built-in resolvers · polymorphic fetch per content kind
   const resolvers: Record<Exclude<ContentKind, 'custom'>, () => Promise<DisplayPayload | null>> = {
     event: async () => {
       const { data: e } = await supabase.from('events').select('id, title, slug, tagline, event_date, venue, cover_image_url, description').eq('id', p.ref_id).maybeSingle();

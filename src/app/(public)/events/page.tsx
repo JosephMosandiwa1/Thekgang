@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getSupabase } from '@/lib/supabase/server';
+import { PageZone } from '@/components/placements/PageZone';
 
 export const metadata: Metadata = {
   title: 'Events',
@@ -30,14 +31,22 @@ export default async function EventsPage() {
 
   return (
     <div>
-      <section className="pt-28 pb-12 px-6">
+      <section className="pt-28 pb-8 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <Image src="/logos/icon-char-gld.svg" alt="" width={16} height={16} className="w-4 h-4 opacity-40" />
             <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500/60">Events</p>
           </div>
-          <h1 className="font-display font-bold text-black tracking-tight leading-[1.05]" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>What&apos;s happening.</h1>
+          <div className="flex items-baseline justify-between gap-4">
+            <h1 className="font-display font-bold text-black tracking-tight leading-[1.05]" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>What&apos;s happening.</h1>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span className="text-xs uppercase tracking-[0.15em] bg-black text-white px-3 py-1.5 rounded-sm">List</span>
+              <Link href="/events/calendar" className="text-xs uppercase tracking-[0.15em] text-gray-500 hover:text-black px-3 py-1.5 border border-gray-200 hover:border-black rounded-sm">Calendar</Link>
+            </div>
+          </div>
           <p className="text-sm text-gray-500 max-w-xl mt-6 leading-relaxed">Symposiums, workshops, imbizos — across 9 provinces. <Link href="/programmes" className="link-draw text-black inline-block">See our programmes &rarr;</Link></p>
+
+          <div className="mt-6"><PageZone page="/events" position="head" /></div>
         </div>
       </section>
 
@@ -71,6 +80,8 @@ export default async function EventsPage() {
             </div>
           )}
 
+          <div className="my-8"><PageZone page="/events" position="sidebar" /></div>
+
           {/* Past */}
           {past.length > 0 && (
             <div>
@@ -89,6 +100,8 @@ export default async function EventsPage() {
               ))}
             </div>
           )}
+
+          <div className="mt-12"><PageZone page="/events" position="footer" /></div>
         </div>
       </section>
     </div>

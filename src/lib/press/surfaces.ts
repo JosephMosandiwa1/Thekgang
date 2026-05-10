@@ -90,6 +90,10 @@ export const SURFACES: SurfaceGroup[] = [
         roles: ['chair', 'ed', 'secretary'] },
       { key: 'content', label: 'Content', href: '/admin/content', glyph: '✱', caption: 'Marketing-page facts · sourced + linked',
         roles: ['chair', 'ed', 'secretary'] },
+      { key: 'placements', label: 'Placements', href: '/admin/placements', glyph: '▱', caption: 'What is featured where · across the marketing site',
+        roles: ['chair', 'ed', 'secretary', 'programme_lead'] },
+      { key: 'slots',    label: 'Slots',    href: '/admin/placements/slots', glyph: '▮', caption: 'Define new positions on any marketing page',
+        roles: ['chair', 'ed'] },
     ],
   },
 ];

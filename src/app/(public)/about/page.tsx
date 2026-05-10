@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase/client';
+import { PageZoneClient } from '@/components/placements/PageZoneClient';
 
 interface BoardMember { id: string; name: string; role: string; bio: string; photo_url: string }
 
@@ -33,8 +34,11 @@ export default function AboutPage() {
           <h1 className="font-display font-bold text-black tracking-tight leading-[1.05] type-grow cursor-default" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>
             We didn&apos;t start with a website.<br />We started with a problem.
           </h1>
+          <div className="mt-8"><PageZoneClient page="/about" position="head" wrapperClassName="grid md:grid-cols-3 gap-3" /></div>
         </div>
       </section>
+
+      <div className="px-6"><div className="max-w-5xl mx-auto"><PageZoneClient page="/about" position="before_content" wrapperClassName="grid md:grid-cols-3 gap-3 mb-8" /></div></div>
 
       <section className="pb-20 px-6">
         <div className="max-w-4xl mx-auto border-l-[3px] border-black pl-8">
@@ -107,6 +111,8 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <div className="px-6"><div className="max-w-5xl mx-auto"><PageZoneClient page="/about" position="sidebar" wrapperClassName="grid md:grid-cols-3 gap-3 my-8" /></div></div>
+
       <section className="py-16 px-6 bg-gray-50 texture-paper">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="font-display text-xl font-bold text-black mb-4 type-grow cursor-default">Want to work with us?</h2>
@@ -116,6 +122,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <div className="px-6 pb-12"><div className="max-w-5xl mx-auto"><PageZoneClient page="/about" position="footer" wrapperClassName="grid md:grid-cols-3 gap-3" /></div></div>
     </div>
   );
 }

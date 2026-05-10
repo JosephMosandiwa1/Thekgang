@@ -17,6 +17,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/the-plan', label: 'The Plan' },
+  { href: '/events', label: 'Events' },
   { href: '/ecosystem', label: 'Ecosystem' },
   { href: '/advocacy', label: 'Advocacy' },
   { href: '/stakeholders', label: 'Stakeholders' },

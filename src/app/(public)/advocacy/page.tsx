@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { PageZone } from '@/components/placements/PageZone';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 export default function AdvocacyPage() {
   return (
     <div>
+      <PageZone page="/advocacy" position="head" wrapperClassName="px-6 pt-24 max-w-5xl mx-auto" />
       {/* Hero */}
       <section className="pt-28 pb-16 px-6 bg-black text-white pattern-overlay-dark relative">
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
@@ -161,6 +163,7 @@ export default function AdvocacyPage() {
           </div>
         </div>
       </section>
+      <PageZone page="/advocacy" position="footer" wrapperClassName="px-6 py-10 max-w-5xl mx-auto grid md:grid-cols-3 gap-3" />
     </div>
   );
 }

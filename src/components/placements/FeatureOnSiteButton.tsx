@@ -7,10 +7,13 @@ import { CONTENT_KIND_LABELS, STYLE_LABELS, type ContentKind, type PlacementStyl
 
 interface Slot { id: number; slug: string; name: string; description: string | null; supports_styles: string[]; default_style: string; page_scope: string }
 
+interface EventOption { id: number; title: string; slug: string | null; event_date: string }
+
 interface Props {
   contentKind: ContentKind;
-  refId: number;
-  contentTitle: string;
+  /** When omitted (and contentKind='event'), the modal shows an event picker. */
+  refId?: number;
+  contentTitle?: string;
   /** Optional: override the button label */
   label?: string;
   /** Optional: additional classes on the trigger button */
@@ -22,13 +25,23 @@ interface Props {
  * content, asks for slot + style + schedule, inserts a placement row.
  *
  *   <FeatureOnSiteButton contentKind="event" refId={event.id} contentTitle={event.title} />
+ *
+ * When `refId` is omitted (and contentKind='event'), the modal renders an
+ * event search/picker so admins can create event placements from any
+ * surface (e.g. /admin/placements) without navigating to the event editor.
  */
-export function FeatureOnSiteButton({ contentKind, refId, contentTitle, label, className }: Props) {
+export function FeatureOnSiteButton({ contentKind, refId: initialRefId, contentTitle: initialContentTitle, label, className }: Props) {
   const [open, setOpen] = useState(false);
   const [slots, setSlots] = useState<Slot[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null);
+
+  const [refId, setRefId] = useState<number | null>(initialRefId ?? null);
+  const [contentTitle, setContentTitle] = useState<string>(initialContentTitle ?? '');
+  const [eventOptions, setEventOptions] = useState<EventOption[]>([]);
+  const [eventSearch, setEventSearch] = useState('');
+
   const [form, setForm] = useState({
     slot_id: 0,
     style: 'card' as PlacementStyle,
@@ -59,8 +72,34 @@ export function FeatureOnSiteButton({ contentKind, refId, contentTitle, label, c
     })();
   }, [open, form.slot_id]);
 
+  // Load event options when picker is needed (event kind, no refId preset).
+  useEffect(() => {
+    if (!open || contentKind !== 'event' || refId !== null) return;
+    if (!supabase) return;
+    (async () => {
+      const { data } = await supabase
+        .from('events')
+        .select('id, title, slug, event_date')
+        .neq('status', 'draft')
+        .order('event_date', { ascending: false })
+        .limit(50);
+      setEventOptions((data ?? []) as EventOption[]);
+    })();
+  }, [open, contentKind, refId]);
+
+  function selectEvent(ev: EventOption) {
+    setRefId(ev.id);
+    setContentTitle(ev.title);
+  }
+
+  const showPicker = contentKind === 'event' && refId === null;
+  const filteredEvents = eventSearch
+    ? eventOptions.filter((e) => e.title.toLowerCase().includes(eventSearch.toLowerCase()))
+    : eventOptions;
+
   async function save() {
     if (!supabase || !form.slot_id) return;
+    if (refId === null) { setMessage({ kind: 'err', text: 'Pick an item to feature first.' }); return; }
     setSaving(true); setMessage(null);
     const { error } = await supabase.from('placements').insert({
       slot_id: form.slot_id,
@@ -101,8 +140,36 @@ export function FeatureOnSiteButton({ contentKind, refId, contentTitle, label, c
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={() => !saving && setOpen(false)}>
           <div className="bg-white max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <p className="text-[10px] uppercase tracking-[0.15em] text-gray-500/60 mb-1">Feature on public site</p>
-            <h3 className="font-display text-xl font-bold mb-1">{contentTitle}</h3>
+            <h3 className="font-display text-xl font-bold mb-1">{contentTitle || 'Pick an event…'}</h3>
             <p className="text-xs text-gray-500 mb-5">{CONTENT_KIND_LABELS[contentKind]}</p>
+
+            {showPicker && (
+              <div className="space-y-2 mb-4 border-b border-gray-200 pb-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-gray-600">Pick an event</p>
+                <input
+                  value={eventSearch}
+                  onChange={(e) => setEventSearch(e.target.value)}
+                  placeholder="Search by title…"
+                  className="w-full px-3 py-2 border border-gray-200 text-sm rounded-sm"
+                />
+                <div className="max-h-48 overflow-y-auto border border-gray-100 rounded-sm">
+                  {filteredEvents.length === 0 && (
+                    <p className="px-3 py-2 text-xs text-gray-500">No events match that search.</p>
+                  )}
+                  {filteredEvents.map((ev) => (
+                    <button
+                      key={ev.id}
+                      type="button"
+                      onClick={() => selectEvent(ev)}
+                      className="w-full text-left px-3 py-2 hover:bg-gray-50 border-b border-gray-100 last:border-0"
+                    >
+                      <p className="text-sm">{ev.title}</p>
+                      <p className="text-[10px] text-gray-500">{ev.event_date}{ev.slug ? ` · ${ev.slug}` : ''}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {loading ? <p className="text-sm text-gray-500">Loading slots…</p> : (
               <div className="space-y-3">
@@ -186,7 +253,7 @@ export function FeatureOnSiteButton({ contentKind, refId, contentTitle, label, c
                 {message && <div className={`p-3 text-sm border ${message.kind === 'ok' ? 'border-green-300 bg-green-50 text-green-700' : 'border-red-300 bg-red-50 text-red-700'}`}>{message.text}</div>}
 
                 <div className="flex gap-3 mt-4">
-                  <button onClick={save} disabled={saving || !form.slot_id} className="bg-black text-white text-xs uppercase tracking-wider px-5 py-2 disabled:opacity-50">{saving ? 'Placing…' : 'Place on site'}</button>
+                  <button onClick={save} disabled={saving || !form.slot_id || refId === null} className="bg-black text-white text-xs uppercase tracking-wider px-5 py-2 disabled:opacity-50">{saving ? 'Placing…' : 'Place on site'}</button>
                   <button onClick={() => setOpen(false)} disabled={saving} className="text-xs text-gray-500 hover:text-black">Cancel</button>
                 </div>
               </div>
