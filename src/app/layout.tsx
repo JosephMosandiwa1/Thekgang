@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { DM_Sans, Playfair_Display } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 
 const sans = DM_Sans({
@@ -14,6 +15,16 @@ const display = Playfair_Display({
   variable: '--font-display',
   display: 'swap',
   weight: ['400', '600', '700'],
+});
+
+// CDCC canonical display face · TT Hoves Pro Variable.
+// Brand-supplied file lives in src/app/fonts/. cdcc-tokens.css references
+// var(--font-tt-hoves) for headlines; falls back gracefully to DM Sans
+// when the woff/ttf fails to load.
+const ttHoves = localFont({
+  src: './fonts/tt-hoves-pro.ttf',
+  variable: '--font-tt-hoves',
+  display: 'swap',
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://cdcc.org.za';
@@ -94,7 +105,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${sans.variable} ${display.variable} font-sans antialiased`}>
+      <body className={`${sans.variable} ${display.variable} ${ttHoves.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

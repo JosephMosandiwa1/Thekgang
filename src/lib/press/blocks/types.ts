@@ -35,7 +35,7 @@ export interface FormEmbedProps { form_key: string; }
 export interface AddToCalendarProps { event_id: string; label_en?: string; label_xh?: string; }
 export interface IndicatorChartProps { indicator_slug: string; window_months?: number; }
 export interface ChipProps { kind: 'discipline' | 'pillar'; slug: string; label_en?: string; label_xh?: string; }
-export interface BookletBreakProps { /* no props */ }
+export type BookletBreakProps = Record<string, never>;
 export interface BookletHeaderProps { title_en: string; title_xh?: string; subtitle_en?: string; subtitle_xh?: string; cover_asset_id?: string; }
 export interface BookletColophonProps { body_en: string; body_xh?: string; }
 

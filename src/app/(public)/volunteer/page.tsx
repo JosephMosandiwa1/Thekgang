@@ -2,13 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase/client';
 import { isEmail } from '@/lib/utils';
 
 const INTERESTS = ['events', 'fundraising', 'communications', 'community_outreach', 'research', 'sector_survey', 'mentorship', 'translation', 'editorial'];
 
 export default function VolunteerPage() {
-  const [form, setForm] = useState({ full_name: '', email: '', phone: '', interests: [] as string[], skills: '', availability: '' });
+  const [form, setForm] = useState({ full_name: '', email: '', phone: '', interests: [] as string[], skills: '', availability: '', website_url: '' });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -21,19 +20,20 @@ export default function VolunteerPage() {
     e.preventDefault();
     if (!isEmail(form.email)) { setError('Enter a valid email'); return; }
     setSaving(true); setError(null);
-    if (!supabase) { setError('DB unavailable'); setSaving(false); return; }
-    const { error: err } = await supabase.from('volunteers').insert({
-      full_name: form.full_name,
-      email: form.email,
-      phone: form.phone || null,
-      interests: form.interests,
-      skills: form.skills.split(',').map((s) => s.trim()).filter(Boolean),
-      availability: form.availability || null,
-      status: 'active',
-    });
-    if (err) setError(err.message);
-    else setSubmitted(true);
-    setSaving(false);
+    try {
+      const res = await fetch('/api/volunteer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Submission failed');
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Submission failed');
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -70,6 +70,18 @@ export default function VolunteerPage() {
             <label className="block"><span className="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-1 block">Availability</span><input value={form.availability} onChange={(e) => setForm({ ...form, availability: e.target.value })} placeholder="e.g. 2 hours per week, event weekends only" className="w-full px-3 py-2 border border-gray-300 text-sm focus:outline-none focus:border-black" /></label>
 
             {error && <div className="p-3 bg-red-50 border border-red-200 text-xs text-red-700">{error}</div>}
+
+            {/* Honeypot — humans should never see or fill this */}
+            <input
+              type="text"
+              name="website_url"
+              value={form.website_url}
+              onChange={(e) => setForm({ ...form, website_url: e.target.value })}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+            />
 
             <button type="submit" disabled={saving} className="bg-black text-white text-xs uppercase tracking-wider px-6 py-3 hover:bg-gray-800 disabled:opacity-50">
               {saving ? 'Submitting…' : 'Volunteer'}

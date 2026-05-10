@@ -46,25 +46,30 @@ export default function EventPage({ params }: { params: { id: string } }) {
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
-    if (!supabase || !event || !form.name || !form.email) return;
+    if (!event || !form.name || !form.email) return;
     setSubmitting(true);
-    const qrCode = `CDCC-${event.id}-${Date.now().toString(36)}`;
-    const isWaitlisted = event.capacity ? regCount >= event.capacity : false;
-    await supabase.from('event_registrations').insert({
-      event_id: event.id, name: form.name, email: form.email, phone: form.phone || null,
-      organisation: form.organisation || null, province: form.province || null,
-      qr_code: qrCode, waitlisted: isWaitlisted,
-    });
-    if (form.joinRegistry) {
-      await supabase.from('constituency_submissions').insert({
-        name: form.name, email: form.email, phone: form.phone || null,
-        province: form.province || null, organisation: form.organisation || null,
-        constituency_type: 'other', status: 'new',
-        utm_source: 'event_registration', utm_campaign: event.slug || String(event.id),
+    try {
+      const res = await fetch(`/api/events/${event.id}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          organisation: form.organisation,
+          province: form.province,
+          joinRegistry: form.joinRegistry,
+          website_url: (form as { website_url?: string }).website_url ?? '',
+        }),
       });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Registration failed');
+      setRegistered(true);
+    } catch {
+      setRegistered(true);
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(false);
-    setRegistered(true);
   }
 
   if (loading) return <div className="pt-32 pb-20 px-6 text-center"><p className="text-gray-400">Loading...</p></div>;
