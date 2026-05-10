@@ -84,8 +84,12 @@ export const SURFACES: SurfaceGroup[] = [
   {
     title: 'Setup',
     surfaces: [
-      { key: 'site', label: 'Site', href: '/admin/home', glyph: '◎', caption: 'Nav · Footer · Homepage · Integrations · Audit',
+      { key: 'site',    label: 'Site',    href: '/admin/home',    glyph: '◎', caption: 'Nav · Footer · Homepage · Integrations · Audit',
         roles: ['chair', 'ed'] },
+      { key: 'sources', label: 'Sources', href: '/admin/sources', glyph: '⌾', caption: 'Citations registry · the source of every fact',
+        roles: ['chair', 'ed', 'secretary'] },
+      { key: 'content', label: 'Content', href: '/admin/content', glyph: '✱', caption: 'Marketing-page facts · sourced + linked',
+        roles: ['chair', 'ed', 'secretary'] },
     ],
   },
 ];

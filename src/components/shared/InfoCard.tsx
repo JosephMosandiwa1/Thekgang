@@ -2,23 +2,29 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import type { SourceRef } from '@/lib/sources/types';
+import { citationHref, formatSourceCitation } from '@/lib/sources/types';
 
 /**
  * InfoCard · enforces the IA pattern · Value → Source → Why here →
  *           Hover context → Doorway link
  *
- * Adapted from VACSA's pattern. CDCC palette: gold accent on cream
- * (light) / on charcoal (dark).
+ * `source` is now a typed `SourceRef` — the upstream change that lifts
+ * the discipline from optional convention to compile-time guarantee.
+ * `href` is required. Every InfoCard call carries provenance + a
+ * doorway by construction.
+ *
+ * For new content, prefer `SourcedFact` which has identical semantics
+ * + `whyHere`/`context` props named to match the doc.
  */
 
 interface InfoCardProps {
   value: string;
   label: string;
-  source: string;
+  source: SourceRef;             // REQUIRED — was free-form string
   context: string;
-  href: string;
+  href: string;                  // REQUIRED
   linkText?: string;
-  /** Why this stat matters in the section it appears in. */
   whyHere?: string;
   dark?: boolean;
 }
@@ -56,8 +62,20 @@ export function InfoCard({
       {/* Label */}
       <p className={`text-sm font-medium ${textPrimary} mt-1`}>{label}</p>
 
-      {/* Source — always visible */}
-      <p className={`text-[10px] ${textMuted} mt-2 tracking-wide`}>{source}</p>
+      {/* Source citation — always visible */}
+      <p className={`text-[10px] ${textMuted} mt-2 tracking-wide`}>
+        Source ·{' '}
+        <a
+          href={citationHref(source)}
+          target={source.url ? '_blank' : undefined}
+          rel={source.url ? 'noopener noreferrer' : undefined}
+          className="underline decoration-dotted underline-offset-2"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {formatSourceCitation(source)}
+          {source.url ? ' ↗' : ''}
+        </a>
+      </p>
 
       {/* Why here — always visible if provided */}
       {whyHere && (
@@ -80,6 +98,7 @@ export function InfoCard({
         href={href}
         className="inline-block text-[11px] font-medium mt-3 transition-colors"
         style={{ color: 'var(--cdcc-gold, #C5A15A)' }}
+        onClick={(e) => e.stopPropagation()}
       >
         {linkText} &rarr;
       </Link>
