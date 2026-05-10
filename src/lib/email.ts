@@ -9,8 +9,18 @@
  *   CDCC_FROM_EMAIL="CDCC <hello@cdcc.org.za>"
  *
  * If RESEND_API_KEY is unset, sendEmail() logs a preview to the console
- * and returns {ok: true, preview: true} so development continues without errors.
+ * and returns {ok: true, preview: true} so development continues without
+ * errors.
+ *
+ * Brand-aligned templates live in `src/lib/mail/templates/` and render
+ * through the shared scaffold in `src/lib/mail/render-html.ts`. The
+ * `template*` helpers below are thin adapters that delegate to those
+ * modules so all transactional sends use the same brand HTML.
  */
+
+import { renderEventReminderEmail } from './mail/templates/event-reminder';
+import { renderGrantDecisionEmail, type GrantDecision } from './mail/templates/grant-decision';
+import { renderCertificateIssuedEmail } from './mail/templates/certificate-issued';
 
 export interface EmailMessage {
   to: string | string[];
@@ -77,8 +87,13 @@ export async function sendEmail(msg: EmailMessage): Promise<SendResult> {
 }
 
 // ---------------------------------------------------------------------------
-// Templates
+// Backward-compat template helpers · delegate to brand-pipeline modules
 // ---------------------------------------------------------------------------
+// These wrappers preserve the existing public API so the ~9 callers don't
+// need touching. Each returns the {subject, html, text} tuple expected by
+// the existing send sites; behind the scenes every render now flows
+// through the shared brand scaffold.
+
 export function templateEventReminder(opts: {
   recipientName: string;
   eventTitle: string;
@@ -86,29 +101,26 @@ export function templateEventReminder(opts: {
   venue: string | null;
   eventUrl: string;
 }): { subject: string; html: string; text: string } {
-  const subject = `Reminder: ${opts.eventTitle} — ${opts.eventDate}`;
-  const text = `Hi ${opts.recipientName},\n\nA quick reminder that ${opts.eventTitle} is coming up on ${opts.eventDate}${opts.venue ? ` at ${opts.venue}` : ''}.\n\nDetails: ${opts.eventUrl}\n\n— CDCC`;
-  const html = `<p>Hi ${opts.recipientName},</p><p>A quick reminder that <strong>${opts.eventTitle}</strong> is coming up on <strong>${opts.eventDate}</strong>${opts.venue ? ` at ${opts.venue}` : ''}.</p><p><a href="${opts.eventUrl}">View event details →</a></p><p>— CDCC</p>`;
-  return { subject, html, text };
+  const { html, text } = renderEventReminderEmail(opts);
+  return {
+    subject: `Reminder · ${opts.eventTitle} · ${opts.eventDate}`,
+    html,
+    text,
+  };
 }
 
 export function templateGrantDecision(opts: {
   recipientName: string;
   projectTitle: string;
-  decision: 'awarded' | 'shortlisted' | 'declined';
+  decision: GrantDecision;
   amount?: number;
   notes?: string;
 }): { subject: string; html: string; text: string } {
   const subject =
-    opts.decision === 'awarded' ? `Grant awarded: ${opts.projectTitle}` :
-    opts.decision === 'shortlisted' ? `You've been shortlisted: ${opts.projectTitle}` :
-    `Update on your application: ${opts.projectTitle}`;
-  const bodyLine =
-    opts.decision === 'awarded' ? `Congratulations — your application for <strong>${opts.projectTitle}</strong> has been awarded${opts.amount ? ` (R ${opts.amount.toLocaleString()})` : ''}.` :
-    opts.decision === 'shortlisted' ? `Your application for <strong>${opts.projectTitle}</strong> has been shortlisted.` :
-    `We regret to inform you that your application for <strong>${opts.projectTitle}</strong> was not successful on this round.`;
-  const html = `<p>Hi ${opts.recipientName},</p><p>${bodyLine}</p>${opts.notes ? `<p>${opts.notes}</p>` : ''}<p>— CDCC Grants Committee</p>`;
-  const text = `Hi ${opts.recipientName},\n\n${bodyLine.replace(/<[^>]+>/g, '')}\n\n${opts.notes || ''}\n\n— CDCC Grants Committee`;
+    opts.decision === 'awarded' ? `Grant awarded · ${opts.projectTitle}` :
+    opts.decision === 'shortlisted' ? `You've been shortlisted · ${opts.projectTitle}` :
+    `Update on your application · ${opts.projectTitle}`;
+  const { html, text } = renderGrantDecisionEmail(opts);
   return { subject, html, text };
 }
 
@@ -117,8 +129,10 @@ export function templateCertificateIssued(opts: {
   certificateTitle: string;
   verifyUrl: string;
 }): { subject: string; html: string; text: string } {
-  const subject = `Your certificate: ${opts.certificateTitle}`;
-  const html = `<p>Hi ${opts.recipientName},</p><p>Your certificate for <strong>${opts.certificateTitle}</strong> is ready. It is publicly verifiable at: <a href="${opts.verifyUrl}">${opts.verifyUrl}</a></p><p>— CDCC</p>`;
-  const text = `Hi ${opts.recipientName},\n\nYour certificate for ${opts.certificateTitle} is ready. Verify at: ${opts.verifyUrl}\n\n— CDCC`;
-  return { subject, html, text };
+  const { html, text } = renderCertificateIssuedEmail(opts);
+  return {
+    subject: `Your certificate · ${opts.certificateTitle}`,
+    html,
+    text,
+  };
 }

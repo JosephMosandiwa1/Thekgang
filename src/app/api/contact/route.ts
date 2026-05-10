@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSupabase } from '@/lib/supabase/server';
 import { sendEmail } from '@/lib/email';
 import { checkSpam } from '@/lib/spam';
+import { renderContactNotificationEmail } from '@/lib/mail/templates/contact-notification';
 
 export async function POST(req: NextRequest) {
   try {
@@ -42,12 +43,15 @@ export async function POST(req: NextRequest) {
     if (!adminEmail) {
       console.error('contact submission saved but CDCC_ADMIN_EMAIL is not configured · admin will not be notified');
     } else {
+      const rendered = renderContactNotificationEmail({
+        name, email, phone, topic, subject, message,
+      });
       await sendEmail({
         to: adminEmail,
         replyTo: email,
         subject: `[Contact] ${subject || topic || 'New enquiry'} — ${name}`,
-        text: `From: ${name} <${email}>${phone ? `\nPhone: ${phone}` : ''}\nTopic: ${topic || 'general'}\n\n${message}`,
-        html: `<p><strong>From:</strong> ${name} &lt;${email}&gt;</p>${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}<p><strong>Topic:</strong> ${topic || 'general'}</p><hr/><p style="white-space:pre-wrap">${message}</p>`,
+        text: rendered.text,
+        html: rendered.html,
       });
     }
 

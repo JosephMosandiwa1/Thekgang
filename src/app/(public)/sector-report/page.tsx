@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
-import { formatRand } from '@/lib/utils';
+import { formatRand, SA_PROVINCES } from '@/lib/utils';
 import { generateSectorReport, type SectorReport } from '@/lib/sectorReport';
+import { InfoCard } from '@/components/shared/InfoCard';
+import { ProvinceGrid } from '@/components/shared/ProvinceGrid';
 
 interface Period { id: number; period_label: string; year: number; public_report_url: string | null; status: string }
 
@@ -52,12 +54,59 @@ export default function PublicSectorReportPage() {
               {report.period_label} · aggregated from {report.totals.submissions_verified} verified discipline submissions representing all 14 publishing disciplines across nine provinces.
             </p>
 
-            <div className="grid md:grid-cols-4 gap-4 mb-12">
-              <Stat label="Titles published" value={report.totals.titles_published.toLocaleString()} />
-              <Stat label="Sector revenue" value={formatRand(report.totals.revenue_rands)} />
-              <Stat label="Employment (FTE)" value={report.totals.employees_fte.toLocaleString()} />
-              <Stat label="Freelancers engaged" value={report.totals.freelancers_count.toLocaleString()} />
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+              <InfoCard
+                value={report.totals.titles_published.toLocaleString()}
+                label="Titles published"
+                source={`${report.period_label} · ${report.totals.submissions_verified} verified submissions`}
+                whyHere="The headline output figure across all 14 publishing disciplines."
+                context="Aggregated from member-submitted production data — counts every title that reached publication during the reporting period, regardless of format."
+                href="/portal/sector-data"
+                linkText="Contribute data"
+              />
+              <InfoCard
+                value={formatRand(report.totals.revenue_rands)}
+                label="Sector revenue"
+                source={`${report.period_label} · verified turnover only`}
+                whyHere="Total reported sector revenue — the basis for every advocacy ask we make to government."
+                context={`Domestic + export combined. Export portion alone: ${formatRand(report.totals.export_revenue_rands)}.`}
+                href="/the-plan"
+                linkText="See the plan"
+              />
+              <InfoCard
+                value={report.totals.employees_fte.toLocaleString()}
+                label="Employment (FTE)"
+                source={`${report.period_label} · full-time equivalents`}
+                whyHere="Direct employment figure — does not include freelancer engagement."
+                context="Counts permanent staff + contract employees normalised to full-time equivalent. Casual / project-based engagement is captured separately under freelancers."
+                href="/programmes"
+                linkText="Skills programmes"
+              />
+              <InfoCard
+                value={report.totals.freelancers_count.toLocaleString()}
+                label="Freelancers engaged"
+                source={`${report.period_label} · individual contractors`}
+                whyHere="Captures the gig + freelance economy that conventional employment stats miss."
+                context="Includes editors, translators, illustrators, narrators, and proofreaders engaged on a per-title basis."
+                href="/join"
+                linkText="Register your practice"
+              />
             </div>
+
+            {report.provinces && report.provinces.some((p) => p.submissions > 0) && (
+              <section className="mb-12">
+                <h2 className="font-display text-xl font-bold mb-4">Provincial activity</h2>
+                <p className="text-xs text-gray-500 mb-4">
+                  Verified submissions reporting activity in each province. A submission can report activity in multiple provinces.
+                </p>
+                <ProvinceGrid
+                  data={Object.fromEntries(
+                    report.provinces.map((p) => [p.province, p.submissions]),
+                  ) as Partial<Record<(typeof SA_PROVINCES)[number], number>>}
+                  unit="submissions"
+                />
+              </section>
+            )}
 
             <section className="mb-12">
               <h2 className="font-display text-xl font-bold mb-4">Discipline snapshot</h2>
@@ -100,15 +149,6 @@ export default function PublicSectorReportPage() {
           </div>
         )}
       </div>
-    </div>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="border border-gray-200 p-5">
-      <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500/60">{label}</p>
-      <p className="font-display text-2xl font-bold mt-1">{value}</p>
     </div>
   );
 }

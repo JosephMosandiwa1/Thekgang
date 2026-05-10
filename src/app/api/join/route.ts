@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabase } from '@/lib/supabase/server';
 import { sendEmail } from '@/lib/email';
+import { renderWelcomeEmail } from '@/lib/mail/templates/welcome';
 import { checkSpam } from '@/lib/spam';
 
 /**
@@ -60,18 +61,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Submission failed. Please try again.' }, { status: 500 });
     }
 
-    const firstName = String(name).split(/\s+/)[0] || 'there';
-
-    // Applicant confirmation
+    // Applicant confirmation · branded HTML via the welcome template
+    const welcome = renderWelcomeEmail({
+      name,
+      variant: 'applicant',
+      province,
+    });
     await sendEmail({
       to: email,
       subject: 'Your CDCC membership application has been received',
-      text: `Hi ${firstName},\n\nThank you for applying to join the CDCC — the Books & Publishing Content Developers and Creators Council.\n\nYour application is in our review queue. Within two working days you'll hear from a member of the secretariat about next steps.\n\nIf you applied by mistake or have questions, reply to this email and someone will respond.\n\n— The CDCC team\nhttps://cdcc.org.za`,
-      html: `<p>Hi ${escapeHtml(firstName)},</p>
-        <p>Thank you for applying to join the <strong>CDCC</strong> — the Books &amp; Publishing Content Developers and Creators Council.</p>
-        <p>Your application is in our review queue. Within two working days you'll hear from a member of the secretariat about next steps.</p>
-        <p>If you applied by mistake or have questions, just reply to this email — someone will respond.</p>
-        <p>— The CDCC team<br/><a href="https://cdcc.org.za">cdcc.org.za</a></p>`,
+      html: welcome.html,
+      text: welcome.text,
     });
 
     // Admin notification

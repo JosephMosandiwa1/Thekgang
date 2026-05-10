@@ -3,6 +3,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 import { sendEmail } from '@/lib/email';
+import { renderWelcomeEmail } from '@/lib/mail/templates/welcome';
 
 function adminClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -89,16 +90,20 @@ export async function approveAsMember(submissionId: string, reviewedBy: string) 
     console.warn('inviteUserByEmail warning:', inviteErr.message);
   }
 
-  // Personal welcome (in addition to the Supabase invite email)
+  // Personal welcome (in addition to the Supabase invite email) ·
+  // branded HTML through the welcome template module.
+  const welcome = renderWelcomeEmail({
+    name: sub.name,
+    variant: 'approved',
+    province: sub.province,
+    memberNumber,
+    activationUrl: `${siteUrl}/portal/activate`,
+  });
   await sendEmail({
     to: sub.email,
     subject: "You're approved · welcome to the CDCC",
-    text: `Hi ${(sub.name || '').split(/\s+/)[0] || 'there'},\n\nYour CDCC membership application has been approved. Member number: ${memberNumber}.\n\nWe're sending a separate "set up your password" email — open that one and set a password to access your member portal at ${siteUrl}/portal.\n\nIf you don't see the password email within a few minutes, check your spam folder.\n\n— The CDCC team\n${siteUrl}`,
-    html: `<p>Hi ${(sub.name || '').split(/\s+/)[0] || 'there'},</p>
-      <p>Your CDCC membership application has been approved. Your member number is <strong>${memberNumber}</strong>.</p>
-      <p>We're sending a separate "set up your password" email — open that one and set a password to access your <a href="${siteUrl}/portal">member portal</a>.</p>
-      <p>If you don't see the password email within a few minutes, check your spam folder.</p>
-      <p>— The CDCC team<br/><a href="${siteUrl}">${siteUrl.replace(/^https?:\/\//, '')}</a></p>`,
+    html: welcome.html,
+    text: welcome.text,
   });
 
   // Update the submission status
